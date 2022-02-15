@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>账户列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <link rel="stylesheet" href="static/css/weui.min.css" />
+    <link rel="stylesheet" href="static/css/jqueryui/jquery-weui.min.css" />
+    <link rel="stylesheet" href="static/css/example.css" />
+    <link rel="stylesheet" href="static/css/tyunwebbuyservice.css" />
+    <link rel="stylesheet" href="static/css/jqueryui/iconfont.css" />
+    <link  href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+<body  style="background: #F4F4F4;">
+<input type="hidden" name="modcommentsid" value="{$modcommentsid}" />
+<input id="recordId" name="recordId" type="hidden" value="{$recordId}" />
+<input id="count"  type="hidden"  value="{$count}"  />
+<div >
+    <div style="background: #626199;color:white;border-top: 0px;">
+        <div style="float: right;width: 20%; text-align: right;padding-right:10px;"><a style="margin-top: 7px;margin-left: 7px;background: none;border:none;color: white;font-size: 15px;font-weight: bold;width: 21px;height: 23px;background: url('../../static/img/newadd.png') no-repeat;overflow: hidden;background-size:cover;" type="button" class="btn btn-default" href="index.php?module=ProductProvider&action=adddetail&id={$recordId}" ></a></div>
+        <div style="width: 60%;float:right;font-size: 1.2em;font-weight: bold;min-height: 1.1em;text-align: center;display: block;padding: .6em  0 ;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;outline: 0 !important;">账户列表</div>
+        <div  style="float: right;width: 20%;"><span style="margin-top: 7px;margin-left: 7px;background: none;border:none;color: white;font-size: 15px;font-weight: bold;width: 21px;height: 21px;background: url('../../static/img/returnback.png') no-repeat;overflow: hidden;background-size:cover;" type="button" class="btn btn-default"  onclick="javascript :history.back(-1);"></span></div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="weui-search-bar" id="searchBar">
+        <form  class="weui-search-bar__form" method="post" href="index.php?module=ProductProvider&action=productProviderList&id={$recordId}"  >
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search" id="searchcontent"  style="right: 10px;left: auto;"></i>
+                <input type="hidden"  id="searchInputhidden"  value="{$idaccound}">
+                <input type="search" class="weui-search-bar__input" id="searchInput" name="idaccount" style="box-shadow: none;" placeholder="请输入账户ID或账户名称点击搜索" value="{$idaccound}" required="">
+                <a href="javascript:" class="weui-icon-clear" id="searchClear" style="right: auto;left:0px;" ></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                <i class="weui-icon-search"></i>
+                <span>搜索</span>
+            </label>
+        </form>
+        <!--<a href="javascript:" >取消</a>-->
+    </div>
+    <div class="weui-cells" style="margin-top:0px;">
+        {if !empty($detailList)}
+            {foreach from=$detailList item=item name=wlist}
+                <div class="weui-cell" style="height: 100px;" data-id="{$item['productprovide_detail_id']}" data-oldidaccount="{$item['idaccount']}" data-oldaccountzh="{$item['accountzh']}">
+                    <div class="weui-cell__hd"><img src=""></div>
+                    <div class="weui-cell__bd" >
+                        <div style="margin-bottom: 5px;">
+                            <div style="float: left;width: 25%;"><p style="font-size: 15px;font-weight: bold;">账户ID:</p></div>
+                            <div style="float: left;width: 75%;"><p id="idaccountText" class="text" >{$item['idaccount']}</p><input type="text" style="display: none;margin-bottom: 1rem;" class="edit" onkeyup="this.value=this.value.replace(/\s+/g,'')" id="idaccount" name="idaccount" value="{$item['idaccount']}"/></div>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <div>
+                            <div style="float: left;width: 25%;"><p style="font-size: 15px;font-weight: bold;">账户名称:</p></div>
+                            <div style="float: left;width: 75%;"><p id="accountzhText" style="font-size: 15px;" class="text">{$item['accountzh']}</p><input type="text" style="display: none;" class="edit" id="accountzh" name="accountzh" value="{$item['accountzh']}"/></div>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <!--<table style="table-layout: fixed;">
+                            <tr>
+                                <td style="height: 15px;"><p>账户ID:</p></td>
+                                <td style="height: 15px;"><p id="idaccountText" class="text" >{$item['idaccount']}</p><input type="text" style="display: none;margin-bottom: 1rem;" class="edit" id="idaccount" name="idaccount" value="{$item['idaccount']}"/></td>
+                            </tr>
+                            <tr>
+                                <td style="height: 15px;"><p>账户名称:</p></td>
+                                <td style="height: 15px;"><p id="accountzhText" class="text">{$item['accountzh']}</p><input type="text" style="display: none;" class="edit" id="accountzh" name="accountzh" value="{$item['accountzh']}"/></td>
+                            </tr>
+                        </table>-->
+                    </div>
+                    <div class="weui-cell__ft" style="font-size: 30px;">
+                        <div id="chuangzuo" class="chuangzuo"><i style="font-size: 25px;" class="iconfont icon-chuangzuo"></i></div>
+                        <div id="shanchu"   class="shanchu"><i style="font-size: 25px;" class="iconfont icon-shanchu"></i></div>
+                        <div id="baocun" class="baocun" style="display: none;"><i style="font-size: 25px;" class="iconfont icon-baocun"></i></div>
+                    </div>
+                </div>
+            {/foreach}
+        {/if}
+    </div>
+</div>
+<div id="weui-loadmore" class="weui-loadmore" style="display: none;">
+    <i class="weui-loading"></i>
+    <span class="weui-loadmore__tips">正在加载</span>
+</div>
+<div id="weui-loadmore_line" class="weui-loadmore weui-loadmore_line"  {if  !empty($detailList)} style='display: none;' {else}{/if} >
+    <span class="weui-loadmore__tips">暂无数据</span>
+</div>
+</body>
+
+</html>
+<script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+<script src="./js/jqueryweui/jquery-weui.min.js"></script>
+<script type="text/javascript" src="static/js/watermark.js"></script>
+<script>
+      $("#searchcontent").click(function () {
+            $("form").submit();
+      });
+      $("body").on('click','.chuangzuo',function () {
+           var strDiv=$(this).closest(".weui-cell");
+           strDiv.find(".edit").css("display","block");
+           strDiv.find(".text").css("display","none");
+           strDiv.find("#chuangzuo").css("display","none");
+           strDiv.find("#shanchu").css("display","none");
+           strDiv.find("#baocun").css("display","block");
+      });
+      $("#searchBar").addClass("weui-search-bar_focusing");
+      $temp = $("#searchInput").val();
+      $("#searchInput").val("").focus().val($temp);
+      //删除
+      $("body").on('click','.shanchu',function () {
+          var strDiv=$(this).closest(".weui-cell");
+          var id=strDiv.data("id");
+          var recordId=$("#recordId").val();
+          var oldidaccount=strDiv.data("oldidaccount");
+          var oldaccountzh=strDiv.data("oldaccountzh");
+          var str="确认要删除ID为“"+oldidaccount+"”,账户名称为“"+oldaccountzh+"”的账户吗？";
+          $.confirm(str,'',function() {
+              $.ajax({
+                  url: 'index.php?module=ProductProvider&action=deleteOneDetail',
+                  type: 'POST',
+                  data: {
+                      id: id,
+                      recordId: recordId
+                  },
+                  //dataType:'html',
+                  success: function (data) {
+                      if (data) {
+                          $.toast("已删除!");
+                          strDiv.remove();
+                      } else {
+                          $.toast("删除失败！");
+                      }
+                  }
+              });
+          });
+
+      });
+      $("body").on('click','.baocun',function () {
+          var strDiv=$(this).closest(".weui-cell");
+          var idaccount=strDiv.find("#idaccount").val();
+          var accountzh=strDiv.find("#accountzh").val();
+          var id=strDiv.data("id");
+          var recordId=$("#recordId").val();
+          if(idaccount==''){
+              $.toast("账户不能为空!");
+              return false;
+          }
+          $.ajax({
+              url:'index.php?module=ProductProvider&action=updateDetailOne',
+              type:'POST',
+              data: {
+                  id:id,
+                  recordId:recordId,
+                  idaccount:idaccount,
+                  accountzh:accountzh
+              },
+              success:function(data){
+                  data=$.parseJSON(data);
+                  if(data.success){
+                      strDiv.find(".edit").css("display","none");
+                      strDiv.find(".text").css("display","block");
+                      strDiv.find("#idaccountText").text(idaccount);
+                      strDiv.find("#accountzhText").text(accountzh);
+                      strDiv.find("#chuangzuo").css("display","block");
+                      strDiv.find("#shanchu").css("display","block");
+                      strDiv.find("#baocun").css("display","none");
+                      $.toast("保存成功！");
+                  }else{
+                      $.toast(data.message);
+                  }
+              }
+          });
+      });
+      var num = 2;
+      var loading = false;  //状态标记
+      $(document.body).infinite().on("infinite", function() {
+          if(loading) return;
+          $("#weui-loadmore").css("display","block");
+          $("#weui-loadmore_line").css("display","none");
+          loading = true;
+          var idaccount=$("#searchInputhidden").val();
+          var id=$("#recordId").val();
+          var param={
+              idaccount:idaccount,
+              id:id,
+              searchType:1,
+              num:num++
+          };
+          ajaxGetList(param);
+      });
+      // js 获取数据
+      function ajaxGetList(param){
+          $.ajax({
+              url:'index.php?module=ProductProvider&action=productProviderList',
+              type:'POST',
+              data: {
+                  pagenum: param.num,
+                  type: 'ajax',
+                  id:param.id,
+                  idaccount:param.idaccount,
+                  searchType:param.searchType
+              },
+              //dataType:'html',
+              success:function(html){
+                  if(html){
+                      $(".weui-cells").append(html);
+                  }else{
+                      $("#weui-loadmore_line").css("display","block");
+                  }
+                  $("#weui-loadmore").css("display","none");
+                  loading = false;
+              }
+          });
+      }
+
+</script>

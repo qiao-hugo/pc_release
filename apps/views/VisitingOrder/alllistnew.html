@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+		<title>查看拜访订单</title>
+		{include file="header.html"}
+    <link href="static/css/mobiscroll.custom.min.css" rel="stylesheet" type="text/css" />
+    <!--插件和原来的样式有点冲突重新加载一遍-->
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/mobiscroll.custom.min.js"></script>
+	<link href="static/css/select2c.css" rel="stylesheet" type="text/css" />
+    <script src="static/js/select2c.js?v={$versionjs}"></script>
+    <script src="static/js/dialog.js"></script>
+    <link rel="stylesheet" href="static/css/dialog.css">
+   
+    <style type="text/css">
+        *{
+            text-shadow:none;
+        }
+		.select2 {
+            width:100%;
+            height:35px;
+        }
+        .headon{
+            border-bottom: 2px solid #535282;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid w fix see-visit-list">
+        <div class="row">
+            <div class="list-head">
+                <ul class="fix">
+                    <li {if $modulestatus eq '0'} class="headon"{/if} style="width:20%;"><span onclick='openurl(7)' data-ajax="false">所有的</span></li>
+                    <li {if $modulestatus eq '1'} class="headon"{/if} style="width:20%;"><span onclick='openurl(8)' data-ajax="false">待<span style="color:#f00;">我</span>审</li>
+                    <li {if $modulestatus eq '2'} class="headon"{/if} style="width:20%;"><span onclick='openurl(9)' data-ajax="false">待审核</li>
+                    <li {if $modulestatus eq '3'} class="headon"{/if} style="width:20%;"><span onclick='openurl(10)' data-ajax="false">已审核</span></li>
+                    <li style="width:20%;"><span onclick='openurl(1)' data-ajax="false">添加</span></li>
+				</ul>
+            </div>
+            <div class="tabs">
+                <div class="form-group fix" style="background-color:#e8ecf8;">
+                    <ul class="hd fix" style="padding: 8px 2px;">
+                        <li style="font-size: 16px;" class="{if $searchfilename eq 'accountname'}on {/if}searchfield" data-id="accountname">客户名称</li>
+                        <li style="font-size: 16px;" class="{if $searchfilename eq 'extractid'}on {/if}searchfield" data-id="extractid">负责人</li>
+                        <li style="font-size: 16px;" class="{if $searchfilename eq 'startdate'}on {/if}searchfield" data-id="startdate">开始时间</li>
+                    </ul>
+                    <form method="post" action="/index.php?module=VisitingOrder&action=allList" data-ajax="false" data-role="none" onsubmit="return false;" id="searchfrom">
+                        <input type="hidden" id="searchfilename" name="searchfilename" value="{$searchfilename}" />
+                        <input type="hidden" id="oldsearchvalue" value="{$searchvalue}" />
+                        <div class="input-box"style="margin:5px 8px;display: none;">
+                            <select name="modulestatus" style="width:100%;height:35px;">
+                                <option value="0" {if $modulestatus eq '0'} selected{/if}>所有的</option>
+                                <option value="1" {if $modulestatus eq '1'} selected{/if}>待我审</option>
+                                <option value="2" {if $modulestatus eq '2'} selected{/if}>待审核</option>
+                                <option value="3" {if $modulestatus eq '3'} selected{/if}>已审核</option>
+                            </select>
+                        </div>
+                        <div class="input-box" id="searchcontent" style="margin-left:8px;margin-right:8px;">
+                            {if $searchfilename eq 'startdate'}<input type="text" id="startdate" name="searchvalue" placeholder="开始时间" readonly="readonly" class="form-control" value="{$searchvalue}"/>
+                            {else if $searchfilename eq 'accountname'}
+                            <input type="text" id="accountname" name="searchvalue" class="form-control" placeholder="请输入要查找的信息" value="{$searchvalue}" />
+                            {/if}
+                        </div>
+                        <div class="confirm tc" style="padding:10px 0;">
+                            <button id='dopost' class="btn" style="width: 100%; padding: 5px 2px;font-size: 18px;border-radius: 2px;">查&nbsp;&nbsp;&nbsp;&nbsp;找</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="bd" style="padding: 0;">
+                    <ul class="ttt_list">
+                        {if !empty($list)}
+                    	{foreach from=$list item=value}
+                    	 <li class="fix" style="border-bottom: 1px solid #ccc;{if $value@first}border-top: 1px solid #ccc;{/if}padding:5px 10px;margin-bottom: 0;position: relative;">
+                            <a href="index.php?module=VisitingOrder&action=detail&record={$value.id}" data-ajax="false" class="fl">
+                                <div style="width:60px;height: 60px;display: inline-block;border: 1px solid #ccc;border-radius: 60px;margin-right:3px;overflow: hidden;"><img src="{if isset($value['email']) && $value['email']!=1}{$value.email}{else}../../static/img/trueland.png{/if}" style="width:59px;height:59px;vertical-align: inherit;"></div>
+                                <div class="content" style="display: inline-block;white-space: nowrap;font-size:18px;overflow: hidden;text-overflow:ellipsis;">
+                                <div class="list" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{$value.accountnamer} <span>[{$value.contacts}]</span></div>
+                                <div class="list" style="font-size: 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">主题：{$value.subject} </div>
+                                <div class="text" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    <div class="mr20">{$value.startdate}</div><div>{$value.outobjective}</div><div style="margin-left:10px;">{if $value.modulestatus eq 'c_complete'}<span class="label label-primary">完成</span>{else if $value.modulestatus eq 'a_normal'}<span class="label label-info">正常</span>{else if $value.modulestatus eq 'a_exception'}<span class="label label-danger">打回中</span>{else if $value.modulestatus eq 'c_canceling'}<span class="label label-default">作废中</span>{else if $value.modulestatus eq 'c_cancel'}<span class="label label-warning">作废</span>{/if}</div>
+                                </div>
+                                </div>
+                            </a>
+                             {if $value.modulestatus eq 'c_complete' OR $value.modulestatus eq 'a_normal'}<div class="fr" style="position: absolute;top:22%;right:10px;display:flex;justify-content: center;align-content: center;" data-toggle="modal"  onclick=mymodal("{$value.id}")><i class="iconfont icon-jia-tianchong" style="font-size:40px;color:#5ec4ab;"></i></div>{/if}
+                        </li>
+						{/foreach}
+                        {else}
+                        <li class="fix" style="border-bottom: 1px solid #ccc;padding:5px 10px;margin-bottom: 0;position: relative;text-align:center;">没有了</li>
+                        {/if}
+                    </ul>
+                    <input type="hidden" value='' class="accountid">
+                </div>
+            </div>
+            {include file="footer.html"}
+        </div>
+    </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">选择</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="confirm tc">
+                        <input type="hidden" id="selectaccount">
+                        <button class="btn btn1" onclick='openurl(3)'>地点签到,签退</button>
+                        {*<button class="btn btn1" onclick='openurl(5)'>地点签到,签退</button>
+                        <div class="btn btn1"  style="height:100px;white-space: normal;color:red;background-color:#ffffff;">上面两个按钮的功能是一致的，如果你用第一个签到，签退也用第一个。如果你用第二个签到，签退也用第二个。</div>*}
+						<button class="btn btn1" onclick='openurl(6)'>跟进</button>
+                        <!--<button class="btn btn1" onclick='openurl(4)'>图片签到</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+   		function openurl(type){
+            /*window.toast7 =$(document).dialog({
+                type : 'toast',
+                infoIcon: '../static/images/icon/loading.gif',
+                infoText: '页面跳转中...',
+            });
+            setTimeout("window.toast7.close()",5000);*/
+   			if(type==1){
+
+   				window.location.href='index.php?module=VisitingOrder&action=add';
+   			}else if(type=='3'){
+                if($('#selectaccount').val()){
+                    window.location.href='index.php?module=VisitingOrder&action=sign&id='+$('#selectaccount').val();
+                }else{
+                    alert('拜访单信息有误，请刷新后重试');
+                }
+            }else if(type=='4'){
+                    window.location.href= 'index.php?module=VisitingOrder&action=picture&id='+$('#selectaccount').val();
+            }else if(type=='5'){
+                    window.location.href= 'index.php?module=VisitingOrder&action=signs&id='+$('#selectaccount').val();
+            }else if(type=='6'){
+                window.location.href= 'index.php?module=VisitingOrder&action=vaddmod&id='+$('#selectaccount').val();
+            }else if(type=='7'){
+                window.location.href= '/index.php?module=VisitingOrder&action=allList&modulestatus=0';
+            }else if(type=='8'){
+                window.location.href= '/index.php?module=VisitingOrder&action=allList&modulestatus=1';
+            }else if(type=='9'){
+                window.location.href= '/index.php?module=VisitingOrder&action=allList&modulestatus=2';
+            }else if(type=='10'){
+                window.location.href= '/index.php?module=VisitingOrder&action=allList&modulestatus=3';
+            }
+   		}
+        function mymodal(accountid){
+            $('#selectaccount').val(accountid);
+            $('#myModal').modal();
+        }
+   	</script>
+
+    <script type="text/javascript">
+    {literal}
+    $(function(){
+        var userselect='nodata';
+        //禁用juqery mobile 加载自带的样式
+        $(document).bind("mobileinit", function(){
+            $.mobile.page.prototype.options.keepNative = "select input, textarea, a,div,ul,li,span,button,form";
+        });
+        $("input").attr('data-role','none');
+        $("select").attr('data-role','none');
+        $("a").attr('data-role','none');
+        //禁止a标签ajax跳转
+        $("a").attr('data-ajax','false');
+        $("div,ul,li,span").attr('data-role','none');
+    var $num = 2;//当前的页码
+    var flag=true;//数据是否已完成true没有加载完
+    var isscroll=true;//下拉是否可加载
+    $(window).scroll(function(){
+        //此方法是在滚动条滚动时发生的函数
+        // 当滚动到最底部以上100像素时，加载新内容
+        var $doc_height,$s_top,$now_height,dataid,dataflag;
+        $doc_height = $(document).height();        //这里是document的整个高度
+        $s_top = $(this).scrollTop();            //当前滚动条离最顶上多少高度
+        $now_height = $(this).height();            //这里的this 也是就是window对象
+        if(($doc_height - $s_top - $now_height) < 120 && flag && isscroll) jsonajax();
+    });
+    $('.searchfield').on('click',function(){
+        var hason=$(this).hasClass('on');
+        flag=true;
+        if(!hason){
+            $('.searchfield').removeClass('on');
+            $(this).addClass('on');
+            var dataid=$(this).data('id');
+            $('#searchfilename').val(dataid);
+            if(dataid=='startdate'){
+                $('#searchcontent').html('');
+                $('#searchcontent').html('<input type="text" id="startdate" name="searchvalue" placeholder="开始时间" readonly="readonly" class="form-control" value="">');
+                $('#startdate').mobiscroll().scroller('destroy').date({
+                    theme: "ios",
+                    mode: "scroller",
+                    display: "bottom",
+                    lang: "zh",
+                    dateFormat:"yyyy-mm-dd"
+                });
+
+            }else if(dataid=='accountname'){
+                $('#searchcontent').html('');
+                $('#searchcontent').html('<input type="text" id="accountname" name="searchvalue" class="form-control" placeholder="请输入要查找的信息">');
+            }else if(dataid=='extractid'){
+                $('#searchcontent').html('');
+                if(userselect=='nodata'){
+                    var toast1 =$(document).dialog({
+                        type : 'toast',
+                        infoIcon: '../static/images/icon/loading.gif',
+                        infoText: '负责人加载中...',
+                    });
+                    isscroll=false;
+                    $.ajax({
+                        url:'index.php?module=VisitingOrder&action=getUserRelativeUserList',
+                        type:'POST',
+                        dataType:'json',
+                        success:function(data){
+                            toast1.close();
+                            isscroll=true;
+                            var strselect='<select name="searchvalue" id="extractid" class="select2"><option value="0">请选择负责人</option>';
+                            if(data.success){
+                                $.each(data.data,function(key,value){
+                                    strselect+='<option value="'+value['id']+'">'+value['brevitycode']+value['last_name']+'</option>';
+                                });
+                            }
+                            strselect+='</select>';
+                            userselect=strselect;
+                            $('#searchcontent').html(userselect);
+                            $(".select2").select2({
+                                width: '100%',
+                                height: 100
+                            });
+                        }
+                    });
+                }else{
+                    $('#searchcontent').html(userselect);
+                    $(".select2").select2({
+                        width: '100%',
+                        height: 100
+                    });
+                }
+            }
+        }
+    });
+	var ulWidth=$(".ttt_list").width();
+    var contentWith=ulWidth-120;
+    $('.content').css('width',contentWith);
+    function jsonajax(){
+        var searchfilename=$('#searchfilename').val();
+        var oldsearchvalue=$('#oldsearchvalue').val();
+        var modulestatus=$('select[name="modulestatus"]').val();
+        isscroll =false;
+        var toast6 =$(document).dialog({
+            type : 'toast',
+            infoIcon: '../static/images/icon/loading.gif',
+            infoText: '努力加载中...',
+        });
+        $.ajax({
+            url:'index.php?module=VisitingOrder&action=doallList',
+            type:'POST',
+            data:{"pagenum":$num++,"searchfilename":searchfilename,"searchvalue":oldsearchvalue,"modulestatus":modulestatus},
+            dataType:'json',
+            success:function(data){
+                isscroll =true;
+                toast6.close();
+                if(data.success){
+                    var tttt = '';
+                    var item='';
+                    $.each(data.data,function(key,value){
+                        var modulestatus=false;
+                        if (value['modulestatus'] == 'c_complete') {
+                            tttt = '<span class="label label-primary">完成</span>';
+                            modulestatus=true;
+                        } else if(value['modulestatus'] == 'a_normal') {
+                            tttt = '<span class="label label-info">正常</span>';
+                            modulestatus=true;
+                        } else if(value['modulestatus'] == 'a_exception') {
+                            tttt = '<span class="label label-danger">打回中</span>';
+                        } else if(value['modulestatus'] == 'c_canceling') {
+                            tttt = '<span class="label label-default">作废中</span>';
+                        }else if(value['modulestatus'] == 'c_cancel') {
+                            tttt = '<span class="label label-warning">作废</span>';
+                        }
+                        var modulestatusstring=modulestatus?'<div class="fr"  style="position: absolute;top:22%;right:10px;" data-toggle="modal"  data-ajax="false" onclick=mymodal("'+value['id']+'")><i class="iconfont icon-jia-tianchong" style="font-size:40px;color:#5ec4ab;"></i></div>':'';
+                        item += '<li class="fix"  style="border-bottom: 1px solid #ccc;padding:5px 10px;margin-bottom: 0;position: relative;" data-ajax="false">' +
+                            '<a href="index.php?module=VisitingOrder&action=detail&record='+value['id']+'" data-ajax="false" data-role="none" class="fl"><div style="width:60px;height: 60px;display: inline-block;border: 1px solid #ccc;border-radius: 60px;margin-right:3px;overflow: hidden;"><img src="'+(value['email']!=1?value['email']:'/static/img/trueland.png')+'" style="width:59px;height:59px;vertical-align: inherit;"></div>'+
+                            '<div style="display: inline-block;overflow: hidden;width: '+contentWith+'px;white-space: nowrap;text-overflow:ellipsis;">'+
+                            '<div class="list"  style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width: '+(contentWith-2)+'px;">'+value['accountnamer']+' <span>['+value['contacts']+']</span></div>'+
+                            '<div class="list" style="font-size: 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width: '+(contentWith-2)+'px;">主题：'+value['subject']+' </div>'+
+                            '<div class="text" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width: '+(contentWith-2)+'px;">'+
+                            '<div class="mr20">'+value['startdate']+'</div><div>'+value['outobjective']+'</div><div style="margin-left:10px;">'+ tttt +'</div>'+
+                            '</div></a>'+modulestatusstring+'</li>';
+                    });
+                    $('.ttt_list').append(item);
+					$('.list').css('text-overflow','ellipsis');
+                }else{
+                    flag=false;
+                    item= '<li class="fix" style="border-bottom: 1px solid #ccc;padding:5px 10px;margin-bottom: 0;position: relative;text-align:center;">没有了</li>';
+                    $('.ttt_list').append(item);
+                    $('.list').css('text-overflow','ellipsis');
+                }
+            }
+        });
+    }
+    $('.container-fluid').on('click','#dopost',function(){
+        var searchfilename=$('#searchfilename').val();
+        $('#oldsearchvalue').val($('#'+searchfilename).val())
+        $num=1;
+        $('.ttt_list').html('');
+        jsonajax()
+    });
+    });
+    {/literal}
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>跟进提醒</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <link rel="stylesheet" href="static/css/weui.min.css" />
+    <link rel="stylesheet" href="static/css/jqueryui/jquery-weui.min.css" />
+    <link rel="stylesheet" href="static/css/example.css" />
+    <link rel="stylesheet" href="static/css/tyunwebbuyservice.css" />
+    <link rel="stylesheet" href="static/css/iconfont.css" />
+    <link rel="stylesheet" href="static/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="static/js/bootstrap-select.css">
+    <link  href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        td{
+           border-bottom:1px solid #F4F4F4;
+        }
+        .dropdown-menu{
+             height: 10rem;
+        }
+    </style>
+</head>
+<body  style="background: #F4F4F4;">
+<input type="hidden" name="modcommentsid" value="{$modcommentsid}" />
+<input id="accountid" name="accountid" type="hidden" value="{$ACCOUNTID}" />
+<div>
+    <div style="background: #626199;color:white;border-top: 0px;">
+        <div style="float: right;width: 20%;color:#626199;">1</div>
+        <div style="width: 60%;float:right;font-size: 1.2em;font-weight: bold;min-height: 1.1em;text-align: center;display: block;padding: .6em  0 ;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;outline: 0 !important;">{$accountName}</div>
+        <div  style="float: right;width: 20%;"><span style="margin-top: 7px;margin-left: 7px;background: none;border:none;color: white;font-size: 15px;font-weight: bold;width: 21px;height: 21px;background: url('../../static/img/returnback.png') no-repeat;overflow: hidden;background-size:cover;" type="button" class="btn btn-default"  onclick="javascript :history.back(-1);"></span></div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div   id="container" class="weui-cells" style="padding: 20px 10px; margin: 20px;background: white;-webkit-border-radius: 8px;-moz-border-radius: 8px;border-radius: 8px;box-shadow:0 0 5px #9E9E9E;">
+
+        <table  width="100%">
+           <tbody>
+                <tr>
+                    <td align="right" >主题:</td>
+                    <td >
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" placeholder="请输入主题"  name="subject" value="">
+                            </div>
+                        </div>
+                        <!--<input type="text" name="subject" class="form-control">主题-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" >提醒时间:</td>
+                    <td >
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="alerttime" type="text"  id="datetime-picker" placeholder="选择提醒时间" value="" >
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td align="right" >提醒人:</td>
+                    <td style="padding-left: 15px;padding-top:8px;">
+                            <select  name="alertid"    class="selectpicker bla bla bli" multiple data-live-search="true">
+                                {foreach   key=groupName item=lists  from=$userGroup }
+                                    <optgroup label="{$groupName}">
+                                        {foreach   key=key item=item  from=$lists }
+                                            <option value="{$key}" >{$item}</option>
+                                        {/foreach}
+                                    </optgroup>
+                               {/foreach}
+                            </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" >类型:</td>
+                    <td  >
+                        <div class="weui-cell weui-cell_select">
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" id="activitytype" name="activitytype">
+                                    <option value="">选择一个选项</option>
+                                    <option value="Call">电话</option>
+                                    <option value="Meeting">会议</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">优先级:</td>
+                    <td>
+                        <div class="weui-cell weui-cell_select">
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" id="taskpriority" name="taskpriority">
+                                    <option value="High">高</option>
+                                    <option value="Medium">中</option>
+                                    <option value="Low">低</option>
+                                </select>
+                            </div>
+                        </div>
+                            <!--<select style="margin: 10px 0px;" class="form-control" name="taskpriority" >
+                                <option value="High">高</option>
+                                <option value="Medium">中</option>
+                                <option value="Low">低</option>
+                            </select>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">提醒内容:</td>
+                    <td>
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea style="border: 1px solid #CCCCCC;border-radius:2px;" class="weui-textarea" id="alertcontent" name="alertcontent"  rows="2"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+           </tbody>
+        </table>
+        <div>
+            <button  style="float: right;margin-top:10px;margin-right: 20px;" type="button" id="confirmForm" class="btn btn-info">确定</button>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+<script src="./js/jqueryweui/jquery-weui.min.js"></script>
+<script type="text/javascript" src="static/js/watermark.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-select.js"></script>
+<script   src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat',
+            noneSelectedText: '选择多个选项'
+        });
+        // $('.selectpicker').selectpicker('hide');
+    });
+    $("#datetime-picker").datetimePicker({
+        times: function () {
+            return [
+                {
+                    values: (function () {
+                        var hours = [];
+                        for (var i=0; i<24; i++) hours.push(i > 9 ? i : '0'+i);
+                        return hours;
+                    })()
+                }
+            ];
+        },
+        onChange: function (picker, values, displayValues) {
+            console.log(values);
+        },
+    });
+    $("#confirmForm").click(function () {
+        var modcommentsid=$("input[name='modcommentsid']").val();
+        var subject=$("input[name='subject']").val();
+        var alertcontent=$("textarea[name='alertcontent']").val();
+        var alerttime=$("input[name='alerttime']").val();
+        var alertid=$("select[name='alertid']").val();
+        var accountid=$("input[name='accountid']").val();
+        var activitytype=$("select[name='activitytype']").val();
+        var taskpriority=$("select[name='taskpriority']").val();
+
+        if(subject==''){
+            alert("请输入主体！");
+            return false;
+        }
+        if(alerttime==''){
+            alert("请输入提醒时间！");
+            return false;
+        }
+        console.log(alertid);
+        if(alertid==''||alertid==null){
+            alert("至少选择一个提醒人！");
+            return false;
+        }
+        if(alertcontent==''){
+            alert("请输入提醒内容！");
+            return false;
+        }
+        $.ajax({
+            url: "index.php?module=Accounts&action=addAlertData",
+            data: {
+                modcommentsid : modcommentsid,
+                subject : subject,
+                alertcontent : alertcontent,
+                alerttime : alerttime,
+                alertid : alertid,
+                accountid : accountid,
+                activitytype : activitytype,
+                taskpriority : taskpriority
+            },
+            type:'POST',
+            dataType:'JSON',
+            success: function (data) {
+                console.log(data);
+                if(data['success']==1){
+                    $("#closePopup").click();
+                    alert(data['message']);
+                    window.location.href="index.php?module=Accounts&action=userDetail&record="+accountid;
+                }else{
+                    alert(data['message']);
+                }
+            },error:function(){
+            }
+        });
+    });
+    $('#container').on("blur",'#alertcontent,#taskpriority,#activitytype,input[name="subject"],input[name="alerttime"]',function(event){
+        window.scroll(0,0);
+    });
+    $("input[name=\"alerttime\"]").click(function () {
+        $("input").blur();
+    });
+    /*$('body').on('blur','#weui-prompt-input',function(){
+        window.scroll(0,0);
+    });*/
+</script>

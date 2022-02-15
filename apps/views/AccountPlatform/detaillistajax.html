@@ -1,0 +1,34 @@
+{if !empty($detailList)}
+    {foreach from=$detailList item=item name=wlist}
+        <div class="weui-cell" style="height: 100px;" data-id="{$item['accountplatform_detail_id']}" data-oldidaccount="{$item['idaccount']}" data-oldaccountplatform="{$item['accountplatform']}">
+            <div class="weui-cell__hd"><img src=""></div>
+            <div class="weui-cell__bd" >
+                <div style="margin-bottom: 5px;">
+                    <div style="float: left;width: 25%;"><p style="font-size: 15px;font-weight: bold;">账户ID:</p></div>
+                    <div style="float: left;width: 75%;"><p id="idaccountText" style="font-size: 15px;" class="text" >{$item['idaccount']}</p><input type="text" style="display: none;margin-bottom: 1rem;" class="edit" id="idaccount" onkeyup="this.value=this.value.replace(/\s+/g,'')" name="idaccount" value="{$item['idaccount']}"/></div>
+                    <div style="clear: both;"></div>
+                </div>
+                <div>
+                    <div style="float: left;width: 25%;"><p style="font-size: 15px;font-weight: bold;">账户名称:</p></div>
+                    <div style="float: left;width: 75%;"><p id="accountplatformText" style="font-size: 15px;" class="text">{$item['accountplatform']}</p><input type="text" style="display: none;" class="edit" id="accountplatform" name="accountplatform" value="{$item['accountplatform']}"/></div>
+                    <div style="clear: both;"></div>
+                </div>
+                <!--<table style="table-layout: fixed;">
+                    <tr>
+                        <td style="height: 15px;"><p>账户ID:</p></td>
+                        <td style="height: 15px;"><p id="idaccountText" class="text" >{$item['idaccount']}</p><input type="text" style="display: none;margin-bottom: 1rem;" class="edit" id="idaccount" name="idaccount" value="{$item['idaccount']}"/></td>
+                    </tr>
+                    <tr>
+                        <td style="height: 15px;"><p>账户名称:</p></td>
+                        <td style="height: 15px;"><p id="accountplatformText" class="text">{$item['accountplatform']}</p><input type="text" style="display: none;" class="edit" id="accountplatform" name="accountplatform" value="{$item['accountplatform']}"/></td>
+                    </tr>
+                </table>-->
+            </div>
+            <div class="weui-cell__ft" style="font-size: 30px;">
+                <div id="chuangzuo" class="chuangzuo"><i style="font-size: 25px;" class="iconfont icon-chuangzuo"></i></div>
+                <div id="shanchu"   class="shanchu"><i style="font-size: 25px;" class="iconfont icon-shanchu"></i></div>
+                <div id="baocun" class="baocun" style="display: none;"><i style="font-size: 25px;" class="iconfont icon-baocun"></i></div>
+            </div>
+        </div>
+    {/foreach}
+{/if}

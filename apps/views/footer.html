@@ -1,0 +1,33 @@
+<div class="footer">
+    <ul class="fix">
+        <li>
+            <a href="index.php?module=VisitingOrder&action=vlist">
+                <span class="icon-home"></span>
+                首页
+            </a>
+        </li>
+        <li>
+            <a href="index.php?action=notice">
+               <span class="icon-comment-alt"></span>
+                消息
+            </a>
+        </li>
+        <li>
+            <a href="index.php?action=mycrm">
+                <span class="icon-bar-chart"></span>
+                我的ERP
+            </a>
+        </li>
+    </ul>
+</div>
+<script >
+    var windheight = $(window).height();
+    $(window).resize(function() {
+        var docheight = $(window).height();
+        if (docheight < windheight) {
+            $(".footer").css("position", "static");
+        } else {
+            $(".footer").css("position", "fixed");
+        }
+    });
+</script>

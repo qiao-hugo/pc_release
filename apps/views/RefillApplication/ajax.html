@@ -1,0 +1,22 @@
+{if !empty($list)}
+{foreach from=$list item=value name=wlist}
+<li>
+    {assign var=IMGMD value=$value['email']|md5}
+    <a data-ajax="false" data-transition="slide" href="/index.php?module=RefillApplication&action=one&id={$value.refillapplicationid}" class="ui-btn ui-btn-icon-right ui-icon-carat-r">
+        <img src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}">
+        <h2>{$value.accountid}</h2><p>【{$value.servicecontractsid}】</p>
+    </a></li>
+{/foreach}
+{/if}
+<script type="text/javascript">
+$(function(){
+	$('#loading').attr("data-totalnum",{$totalnum});
+});
+</script>
+
+{*<!-- <li>
+    <a href="#">
+    <span style="font-size:12px;">
+        {$value.smownerid}&nbsp;&nbsp;{$value.dailydatetime}</span>
+    </a>
+</li> -->*}

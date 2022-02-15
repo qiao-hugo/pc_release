@@ -1,0 +1,5 @@
+#!/bin/bash
+/usr/local/php55/bin/php /data/httpd/vtigerCRM/cron/AccountRank.php	
+/usr/local/php55/bin/php /data/httpd/vtigerCRM/cron/test.php	
+printf "\t auto start\n"
+

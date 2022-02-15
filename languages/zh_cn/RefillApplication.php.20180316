@@ -1,0 +1,68 @@
+<?php
+/*+***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * 简体中文语言包翻译 - 客户模块
+ * 版本: 6.0.0RC 
+ * 作者: Maie | www.maie.name
+ * 更新日期: 2013-12-10
+ * All Rights Reserved. 
+ *************************************************************************************/
+$languageStrings = array(
+	// Basic Strings
+	'RefillApplication' => '充值申请单',
+	'SINGLE_RefillApplication' => '充值申请单',
+	'LBL_ADD_RECORD' => '添加充值申请单',
+	'LBL_RECORDS_LIST' => '充值申请单',
+	'rechargetypedetail'=>'充值类型',
+	'OpenAnAccount'=>'开户',
+	'renew'=>'续费',
+	'customertype'=>'客户类型',
+	'ChannelCustomers'=>'渠道',
+	'StraightCustomers'=>'直客',
+
+	// Blocks
+	'refillapplicationno' => '申请单编号',
+	'playmoneyfrom' => '打款方',
+	'accountid' => '客户',
+
+	// Mass Action
+	'remarks' => '备注',
+	'customeroriginattr'=>'客户来源属性',
+	'free'=>'自由',
+	'nonfree'=>'非自由',
+
+	//Field Labels
+	'modulestatus' => '状态',
+	'Workflows Id' => '工作流',
+	'servicecontractsid' => '服务合同',
+    'Assigned To'=>'申请人',
+    'Created Time'=>'申请时间',
+    'LBL_INFO'=>'基本信息',
+    'c_recharge'=>'充值',
+    'c_refund'=>'退款',
+    'topplatform'=>'充值平台',
+    'accountzh'=>'账户',
+    'did'=>'ID',
+    'rechargetype'=>'类型',
+    'rechargeamount'=>'收款金额',
+    'prestoreadrate'=>'充值金额',
+    'discount'=>'返点',
+    'tax'=>'税点',
+    'factorage'=>'代理商服务费',
+    'activationfee'=>'开户费',
+    'totalcost'=>'合计费用',
+    'dailybudget'=>'每日预算',
+    'transferamount'=>'转款金额',
+    'rebateamount'=>'返点金额',
+    'totalgrossprofit'=>'毛利总计',
+    'servicecost'=>'服务成本',
+    'mstatus'=>'状态',
+    'Receivementcurrencytype'=>'货币类型',
+    'Exchangerate'=>'汇率',
+    'srcterminal'=>'来源终端',
+    'document'=>'文件'
+);

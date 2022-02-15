@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <title>PDFH5</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pdfh5.css" />
+  <link rel="stylesheet" href="css/pc.css">
+</head>
+<body>
+  <header class="contact-head">
+    <div class="back">
+      返回
+    </div>
+    <div class="head-tab">
+      <ul>
+        <li class="active">合同预览/编辑 (<span class="non-standard">标准合同</span>)</li>
+      </ul>
+    </div>
+    <div class="contact-head-right">
+    </div>
+  </header>
+  <div class="container">
+    <div class="left-container">
+      <div class="navigation" id="navigation"></div>
+    </div>
+    <div class="container-center">
+      <div id="demo" class="contact-container" style="width:1024px;"></div>
+    </div>
+    <div class="right-operation">
+      <div class="contractsync">
+        <span>最近一次自定义合同内容：</span> 
+        <p id="lastTime">2020-02-19 15:21:20</p> 
+        <div class="contract-sync btn">
+          同步
+        </div>
+      </div>
+      <div style="flex-shrink: 1;">
+        <div>
+          说明：<br> 1.系统替换变量不可修改<br> 2.浅蓝色区域为可自定义内容区域<br> 3.如需修改，可点击返回按钮至编 辑页 <br>4.如果是定制合同，合同编号及 合同章在完成审批后生成 <br>5.确认合同无误后，点击下方确认 并发送按钮，如果是标准合同，系 统即刻会发送电子合同签署短信至 客户手机号中，如果是定制合同， 待审批流完成后，系统自动执行发送
+        </div>
+        <div class="contract-send btn">
+          确认并发送
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 确认弹框 s -->
+  <div class="ensrue-popup" style="display: none;">
+    <div class="popup-content">
+      <header class="popup-titlechange">
+        确定发送此合同么？
+      </header>
+      <section>
+        <ul>
+          <li>
+            <label for="">接收人：</label>
+            <div class="reveiver-name"></div>
+          </li>
+          <li>
+            <label for="">接收人手机号：</label>
+            <div class="reveiver-phone"></div>
+          </li>
+        </ul>
+      </section>
+      <footer>
+        <button type="button" class="popup-confirm">确认</button>
+        <button type="button" class="popup-cancel">取消</button>
+      </footer>
+    </div>
+  </div>
+  <!-- 确认弹框 e -->
+</body>
+</html>
+<script src="js/pdf.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/pdf.worker.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/pdfh5.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/pc.js" type="text/javascript" charset="utf-8"></script>

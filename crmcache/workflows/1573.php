@@ -1,0 +1,60 @@
+<?php
+
+$workflows=array (
+  0 => '1573',
+  'workflowsid' => '1573',
+  1 => '1235',
+  'workflowsname' => '1235',
+  2 => '0',
+  'iscontract' => '0',
+  3 => '0',
+  'iscontent' => '0',
+  4 => '0',
+  'isattachment' => '0',
+  5 => '0',
+  'ischargeback' => '0',
+  6 => 'Quotes',
+  'mountmodule' => 'Quotes',
+  'stage' => 
+  array (
+    2 => 
+    array (
+      0 => '1725',
+      'workflowstagesid' => '1725',
+      1 => '请问恶趣味额',
+      'workflowstagesname' => '请问恶趣味额',
+      2 => '0',
+      'isproductmanger' => '0',
+      3 => 'H27 |##| H37',
+      'isrole' => 'H27 |##| H37',
+      4 => '0',
+      'iscost' => '0',
+      5 => '2',
+      'sequence' => '2',
+      6 => NULL,
+      'manalert' => NULL,
+      7 => NULL,
+      'auditalert' => NULL,
+      8 => '1573',
+      'workflowsid' => '1573',
+      9 => '0',
+      'timelimit' => '0',
+      10 => 'CommonCheck',
+      'handleaction' => 'CommonCheck',
+      11 => '0',
+      'subworkflowsid' => '0',
+      12 => NULL,
+      'iseditdata' => NULL,
+      13 => NULL,
+      'modulestatus' => NULL,
+      14 => NULL,
+      'isnextnode' => NULL,
+      15 => NULL,
+      'workflowstagesflag' => NULL,
+      'nostd' => 
+      array (
+      ),
+    ),
+  ),
+);
+?>

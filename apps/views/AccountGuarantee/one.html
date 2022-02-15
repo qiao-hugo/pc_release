@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>客户担保详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/jquery.mobile-1.4.5.min.css" />
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.mobile-1.4.5.min.js"></script>
+    <style type="text/css">
+        {literal}
+        *{
+            text-shadow:none;
+        }
+        .sales_title_t{
+            font-size: 12px;
+            font-weight:bold;
+        }
+        .sales_info_div{
+            display:flex;
+            justify-content:space-between;
+            font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        #bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.5;  opacity:.50;  filter: alpha(opacity=50);}
+        {/literal}
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid w fix" id="demo-intro" data-role="page">
+    <div data-role="header">
+        <a href="#demo-intro" data-rel="back" data-transition="slide" class="back-btn ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-back ui-btn-left ui-btn-icon-left">返回</a>
+        <div data-role="controlgroup" data-type="horizontal" class="ui-mini ui-btn-right">
+            <a href="index.php?module=AccountGuarantee&action=edit&id={$detaildata['detail']['accountrechargeguaranteeid']}" data-rel="popup" data-ajax="false" data-position-to="window" data-transition="fade"  class="ui-btn">修改</a>
+        </div>
+        <h6></h6>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <div id="data_list">
+            <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-collapsed="false">
+                <h3>基本信息</h3>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">客户名称:</span>
+                    {$detaildata['detail']['accountname']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">一级担保人:</span>
+                    {$detaildata['detail']['username']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">一级担保金:</span>
+                    {$detaildata['detail']['unitprice']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">二级担保人:</span>
+                    {$detaildata['detail']['twousername']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">二级担保金:</span>
+                    {$detaildata['detail']['twounitprice']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">三级担保人:</span>
+                    {$detaildata['detail']['threeusername']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">三级担保金:</span>
+                    {$detaildata['detail']['threeunitprice']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">创建人:</span>
+                    {$detaildata['detail']['createdname']}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">创建时间:</span>
+                    {$detaildata['detail']['createdate']}
+                </div>
+            </div>
+            {if !empty($detaildata['list'])}
+            {foreach key=index item=$detailInfo1 from=$detaildata['list']}
+            <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-collapsed="false">
+                <h3>历史记录{$index+1}</h3>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">客户:</span>
+                    {$detailInfo1.accountname}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">一级担保人:</span>
+                    {$detailInfo1.username}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">一级担保金:</span>
+                    {$detailInfo1.unitprice}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">二级担保人:</span>
+                    {$detailInfo1.twousername}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">二级担保金:</span>
+                    {$detailInfo1.twounitprice}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">三级担保人:</span>
+                    {$detailInfo1.threeusername}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">三级担保金:</span>
+                    {$detailInfo1.threeunitprice}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">创建人:</span>
+                    {$detailInfo1.createdname}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">创建时间:</span>
+                    {$detailInfo1.createdate}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">修改人:</span>
+                    {$detailInfo1.deletedname}
+                </div>
+                <div class="sales_info_div">
+                    <span class="sales_title_t">修改时间:</span>
+                    {$detailInfo1.deleteddate}
+                </div>
+            </div>
+            {/foreach}
+            {/if}
+        </div>
+    </div>
+</body>
+</html>

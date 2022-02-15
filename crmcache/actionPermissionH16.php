@@ -1,0 +1,5 @@
+<?php
+
+$datasource=array();
+$actionPermission=array('Workflows/DetailView'=>3,'Workflows/Popup'=>3,'SalesOrder/Import'=>1,'SalesOrder/Export'=>1,'JobAlerts/Save'=>1,'JobAlerts/EditView'=>1,'JobAlerts/Delete'=>1,'JobAlerts/DetailView'=>3,'JobAlerts/Popup'=>3,'Leads/Import'=>1,'Leads/Export'=>1,'Leads/Merge'=>1,'Leads/ConvertLead'=>1,'Leads/DuplicatesHandling'=>1,'HelpDesk/Import'=>1,'HelpDesk/Export'=>1,'HelpDesk/Merge'=>1,'HelpDesk/DuplicatesHandling'=>1,'Vendors/Import'=>1,'Vendors/Export'=>1,'Vendors/DuplicatesHandling'=>1,'ProjectMilestone/Import'=>1,'ProjectMilestone/Export'=>1,'ProjectMilestone/DuplicatesHandling'=>1,'JobAlerts/Import'=>1,'JobAlerts/Export'=>1,'JobAlerts/DuplicatesHandling'=>1,'DataTransfer/Import'=>1,'DataTransfer/Export'=>1,'DataTransfer/DuplicatesHandling'=>1,'WorkFlowCheck/DetailView'=>3,'WorkFlowCheck/Popup'=>3,'DisposeComplaints/Save'=>3,'DisposeComplaints/EditView'=>3,'DisposeComplaints/Delete'=>3,'DisposeComplaints/DetailView'=>3,'DisposeComplaints/Popup'=>3,);
+?>

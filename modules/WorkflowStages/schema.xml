@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_workflowstages</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_workflowstages` (
+  `workflowstagesid` int(11) NOT NULL,
+  `workflowstagesname` varchar(255) default NULL,
+  `isproductmanger` int(1) default 0,
+  `isrole` int(11) default 0,
+  `iscost` int(1) default 0,
+  `sequence` int(2) default 0,
+  `manalert` varchar(100) default NULL,
+  `auditalert` varchar(100) default NULL,
+  `workflowsid` varchar(100) default NULL,
+  PRIMARY KEY  (`workflowstagesid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_workflowstagescf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_workflowstagescf` (
+  `workflowstagesid` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`workflowstagesid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

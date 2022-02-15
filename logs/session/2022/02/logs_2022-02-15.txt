@@ -1,0 +1,2104 @@
+----------------09:12:14--------------------
+array (
+  1 => 'xqrWDjuSuZPZtZzr',
+)
+----------------09:12:14--------------------
+array (
+  7 => 'xqrWDjuSuZPZtZzr',
+)
+----------------09:12:14--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '用户未登录',
+     'result' => NULL,
+     'resultCode' => 401,
+  )),
+)
+----------------09:13:01--------------------
+array (
+  1 => NULL,
+)
+----------------09:13:01--------------------
+array (
+  2 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:01--------------------
+array (
+  4 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:01--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------09:13:01--------------------
+array (
+  51 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 1,
+)
+----------------09:13:03--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:03--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:03--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------09:13:03--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------09:13:16--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:23--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:35--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:37--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:41--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:13:41--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:14:41--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:21:23--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:21:23--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------09:21:23--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------09:21:23--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------09:21:27--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:21:27--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:22:12--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:22:14--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:22:14--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:22:15--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:22:15--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:29--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:29--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:29--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------09:23:29--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------09:23:31--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:33--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:34--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:34--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:35--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:35--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:41--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:43--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:44--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:45--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:47--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:48--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:49--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:50--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:51--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:53--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:54--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:56--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:23:57--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:24:00--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:24:08--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:24:11--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------09:25:12--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:08:48--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:08:48--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------10:08:49--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------10:08:49--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------10:08:51--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:09:51--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:21:45--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:21:45--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------10:21:45--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------10:21:45--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------10:21:47--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:21:50--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:21:51--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:21:52--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:22:39--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:22:40--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:25:08--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------10:25:08--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------10:25:08--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------10:25:08--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------11:32:07--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:07--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:07--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------11:32:07--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------11:32:09--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:12--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:13--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:13--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:15--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:16--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:19--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:19--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:20--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:22--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:23--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:58--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:59--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:32:59--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:33:04--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:33:04--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:16--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:16--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:16--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------11:41:16--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------11:41:20--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:22--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:22--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:26--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:28--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:28--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:40--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:41:52--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:44:57--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:44:57--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------11:44:57--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------11:44:57--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------11:45:02--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:45:02--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:46:02--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:48:42--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:48:42--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------11:48:42--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------11:48:42--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------11:48:44--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:48:45--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:29--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:30--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:35--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:36--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:36--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:37--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:39--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:41--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:48--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:48--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:51--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:53--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------11:49:53--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------14:30:05--------------------
+array (
+  1 => NULL,
+)
+----------------14:30:05--------------------
+array (
+  2 => '',
+)
+----------------14:30:05--------------------
+array (
+  3 => '',
+)
+----------------14:30:36--------------------
+array (
+  1 => NULL,
+)
+----------------14:30:36--------------------
+array (
+  2 => 'qIBKpeqtKbMqHZri',
+)
+----------------14:30:36--------------------
+array (
+  4 => 'qIBKpeqtKbMqHZri',
+)
+----------------14:30:36--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------14:30:36--------------------
+array (
+  51 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 1,
+)
+----------------14:31:17--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------14:31:17--------------------
+array (
+  7 => 'qIBKpeqtKbMqHZri',
+)
+----------------14:31:17--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------14:31:17--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------14:31:19--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:15:58--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:15:58--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------16:15:58--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:15:58--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:16:00--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:16:08--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:16:10--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:16:11--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:16:11--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:17:12--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:21:24--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:21:24--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------16:21:25--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:21:25--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:25:34--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:25:34--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------16:25:34--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:25:34--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:25:39--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:25:43--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:25:46--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:25:46--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:27:43--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:27:44--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------16:27:47--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:27:47--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:27:48--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:27:49--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:28:53--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:34:04--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:04--------------------
+array (
+  7 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:04--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:34:04--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:34:06--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:35--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:36--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:45--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:51--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:52--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:54--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:58--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:34:58--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:00--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:00--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:01--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:01--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:05--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:07--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:08--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:23--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:24--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:42--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:35:43--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:37:19--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:37:19--------------------
+array (
+  7 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:37:19--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:37:19--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:37:23--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:37:32--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:37:36--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:37:37--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:07--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:13--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:14--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:22--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:24--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:25--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:38:35--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:07--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:09--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:09--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:40--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:40--------------------
+array (
+  7 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:40--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:39:40--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:39:45--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:46--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:47--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:52--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:53--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:39:53--------------------
+array (
+  1 => 'qIBKpeqtKbMqHZri',
+)
+----------------16:45:54--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:45:54--------------------
+array (
+  7 => 'yrigkcIzeqPXyggd',
+)
+----------------16:45:54--------------------
+array (
+  5 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+)
+----------------16:45:54--------------------
+array (
+  52 => 
+  stdClass::__set_state(array(
+     'message' => '操作成功',
+     'result' => 
+    stdClass::__set_state(array(
+       '11' => '珍岛信息技术（上海）股份有限公司',
+       'roleid' => 'H93',
+       'rolename' => '员工',
+       'departmentid' => 'H1',
+       'userid' => '1',
+       '0' => '1',
+       '2' => '',
+       'reportstoid' => '',
+       '3' => 'admin',
+       '4' => 'Administrator',
+       'isadmin' => '1',
+       '5' => '1',
+       '6' => 'kun.xu@71360.com',
+       'departmentname' => '珍岛信息技术（上海）股份有限公司',
+       '7' => 'H93',
+       '8' => '员工',
+       'fullname' => 'Administrator',
+       'email' => 'kun.xu@71360.com',
+       'username' => 'admin',
+       '10' => 'H1',
+    )),
+     'resultCode' => 200,
+  )),
+  'doSession' => 2,
+)
+----------------16:45:56--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:45:56--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)
+----------------16:46:57--------------------
+array (
+  1 => 'yrigkcIzeqPXyggd',
+)

@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_workday</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_workday` (
+  `workdayid` int(11) NOT NULL,
+  `dateday` date NOT NULL,
+  `datetype` varchar(20) NOT NULL,
+  PRIMARY KEY  (`workdayid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

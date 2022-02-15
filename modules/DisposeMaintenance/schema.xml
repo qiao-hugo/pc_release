@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_servicemaintenance</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_servicemaintenance` (
+  `servicemaintenanceid` int(11) NOT NULL,
+  `servicecommentsid` int(11) NOT NULL,
+  `addtime` varchar(20) DEFAULT NULL,
+  `finishtime` varchar(20) DEFAULT NULL,
+  `isoptimize` varchar(20) DEFAULT NULL,
+  `issuetype` varchar(20) DEFAULT NULL,
+  `content` text,
+  `timeconsuming` varchar(20) DEFAULT NULL,
+  `processstate` varchar(20) DEFAULT NULL,
+  `remark` text,
+  PRIMARY KEY (`servicemaintenanceid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

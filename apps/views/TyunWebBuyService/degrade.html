@@ -1,0 +1,536 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>T云线上服务降级</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <link rel="shortcut icon" href="#" />
+
+    <link rel="stylesheet" href="static/css/weui.min.css" />
+    <link rel="stylesheet" href="static/css/weuix.css" />
+    <link rel="stylesheet" href="static/css/jqueryui/jquery-weui.min.css" />
+    <link rel="stylesheet" href="static/css/example.css" />
+    <link rel="stylesheet" href="static/css/tyunwebbuyservice.css" />
+    <link rel="stylesheet" href="static/iconfont/iconfont.css">
+<!--    <link rel="stylesheet" href="static/css/iconfont.css" />-->
+    <style>
+        .weui-dialog__bd{
+            max-height: 300px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="tempid" data-value=""></div>
+<div id="submitid" data-value=""></div>
+<div id="checkTyunExistBuyReturn" data-value="0"></div>
+<div id="instanceagents" data-value="{$agents}"></div>
+<div id="preproductid" data-value=""></div>
+<div id="configureproductid" data-value=""></div>
+<input type="hidden"  name="isService" value="{$isService}"/>
+<div id="activacode" data-value="0"></div>
+<div id="oproductid" data-value="0"></div>
+<div id="lastelereceivermobile" data-value="0"></div>
+<div id="buydateshow" data-value="{$BUYDATESHOW}"></div>
+<div id="templateid" data-value="0"></div>
+<div id="contractid" data-value="0"></div>
+<div id="paycode" data-value="0"></div>
+<div id="eleccontracturl" data-value="0"></div>
+<div id="checkVerifyCode" data-value="0"></div>
+
+{literal}
+<div class="container" id="container" >
+
+</div>
+<script src="./static/js/zepto.min.js"></script>
+<script src="./js/jqueryweui/jquery-weui.min.js"></script>
+<script src="./js/tyunwebdegradeservice.js"></script>
+<script src="static/js/iscroll-lite.js"></script>
+<script type="text/javascript" src="static/js/specialwatermark.js"></script>
+<script type="text/html" id="tpl_eleccontract">
+    <div class="page flex" >
+        <div class="page__hd" style="padding:0px;">
+            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link weui-cell-noborder header-back" style="border:none;">
+                <!-- <span class="weui-cell__ft weui-cell__ft__before"></span> -->
+                <div class="weui-cell__bd" id="selectproducttitle">T云线上服务购买</div>
+            </a>
+        </div>
+        <iframe id="ifmcontent" src=""  class="eleccontractframe">
+
+        </iframe>
+        <div class="weui-footer weui-footer_fixed-bottom" style="z-index:3;">
+            <div class="weui-form-preview__ft weui-footer_fixed-bottom" style="background-color: #fff;" >
+                <a href="javascript:void(0);" id="econtractback" style="font-size: 18px;width: 20%;border-radius: 7px;background-color: #999999;color:#FFFFFF;margin-left: 2%;">返回</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function(){
+            $('.weui-picker-container').remove();
+            $('.weui-mask').remove();
+            $('.weui-dialog').remove();
+            econtractLoad();
+        });
+</script>
+<script type="text/html" id="tpl_checkaccount">
+    <div class="page" >
+        <div class="page__hd" style="padding: 10px 0px;height: 40px;background-color: #4994F2;color: white;">
+            <div>
+                <a href="javascript:pageManager.back();" style="border:none;float: left;color:white;width: 10%;line-height: 40px;margin-left: 5%;">
+                    取消
+                </a>
+                <div style="text-align: center;float: left;line-height: 40px;font-size: 20px;width: 70%">其他T云账号</div>
+                <div  id="submitcheckaccount" style="border:none;float: right;width: 10%;line-height: 40px;margin-right: 5%;">
+            <span style="font-size:14px;background-color: darkcyan;border-radius: 10px;color:white;padding: 4px 4px;line-height: 20px;float: right;margin-top: 7px;">
+                确定
+            </span>
+                </div>
+            </div>
+        </div>
+        <div class="weui-form-preview">
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item" style="height: 40px;line-height:40px;text-align: center">
+                    <label  style="color: black;width: 30%;text-align:right;text-align-last:right;">T云账号:</label>
+                    <input type="text" id="tyunaccount" placeholder="请输入T云账号" style="border:1px solid lightgrey;width:50%;height:35px;text-indent:16px;">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.weui-picker-container').remove();
+            $('.weui-mask').remove();
+            $('.weui-dialog').remove();
+        });
+</script>
+
+
+
+<script type="text/html" id="tpl_selectpreproduct">
+    <div class="page" >
+        <div class="page__hd" style="padding:0px;">
+            <a href="javascript:pageManager.back();" class="weui-cell weui-cell_access weui-cell_link weui-cell-noborder" style="border:none;">
+                <span class="weui-cell__ft weui-cell__ft__before"></span>
+                <div class="weui-cell__bd">&nbsp;</div>
+            </a>
+        </div>
+        <div class="page__bd page__bd_spacing" id="preproduct">
+        </div>
+        <div style="padding-top: 40px;padding-bottom: 10px;text-align: center;">
+            &nbsp;
+        </div>
+
+        <div class="weui-footer weui-footer_fixed-bottom" style="z-index:3;">
+            <div class="weui-form-preview__ft weui-footer_fixed-bottom"  style="background-color: #fff;">
+                <a class="weui-btn" id="submitpreproduct" href="javascript:void(0);" style="background-color: #4994F2;color:#FFFFFF;font-size:18px;width:98%;">确定</a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.weui-picker-container').remove();
+            $('.weui-mask').remove();
+            $('.weui-dialog').remove();
+            selectpreproductLoad();
+        });
+</script>
+
+
+<script type="text/html" id="tpl_otherproduct">
+    <div class="page container" >
+        <div id="tagnav" class="weui-navigator weui-navigator-wrapper" style="touch-action: none;z-index: 999;position: fixed">
+            <ul  class="weui-navigator-list" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+
+            </ul>
+        </div>
+        <div class="page__hd" style="padding:0px;">
+            <a href="javascript:pageManager.back();" class="weui-cell weui-cell_access weui-cell_link weui-cell-noborder" style="border:none;">
+                <span class="weui-cell__ft weui-cell__ft__before"></span>
+                <div class="weui-cell__bd">&nbsp;</div>
+            </a>
+        </div>
+        <div class="page__bd page__bd_spacing" id="page_othgerproduct">
+
+        </div>
+        <div style="padding-top: 40px;padding-bottom: 10px;text-align: center;">
+            &nbsp;
+        </div>
+        <div class="weui-footer weui-footer_fixed-bottom" style="z-index:3;">
+            <div class="weui-form-preview__ft weui-footer_fixed-bottom"  style="background-color: #fff;">
+                <a class="weui-btn" href="javascript:pageManager.back();" style="background-color: darkgrey;color:#FFFFFF;font-size:18px;width:25%;height: 46px;margin-top: 15px;">返回</a>
+                <a class="weui-btn" id="submitotherproduct" href="javascript:void(0);" style="background-color: #4994F2;color:#FFFFFF;font-size:18px;width:70%;">确定</a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.weui-picker-container').remove();
+            $('.weui-mask').remove();
+            $('.weui-dialog').remove();
+            otherproductLoad();
+        });
+</script>
+
+
+<script type="text/html" id="tpl_selectproduct">
+    <div class="page flex" >
+        <div class="page__hd" style="padding:0px;">
+            <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link weui-cell-noborder header-back" style="border:none;">
+                <!-- <span class="weui-cell__ft weui-cell__ft__before"></span> -->
+                <div class="weui-cell__bd" id="selectproducttitle">&nbsp;</div>
+            </a>
+        </div>
+        <div class="page__bd page__bd_spacing" style="margin-top:20px;">
+            <div class="weui-panel weui-panel-noborder" style="border-radius:5px;">
+                <div class="weui-panel__bd">
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">降级年限：</label></div>
+                        <div class="weui-cell__bd">
+                            <select id="buyyear"  class="weui-select" style="height: 30px;line-height: 30px;">
+                                <option value="0">请选择降级年限</option>
+                                <option value="1">1年</option>
+                                <option value="2">2年</option>
+                                <option value="3">3年</option>
+                                <option value="4">4年</option>
+                                <option value="5">5年</option>
+                                <option value="6">6年</option>
+                                <option value="7">7年</option>
+                                <option value="8">8年</option>
+                                <option value="9">9年</option>
+                                <option value="10">10年</option>
+                            </select>
+                            <!--<input class="weui-input" type="text" id="buyyear" placeholder="降级年限" readonly>-->
+                        </div>
+                        <div class="weui-cell__ft weui-cell__ft__add"></div>
+                    </div>
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">降级版本：</label></div>
+                        <div class="weui-cell__bd">
+                            <select id="buyproduct"  class="weui-select"  style="height: 30px;line-height: 30px;"></select>
+                            <!--<input class="weui-input" type="text" id="buyproduct" placeholder="降价版本" readonly>-->
+                        </div>
+                        <div class="weui-cell__ft weui-cell__ft__add"></div>
+                    </div>
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">降级周期：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" id="upgardecycle" placeholder="降级周期" readonly>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">差价合计：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" id="Priceshow" placeholder="差价合计" readonly>
+                            <input class="weui-input" type="hidden" id="Price" placeholder="差价合计" readonly>
+                            <input type="hidden" id="otherproductsum" value="0"/>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="weui-panel  weui-panel-noborder degradepanel">
+
+            </div>
+
+            <div class="weui-panel  weui-panel-noborder otherproductlist">
+
+            </div>
+
+            <div class="weui-panel  weui-panel-noborder">
+                <div class="weui-panel weui-panel-noborder" style="border-radius:5px;" id="separate_product">
+
+                </div>
+                <div class="weui-panel__bd  weui-panel-noborder">
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"  style="margin: auto;color: #1296DB;" id="otherproduct">
+                            <span class="iconfont icon-zengjia" style="color: #1296DB"></span> 添加另购服务</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-panel  weui-panel-noborder">
+                <div class="weui-cell weui-cell-noborder">
+                    <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;width:110px;">市价总计：</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="hidden" id="totalmarketprice"  placeholder="" readonly>
+                        <input class="weui-input" type="text" id="totalmarketpriceshow"  placeholder="" readonly>
+                    </div>
+                </div>
+                <div class="weui-panel__bd  weui-panel-noborder">
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">合同金额：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" id="servicetotal" onkeyup="num(this)"  pattern="[0-9]*" placeholder="请输入合同金额">
+                        </div>
+                    </div>
+                </div>
+                {if $BUYDATESHOW}
+                <div class="weui-cell weui-cell-noborder">
+                    <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;width:110px;">降级时间：</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="date" max="{$MAXDATE}" min="{$MINDATE}" id="buydate"  data-toggle='date' data-mindate="{$MINDATE}" data-maxdate="{$MAXDATE}" value="{$DATEC}">
+                    </div>
+                </div>
+                {/if}
+            </div>
+            <div class="weui-panel__ft">
+               &nbsp;
+            </div>
+        </div>
+        <div class="page__hd" style="clear: both;">
+            &nbsp;
+        </div>
+        <div class="weui-footer weui-footer_fixed-bottom" style="z-index: 500;">
+            <div class="weui-form-preview__ft weui-footer_fixed-bottom"  id="formbutton">
+                <!--<a class="weui-form-preview__btn weui-form-preview__btn_primary weui-btn_block" id="submitfrom" href="javascript:void(0);" style="background-color: #999999;color:#FFFFFF;font-size:18px;margin:0 5px;">提交订单</a>-->
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function(){
+            $('.weui-picker-container').remove();
+            $('.weui-mask').remove();
+            $('.weui-dialog').remove();
+            var selectproducttitle=window.selectproducttitle;
+            $('#selectproducttitle').html((typeof selectproducttitle=='string')?((selectproducttitle!='')?selectproducttitle:'&nbsp;'):'&nbsp;');
+            $('.header-back').click(function(){
+
+            });
+            selectproductLoad();
+        });
+
+        function num(obj){
+            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+            obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+        }
+</script>
+<script type="text/html" id="tpl_home">
+    <div class="page home js_show">
+        <div class="page__bd">
+            <form id="EditView" onsubmit="return false;">
+                <div class="weui-panel weui-panel_access">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label" style="text-align:right;">购买类型：</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="classtype" id="classtype">
+                                <option value="buy" >购买</option>
+                                {/literal}
+                                {if $is_cs eq 1}
+                                <option value="renew">续费</option>
+                                {/if}
+                                <option value="upgrade">升级</option>
+                                {if $is_cs_admin eq 1}
+                                <option value="degrade" selected>降级</option>
+                                {/if}
+                                {literal}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label for="signaturetype" class="weui-label" style="text-align:right;">签署类型：</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="signaturetype" id="signaturetype">
+                                <option value="papercontract" selected>纸质合同</option>
+                                <option value="eleccontract">电子合同</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="weui-cell weui-cell_vcode weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label for="customerstype" class="weui-label" style="text-align:right;">客户类型：</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="customerstype" id="customerstype">
+                                <option value="commoncustomers"  selected>普通客户</option>
+                                {/literal}
+                                {*<option value="clientmigration"  >客户端迁移</option>*}
+								{literal}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_vcode weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label" style="text-align:right;">降级合同：</label>
+                        </div>
+                        <div class="weui-cell__bd" style="position: relative;">
+                            <input type="hidden" id="contractowenid" value="">
+                            <input type="hidden" id="contractowenname" value="">
+                            <input type="hidden" id="servicecontractsid" name="servicecontractsid" value="0" data-msg="服务合同" />
+                            <input class="weui-input" name="servicecontractsid_display" type="text" placeholder="请输入服务合同后四位后点击搜索按钮"  data-name="servicecontractsid" data-id="searchbar"/>
+                            <div class="weui-panel__bd" id="servicecontractsid_downlist" style="position: absolute;transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);width:100%;z-index:3; ">
+                                <div class="weui-media-box weui-media-box_small-appmsg">
+                                    <div class="weui-cells" id="servicecontractsid_downcontent" style="overflow-y:auto;max-height:20em;font-size:0.9em;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weui-cell__ft">
+                            <button class="weui-vcode-btn search_list" style="border-left:none;" data-name="servicecontractsid" data-id="searchbar"><i class="weui-icon-search" style="color:#0B92D9;"></i></button>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_vcode weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label" style="text-align:right;">客户名称：</label>
+                        </div>
+                        <div class="weui-cell__bd" style="position: relative;">
+                            <input type="hidden" id="accountidowenid" value="" >
+                            <input type="hidden" id="accountidowenname" value="" >
+                            <input type="hidden" id="accountid" name="accountid" value="0" data-msg="客户名称" />
+                            <input class="weui-input" name="accountid_display" type="text" placeholder="请输入客户名称" data-name="accountid" data-id="searchbar"/>
+                            <div class="weui-panel__bd" id="accountid_downlist" style="position: absolute;transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);width:100%;z-index:3; ">
+                                <div class="weui-media-box weui-media-box_small-appmsg">
+                                    <div class="weui-cells" id="accountid_downcontent" style="overflow-y:auto;max-height:20em;font-size:0.9em;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="weui-cell__ft">
+                            <button class="weui-vcode-btn search_list" style="border-left:none;color:#0B92D9;" data-name="accountid" data-id="searchbar"><i class="weui-icon-search" style="color:#0B92D9;"></i></button>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">客户手机：</label></div>
+                        <div class="weui-cell__bd">
+                            <input type="hidden" id="checkmobile" />
+                            <input class="weui-input" type="number" name="mobile" id="mobile" placeholder="客户手机" data-msg="客户手机">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd" style="text-align:right;"><label class="weui-label">&nbsp;<i class="weui-icon-info weui-icon_msg" style="font-size:1.2em"></i></label></div>
+                        <div class="weui-cell__bd" style="color:red;font-size:12px;">
+                            手机号关联T云账号，请与客户确认
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label" style="text-align:right;">验证码：</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input id="checkmobilevcode" type="hidden" />
+                            <input class="weui-input" type="text" id="mobilevcode" placeholder="短信验证码" maxlength="5">
+                        </div>
+                        <div class="weui-cell__ft">
+                            <button class="weui-vcode-btn" id="mobilevcodebtn" style="border-left:none;color:#0B92D9;">获取验证码</button>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label" style="text-align:right;">T云账号：</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input type="hidden" id="tyunusercodeonoff" value="1"/>
+                            <div id="clickhide" class="weui-select"  style="position: absolute;z-index:2;background-color: #ffffff;">点击选择T云账户</div>
+                            <select class="weui-select" name="tyunusercode" id="tyunusercode">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label" style="text-align:right;"></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input type="hidden" id="tyunusercodeonoff2" value="1"/>
+                            <div id="clickhide2" class="weui-select"  style="position: absolute;z-index:2;background-color: #ffffff;">
+                                <span id="other_tyunaccount" style="border: 1px solid #10aeff;background-color: #10aeff;color: white;padding: 5px;border-radius: 5px;">其他T云账号</span>
+                            </div>
+                            <select class="weui-select" name="tyunusercode2" id="tyunusercode2">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">老客户名称：</label></div>
+                        <div class="weui-cell__bd">
+                            <input type="hidden" id="oldaccountidowenid" value="" >
+                            <input type="hidden" id="oldaccountid" name="oldaccountid" value="0" data-msg="客户名称" />
+                            <input class="weui-input" name="oldaccountid_display" type="text" disabled  data-name="oldaccountid" data-id="searchbar"/>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label" style="text-align:right;">认证类型：</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="authenticationtype" id="authenticationtype">
+                                <option value="0">个人</option>
+                                <option value="1" selected>企业</option>
+                                <option value="2">政府</option>
+                                <option value="3">其他组织</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="weui-cell weui-cell_select weui-cell_select-after weui-cell_select_custom_spacing">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">产品分类：</label></div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="classtyperenew" id="classtyperenew"></select>
+                            <input type="hidden" id="tempclasstype" value="XR">
+                        </div>
+                    </div>
+
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">原版本：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" id="oldproductname_display" name="oldproductname_display" readonly>
+                            <input  type="hidden" id="oldproductnameid" name="oldproductnameid" readonly>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">原合同：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="oldcontractcode_display" id="oldcontractcode_display"  readonly>
+                            <input type="hidden" name="oldcontractid">
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">到期时间：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input oldexpiredate_display" type="text" id="oldexpiredate_display" name="oldexpiredate_display" readonly>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell-noborder">
+                        <div class="weui-cell__hd"><label class="weui-label" style="text-align:right;">最近降级：</label></div>
+                        <div class="weui-cell__bd">
+                            <label class="lately_add_display" style="word-break:break-all;">
+                                <p id="lastupgardes"></p>
+                                <input class="weui-input oldexpiredate_display readonlyflag" unselectable="on" onfocus="this.blur()" type="hidden" id="lastupgarde" name="lastupgarde" readonly>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="EditViewlast"></div>
+                </div>
+            </form>
+        </div>
+        <div class="page__bd page__bd_spacing" style="margin-top:5rem;">
+            <div class="button-sp-area">
+                <a href="javascript:;" class="weui-btn weui-btn_block weui-btn_default" style="background-color: #999999;color:white;" id="nextstep">下一步</a>
+            </div>
+        </div>
+		<div class="page__ft">
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('.weui-picker-container').remove();
+            $('.weui-mask').remove();
+            $('.weui-dialog').remove();
+        });
+</script>
+</body>
+</html>
+{/literal}

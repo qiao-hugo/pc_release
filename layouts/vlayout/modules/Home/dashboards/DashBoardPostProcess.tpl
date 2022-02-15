@@ -1,0 +1,1 @@
+{include file="FooterV2.tpl"|vtemplate_path:$MODULE}

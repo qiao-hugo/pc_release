@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>文本框</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <link rel="stylesheet" href="/libraries/bootstrap/css/bootstrap.min.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>控件名称</span><span class="label label-important">*</span></th>
+       <th><span>控件ID</span>  <span class="label label-important">*</span></th>
+    </tr>
+    <tr>
+        <td><input id="orgname" type="text" placeholder="必填项"/></td>
+        <td><input type="text" id="orgid" required onblur="value=value.replace(/[^\a-\z\A-\Z\0-\9\_]/g,'')" placeholder="必填项，英文小写字母数字下划线"></td>
+    </tr>
+   <tr>
+        <th><span>是否必填</span> </th>
+        <th><span>增强</span> </th>
+    </tr>
+    <tr>
+        <td>
+     <!--宽 <input id="orgwidth" type="text" value="300" class="input-small span1" placeholder="auto"/> px&nbsp;&nbsp;高 <input id="orgheight" type="text" value="80" class="input-small span1" placeholder="auto"/> px-->
+            <label class="checkbox inline"><input id="orgrequired" type="checkbox"/> 必填</label>
+        </td>
+        <td> <label class="checkbox"><input id="orgrich" type="checkbox"  /> 富文本形式 </label> </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="orgvalue">默认值</label>
+            <textarea class="input-block-level" rows="3" id="orgvalue" placeholder="多行文本框默认值..."></textarea>
+        </td>
+    </tr>
+    </table>
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'textarea';;
+window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+		var formdesign=oNode.getAttribute('formdesign');
+		var formdesignobject=eval("("+formdesign+")");
+        var gValue = formdesignobject.value.replace(/&quot;/g,"\""),gTitle=formdesignobject.title.replace(/&quot;/g,"\""),gRequired=formdesignobject.gRequired,gId=formdesignobject.name, gRich=formdesignobject.type;
+        //gFontSize=oNode.getAttribute('orgfontsize'),gWidth=oNode.getAttribute('orgwidth'),gHeight=oNode.getAttribute('orgheight'),
+        gValue = gValue==null ? '' : gValue;
+        gTitle = gTitle==null ? '' : gTitle;
+        $G('orgvalue').value = gValue;
+        $G('orgname').value = gTitle;
+        if (gRich == 'textarea-rich' )  $G('orgrich').checked = true ;
+        if(gRequired == '1') $G('orgrequired').checked = true;
+        $G('orgid').value = gId;
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+	var gId=$G('orgid').value,gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),type = 'textarea',orgrequired=0;
+    if(gTitle=='' || gId==''){alert('控件名称和控件ID必填'); return false;}
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gId=$G('orgid').value;
+	if ($G('orgrich').checked ) type='textarea-rich';
+	if($G('orgrequired').checked ) orgrequired=1;
+	var formdesign='{&quot;name&quot;:&quot;'+gId+'&quot;,&quot;title&quot;:&quot;'+gTitle+'&quot;,&quot;value&quot;:&quot;'+gValue+'&quot;,&quot;type&quot;:&quot;'+type+'&quot;,&quot;gRequired&quot;:&quot;'+orgrequired+'&quot;}';
+    if( !oNode ) {
+        try {
+            editor.execCommand('insertHtml','<span plugintype="'+thePlugins+'" style="padding:2px;display:inline-block;" formdesign="'+formdesign+'"><textarea readonly style="font-size:12px;"> '+gValue + ' </textarea></span>&nbsp;');
+        } catch (e) {
+            try {  editor.execCommand('error'); } catch ( e ) { alert('控件异常，请反馈或寻求帮助！');} return false;
+        }
+    } else {
+		formdesign='{"name":"'+gId+'","title":"'+gTitle+'","value":"'+gValue+'","type":"'+type+'","gRequired":"'+orgrequired+'"}';
+		oNode.setAttribute('formdesign',formdesign);
+        oNode.innerHTML = '<textarea readonly style="font-size:12px;">'+gValue + '</textarea>';
+		delete UE.plugins[thePlugins].editdom;
+        //oNode.setAttribute('title', gTitle);oNode.setAttribute('value',gValue);oNode.setAttribute('orgid',gId);if( $G('orgrich').checked ) {    oNode.setAttribute('orgrich', 1);      } else {      oNode.setAttribute('orgrich', 0); }if ( $G('orgrequired').checked ) {    oNode.setAttribute('orgrequired',1);} else {oNode.setAttribute('orgrequired',0); }
+        /*if( gFontSize != '' ) { oNode.style.fontSize = gFontSize+ 'px';oNode.setAttribute('orgfontsize',gFontSize );}else{oNode.setAttribute('orgfontsize', '');}if( gWidth != '' ) {oNode.style.width = gWidth+ 'px'; oNode.setAttribute('orgwidth',gWidth );}else{oNode.setAttribute('orgwidth', '');}if( gHeight != '' ) { oNode.style.height = gHeight+ 'px'; oNode.setAttribute('orgheight',gHeight );}else{ oNode.setAttribute('orgheight', '');}*/ 
+    }
+};
+</script>
+</body>
+</html>

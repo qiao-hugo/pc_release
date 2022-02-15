@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>T云服务购买</title>
+    {include file="header.html"}
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="static/css/dialog.css">
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/select2.js"></script>
+    <script src="static/js/dialog.js"></script>
+    {literal}
+    <style type="text/css">
+        html,body{
+            height:100%;
+        }
+        .rowFrame{
+            overflow-y:auto;
+            min-height: 50%;
+        }
+        .cls_servicetype{
+            background: #3590df;
+            color: white;
+            border-radius: 5px;
+            padding-top: 8px;
+        }
+        *{
+            text-shadow:none;
+        }
+        .ui-page{
+            height:100%;
+        }
+
+        .footer{
+            position: absolute;
+            bottom:0
+        }
+        .close{
+            color:#fff;
+            text-shadow:0 1px 0 #000;
+            opacity: 1;
+        }
+        .form-group{
+            margin-bottom:10px;
+        }
+        #loading{background-color:#000000;height:100%;width:100%;position:fixed;z-index:99999;margin:0px;padding:0px;top:0px;opacity: 0.5;}
+        #loading-center{width:100%;height:100%;position: relative;}
+        #loading-center-absolute {position:absolute;left:50%;top:50%;height:20px;width:100px;margin-top:-10px;margin-left:-50px;}
+        .object{width:20px;height:20px;color:#333;font-size:10px;text-align:center;line-height:20px;background-color: #FFF;-moz-border-radius: 50% 50% 50% 50%;-webkit-border-radius: 50% 50% 50% 50%;border-radius: 50% 50% 50% 50%;margin-right: 20px;margin-bottom: 20px;position: absolute;opacity: 1;}
+        #object_one{-webkit-animation: object 2s linear infinite;animation: object 2s linear infinite;}
+        #object_two{-webkit-animation: object 2s linear infinite -.4s;animation: object 2s linear infinite -.4s;}
+        #object_three{-webkit-animation: object 2s linear infinite -.8s;animation: object 2s linear infinite -.8s;}
+        #object_four{-webkit-animation: object 2s linear infinite -1.2s;animation: object 2s linear infinite -1.2s;}
+        #object_five{-webkit-animation: object 2s linear infinite -1.6s;animation: object 2s linear infinite -1.6s;}
+        @-webkit-keyframes object{0% {left:100px;top:0} 80% {left:0;top:0;} 85% {left:0;top:-20px;width:20px;height:20px;} 90% {width:40px;height:15px;} 95% {left:100px;top:-20px;width:20px;height:20px;} 100% {left:100px; top:0; }}
+        @keyframes object{0% { left:100px;top:0} 80% {left:0;top:0;} 85% {left:0;top:-20px;width:20px;height:20px;} 90% {width:40px; height:15px;} 95% {left:100px;top:-20px;width:20px;height: 20px;} 100% {left: 100px; top:0; }}
+
+        .verificationcode-msg{
+            width: 250px;
+            height: 210px;
+            position: absolute;
+            top: 100px;
+            z-index: 9999;
+            left: 75px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .tyun-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.5);
+            display: none;
+        }
+
+        .cls_service_table{
+            width:100%;
+        }
+        .cls_service_table tr{
+            height: 35px;
+        }
+        .cls_service_table th{
+            border: 1px solid #ccc;
+            text-align: center;
+            background-color: #eee;
+        }
+        .cls_service_table td{
+            text-align: center;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            height: 34px;
+            padding: 5px 2px;
+        }
+    </style>
+    {/literal}
+</head>
+<body>
+<div id="div_buy_determine_input" class="container-fluid w fix rowFrame" style='padding-bottom:0;'>
+    <div class="row ">
+        <form id='frm_buy' method="POST">
+            <div class="add-visit">
+                <div class="form-group fix">
+                    <input type="hidden" id="thiscustomerid" name="thiscustomerid"  value="{$EDITDATE['accountid']}" >
+                    <input type="hidden" id="customerid" name="accountid"  value="{$EDITDATE['accountid']}" >
+                    <div class="input-group">
+                        <div class="input-group-addon">担保客户</div>
+                        <input type="text" data-toggle="popover" data-placement="bottom" placeholder="输入客户名称"
+                               data-content="客户名称不能为空" id="customername_display"  class="form-control keyInput" value="{$EDITDATE['accountname']}"  {if $EDITDATE['accountid'] >0}readonly{/if}>
+                        <div class="input-group-addon"{if $EDITDATE['accountid'] eq 0} onclick="searchBuyCustome()"{/if} id="searchBuyCustome"><i class="fa icon-search" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">一级担保</div>
+                        <select id="userid" class="select2" name="userid">
+                            {foreach key=index item=userinfo from=$userdata}
+                            <option value="{$userinfo['id']}" {if $EDITDATE['userid'] eq $userinfo['id']} selected{/if}>{$userinfo['last_name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">担保金额</div>
+                        <input type="number" id="unitprice"  class="form-control" value="{$EDITDATE['unitprice']}" name="unitprice">
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">二级担保</div>
+                        <select id="twoleveluserid" class="select2" name="twoleveluserid">
+                            {foreach key=index item=userinfo from=$userdata}
+                            <option value="{$userinfo['id']}" {if $EDITDATE['twoleveluserid'] eq $userinfo['id']} selected{/if}>{$userinfo['last_name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">担保金额</div>
+                        <input type="number" id="twounitprice"  class="form-control" name="twounitprice" value="{$EDITDATE['twounitprice']}">
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">三级担保</div>
+                        <select id="threeleveluserid" class="select2" name="threeleveluserid">
+                            {foreach key=index item=userinfo from=$userdata}
+                            <option value="{$userinfo['id']}" {if $EDITDATE['threeleveluserid'] eq $userinfo['id']} selected{/if}>{$userinfo['last_name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">担保金额</div>
+                        <input type="number" id="threeunitprice" name="threeunitprice" class="form-control"  value="{$EDITDATE['threeunitprice']}">
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                    </div>
+                </div>
+                <div class="confirm tc">
+                    <input type="button"  class="btn" data-toggle="popover" data-placement="top"
+                           data-content="正在处理,请稍等…" value="提交" id="btn_tyun_buy">
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+{literal}
+<script>
+    //搜索购买客户
+    function searchBuyCustome() {
+        var o = $('#customername_display');
+        var ov = o.val();
+        var op = o.parent();
+        var sb = [];
+        if('' == ov){
+            Tips.alert({
+                content: '客户名称不能为空',
+            });
+            return;
+        }
+        o.next('ul').remove();
+        $('.delefalg').remove();
+        var dheight=$(document).height();
+        dheight=dheight*0.5;
+        oul = op.append('<ul id="keyText2" class="keyText delefalg" style="max-height:'+dheight+'px;overflow:auto;left: 82px"></ul>');
+
+        if (ov) {
+            $('#loading').show();
+            op.addClass('keyBox');
+            $.ajax({
+                url: '/index.php?module=Accounts&action=searchAccount&company='+ov,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#loading').hide();
+                    if (data && data.length > 0) {
+                        for (var i = 0;i<data.length; i++) {
+                            var item2=data[i];
+                            var nArr = item2.value;
+                            var oli=op.children('ul');
+                            oli.append("<li class='selectBuyCustome' data-id='"+item2.id+"' data-accountname='"+nArr+"'>" + nArr + '</li>');
+                        }
+                        $("#keyText2").show();
+                    }else{
+                        Tips.alert({
+                            content: '找不到客户',
+                            define:'确定',
+                            after:function(){
+                                $("#customername_display").val('');
+                                $("#customerid").val('');
+                            }
+                        });
+                    }
+                },error:function(){
+                    $('#loading').hide();
+                    Tips.alert({
+                        content: 'error'
+                    });
+                }
+            });
+        }
+    }
+    $('body').on('click','.selectBuyCustome',function(){
+        $('#customername_display').val($(this).data('accountname'));
+        $('#customerid').val($(this).data('id'));
+        $('#keyText2').hide();
+    });
+    $(".select2").select2({
+        width: '100%',
+        height: 100
+    });
+    //确认购买
+    function doDetermineBuy() {
+        $('#customerid').val();
+        if($('#customerid').val()>0){
+
+        }else{
+            Tips.alert({
+                content: '请选择担保客户'
+            });
+            return true;
+        }
+        return false;
+    }
+    $('#btn_tyun_buy').click(function(){
+        if(doDetermineBuy()){
+            return false;
+        }
+        buy_save();
+    });
+    function buy_save() {
+        var toast6 = $(document).dialog({
+            type : 'toast',
+            infoIcon: '../static/images/icon/loading.gif',
+            infoText: '数据处理中...',
+        });
+        $('#frm_buy').ajaxSubmit({
+            type: 'post',
+            url:"/index.php?module=AccountGuarantee&action=setAccountGuaranteeData",
+            dataType :'json',
+            success: function(data) {
+                toast6.close();
+                if(data.success==1){
+                    Tips.alert({
+                        content: '添加成功',
+                        before: function(){
+                        },
+                        after: function(b){
+                            if(b){
+                                window.location.href='/index.php?module=AccountGuarantee&action=one&id='+data.dataid;
+                            }
+                        }
+                    });
+
+                }else{
+                    Tips.alert({
+                        content: data.msg,
+                        before: function(){
+                        },
+                        after: function(b){
+                            if(b){
+
+                            }
+                        }
+                    });
+                }
+            },
+            error:function(){
+                Tips.alert({
+                    content: 'error',
+                    before: function(){
+                    },
+                    after: function(b){
+                        if(b){
+                            //window.location.href= back_page_src;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+{/literal}
+</body>
+</html>
