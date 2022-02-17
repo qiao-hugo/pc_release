@@ -1,7 +1,0 @@
-工单产品关联表增加
-alter table vtiger_salesorderproductsrel add TsiteNew SMALLINT(1) default '0';
-alter table vtiger_salesorderproductsrel add Tsite SMALLINT(1) default '0';
-字段新增
-
-INSERT INTO `vtiger_field` VALUES ('53', '2340', 'Tsite', 'vtiger_salesorderproductsrel', '1', '56', 'Tsite', 'Tsite', '1', '2', null, null, null, '133', '1', 'V~O', '1', null, null, '1', null, '0', '0', null, 'boolean');
-INSERT INTO `vtiger_field` VALUES ('53', '2341', 'TsiteNew', 'vtiger_salesorderproductsrel', '1', '56', 'TsiteNew', 'TsiteNew', '1', '2', null, null, null, '133', '1', 'V~O', '1', null, null, '1', null, '0', '0', null, 'boolean');

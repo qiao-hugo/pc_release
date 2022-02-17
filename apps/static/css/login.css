@@ -1,8 +1,0 @@
-﻿.container-fluid{background:url(../img/a1.jpg) no-repeat center top;background-size:100% auto;}
-.logo{background:url(../img/logo.png) no-repeat center center;height:84px;margin:4% 0;}
-.loginbar{padding:15px;margin:3% 0;}
-.loginbar label{color:#fff;font-size:18px;}
-.loginbar .form-control{border-top:none;border-left:none;border-right:none;background:none;border-radius:0;padding:6px 0;}
-.loginbar .form-control:focus{box-shadow:none;}
-.login{padding:15px;}
-.login .btn{background:#626199;border-radius:18px;width: 100%;color:#fff;padding:10px 12px;font-size:16px;}

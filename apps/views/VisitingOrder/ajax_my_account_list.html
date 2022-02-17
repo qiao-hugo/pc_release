@@ -1,9 +1,0 @@
-{foreach from=$list item=value}
-                    	<li class="fix">
-                            <a href="#" class="fl">
-                                <div class="list">{$value.accountname}</div>
-                            </a>
-                             <div class="fr right" data-toggle="modal" data-target="#myModal2" onclick='opendl({$value.id},{$value.accountid})'>+</div>
-                        </li>
-						{foreachelse}
-						{/foreach}

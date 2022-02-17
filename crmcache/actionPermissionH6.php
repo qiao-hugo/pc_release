@@ -1,4 +1,0 @@
-<?php
-
-$actionPermission=array('Potentials/Save'=>1,'Potentials/EditView'=>1,'Potentials/Delete'=>1,'Potentials/DetailView'=>1,'Potentials/Popup'=>1,'Contacts/Save'=>1,'Contacts/EditView'=>1,'Contacts/Delete'=>1,'Contacts/DetailView'=>1,'Contacts/Popup'=>1,'Accounts/Save'=>1,'Accounts/EditView'=>1,'Accounts/Delete'=>1,'Accounts/DetailView'=>3,'Accounts/Popup'=>1,'SalesOrder/Save'=>1,'SalesOrder/EditView'=>1,'SalesOrder/Delete'=>1,'SalesOrder/DetailView'=>3,'SalesOrder/Popup'=>5,'Workflows/Save'=>1,'Workflows/EditView'=>1,'Workflows/Delete'=>1,'Workflows/DetailView'=>1,'Workflows/Popup'=>5,'Potentials/Import'=>1,'Potentials/Export'=>1,'Potentials/DuplicatesHandling'=>1,'Contacts/Import'=>1,'Contacts/Export'=>1,'Contacts/Merge'=>1,'Contacts/DuplicatesHandling'=>1,'Accounts/Import'=>1,'Accounts/Export'=>1,'Accounts/Merge'=>1,'Accounts/DuplicatesHandling'=>1,);
-?>

@@ -1,9 +1,0 @@
-{foreach from=$my_payment item=value}
-                            <li class="fix">
-                                <div class="list">{$value.label}</div>
-                                <div class="text">
-                                    <div class="mr20">金额：{$value.price}</div><div>回款时间：{$value.reality_date}</div>
-                                </div>
-                            </li>
-                        {foreachelse}
-                        {/foreach}
