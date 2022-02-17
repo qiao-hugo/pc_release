@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_potentialscalesrel</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_potentialscalesrel` (
+  `potentialscaleid` int(11) NOT NULL,
+  `potentialscalename` varchar(100) default NULL,
+  `potentialsid` varchar(100) default NULL,
+  `scaleid` varchar(100) default NULL,
+  `scaletime` varchar(100) default NULL,
+  `scale` varchar(100) default NULL,
+  `scalecause` varchar(100) default NULL,
+  `scalestatus` varchar(100) default NULL,
+  PRIMARY KEY  (`potentialscaleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

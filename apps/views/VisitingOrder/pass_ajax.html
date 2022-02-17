@@ -1,0 +1,22 @@
+{if $sum > 0 }
+    {foreach from=$list item=value}
+    <li style="width: 100%;border-bottom:1px solid #CCCCCC;">
+        <a   href="/index.php?module={$value.modulename}&action={if $value.modulename eq 'VisitingOrder'}detail&record={$value.newsalesorderid}{else if $value.modulename eq 'ExtensionTrial'}one&id={$value.newsalesorderid}{else}one&id={$value.newsalesorderid}{/if}">
+            <div class="changecolor" style="width: 100%;height:80px;">
+                <div class="leftImage" ><img src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}" style="height:80px;width:80px;border: 1px solid #eee;border-radius:80px;overflow: hidden;"></div>
+                <div class="rightContent" >
+                    <p class="pContent" style="font-weight: bold;">{$value.accountname}</p>
+                    <p class="pContent"><span>{if $value.smcreatorid !='' }[{$value.smcreatorid}]{/if}</span>&nbsp;{if $value.modulename !=''}[{$moduleNameArray[$value.modulename]}]{/if}</p>
+                    <p class="pContent">{if  $value.salesorder_nono !=''  }[{$value.salesorder_nono}]{/if}&nbsp;{if $value.workflowstagesname !=''}[{$value.workflowstagesname}]{/if}</p>
+                </div>
+                <div  class="clearFloat"></div>
+            </div>
+        </a>
+        
+    </li>
+    {foreachelse}
+        无审核内容
+    {/foreach}
+{else}
+
+{/if}

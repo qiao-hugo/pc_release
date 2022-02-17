@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>回款换绑</title>
+	<style type="text/css">
+		.layui-input,.layui-textarea {
+			display: block !important;
+			width: 100% !important;
+			padding-left: 10px !important;
+		}
+
+		.layui-input, .layui-select, .layui-textarea {
+			height: 38px !important;
+			line-height: 1.3 !important;
+			border-width: 1px !important;
+			border-style: solid !important;
+			background-color: #fff !important;
+			color: rgba(0,0,0,.85) !important;
+			border-radius: 2px !important;
+		}
+	</style>
+</head>
+<body>
+	<div class="layui-container" style="margin-top: 10px">
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label">支付渠道</label>
+				<div class="layui-input-inline">
+					<select lay-filter="paymentchannel-event" name="change-binding-paymentchannel"  id="change-binding-paymentchannel">
+						<option value=""></option>
+						<option value="对公转账">对公转账</option>
+						<option value="支付宝转账">支付宝转账</option>
+						<option value="扫码">扫码</option>
+					</select>
+				</div>
+				<div class="layui-input-inline layui-word-aux layui-form-mid layui-font-red">查询规则：</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">日期选择</label>
+				<div class="layui-input-inline">
+					<input type="text" name="datechange-binding-reality_date" id="datechange-binding-reality_date"   placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				</div>
+				<div class="layui-input-inline layui-font-red">对公转账：入账日期+回款抬头+回款原币金额</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">回款抬头</label>
+				<div class="layui-input-inline">
+					<input type="text" name="datechange-binding-paytitle" id="datechange-binding-paytitle" placeholder="请输入回款抬头"  class="layui-input">
+				</div>
+				<div class="layui-input-inline layui-font-red">支付宝转账：交易单号+回款抬头</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">交易单号</label>
+				<div class="layui-input-inline">
+					<input type="text" name="datechange-binding-paymentcode"  id="datechange-binding-paymentcode" placeholder="请输入交易单号"  class="layui-input">
+				</div>
+				<div class="layui-input-inline layui-word-aux layui-font-red layui-form-mid">扫码：交易单号</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">原币金额</label>
+				<div class="layui-input-inline">
+					<input type="text" name="datechange-binding-standardmoney"  id="datechange-binding-standardmoney" placeholder="请输入原币金额"  class="layui-input">
+				</div>
+				<div class="layui-input-inline">
+					<button class="layui-btn layui-btn-primary" type="button" id="searchExchangeReceivedPayments">查询</button>
+					<button class="layui-btn layui-btn-checked" type="button" id="addExchangeReceivedPayments" data-id="">确定</button>
+				</div>
+			</div>
+		</form>
+		<table class="layui-hide" id="receivedPaymentsTable" lay-filter="receivedPaymentsTable"></table>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;"></fieldset>
+		<table class="layui-hide" id="receivedPaymentsConfirmTable" lay-filter="receivedPaymentsConfirmTable"></table>
+		<script type="text/html" id="receivedPaymentsConfirmTableBar">
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+	</div>
+</body>
+<script type="text/javascript">
+	layui.use(['laydate','form','table'], function(){
+		var form = layui.form;
+		var laydate = layui.laydate;
+		var table = layerTable=layui.table;
+		laydate.render({
+			elem: '#datechange-binding-reality_date'
+		});
+		form.render();
+		form.on('select(paymentchannel-event)', function(data){
+			$(".layui-form").find('input').each(function () {
+				this.style.borderColor='#ccc';
+			});
+			if(data.value=='对公转账'){
+				$("#datechange-binding-reality_date").css("border-color",'red');
+				$("#datechange-binding-paytitle").css("border-color",'red');
+				$("#datechange-binding-standardmoney").css("border-color",'red');
+			}else if(data.value=='支付宝转账'){
+				$("#datechange-binding-paytitle").css("border-color",'red');
+				$("#datechange-binding-paymentcode").css("border-color",'red');
+			}else if(data.value=='扫码'){
+				$("#datechange-binding-paymentcode").css("border-color",'red');
+			}
+		});
+		table.render({
+			elem: '#receivedPaymentsTable'
+			,cellMinWidth: 50
+			,cols: [[
+				{type:'radio'},
+				{field:'id',title: 'id',hide:true},
+				{field:'type',title: 'type',hide:true},
+				{field:'paymentchannel',title: '支付方式',align: 'center'}
+				,{field:'reality_date',title: '入账日期',align: 'center'}
+				,{field:'paytitle',title: '回款抬头',align: 'center'}
+				,{field:'paymentcode',title: '交易单号',align: 'center'}
+				,{field:'unit_price', title: '回款金额',align: 'center'}
+			]]
+			,data: []
+		});
+		table.on('radio(receivedPaymentsTable)', function(obj){
+			console.log(obj.data);
+			$("#addExchangeReceivedPayments").data('id',obj.data);
+		});
+		table.render({
+			elem: '#receivedPaymentsConfirmTable'
+			,cellMinWidth: 50
+			,totalRow: true
+			,cols: [[
+				{field:'id',title: 'id',hide:true},
+				{field:'type',title: 'type',hide:true},
+				{field:'paymentchannel',title: '支付方式',align: 'center',totalRowText: '合计'}
+				,{field:'reality_date',title: '入账日期',align: 'center'}
+				,{field:'paytitle',title: '回款抬头',align: 'center'}
+				,{field:'paymentcode',title: '交易单号',align: 'center'}
+				,{field:'unit_price', title: '回款金额',align: 'center',totalRow: true}
+				,{field:'staymentcode', minWidth:200, title: '代付款协议',align: 'center',templet: function(res){
+					if(res.type=='private'){
+						if(!res.staymentcode){
+							res.staymentcode='';
+						}
+						return '<span style="text-align: center">'+res.staymentcode+'</span><i class="layui-icon layui-icon-search" data-id="'+res.id+'" style="font-size: 30px; color: #1E9FFF;cursor:pointer" title="搜索代付款"></i>'
+					}else{
+						return '';
+					}
+				}}
+				,{align: 'center', title:'操作', toolbar: '#receivedPaymentsConfirmTableBar'}
+			]]
+			,data: []
+		});
+		//监听工具条
+		table.on('tool(receivedPaymentsConfirmTable)', function(obj){
+			if(obj.event === 'del'){
+				layerObject.confirm('是否删除', function(index){
+					obj.del();
+					var oldData = table.cache['receivedPaymentsConfirmTable'];
+					for (var i = 0; i < oldData.length; i++) {
+						if(!oldData[i].id){
+							oldData.splice(i);
+						}
+					}
+					table.reload('receivedPaymentsConfirmTable', {'data':oldData},true);
+					layerObject.close(index);
+				});
+			}
+		});
+
+		/**
+		 * 查询需要换绑的回款
+		 */
+		$("#searchExchangeReceivedPayments").click(function () {
+			$('.layui-btn').addClass('layui-btn-disabled');
+			$("#addExchangeReceivedPayments").data('id','');
+			var loadIndex=layerObject.load();
+			var module = app.getModuleName();
+			var postData = {
+				"module": module,
+				"action": "BasicAjax",
+				"jsonArray": $(".layui-form").serializeArray(),
+				"mode":"searchCanChangeBinding"
+			}
+			AppConnector.request(postData).then(
+				function(data){
+					layerObject.close(loadIndex);
+					$('.layui-btn').removeClass('layui-btn-disabled');
+					if(data.result.flag){
+						table.reload('receivedPaymentsTable', {'data':data.result.list});
+						layerObject.alert('查询结束，共'+data.result.list.length+'条数据', {icon: 1});
+					}else{
+						layerObject.alert(data.result.msg, {icon: 2});
+					}
+				},
+				function(error,err){
+					layerObject.close(loadIndex);
+					$('.layui-btn').removeClass('layui-btn-disabled');
+					layerObject.alert('请求失败', {icon: 2});
+				}
+			);
+		});
+
+		/**
+		 * 确认需要加入的回款
+		 */
+		$("#addExchangeReceivedPayments").click(function () {
+			var newAddReceivedPayments=$("#addExchangeReceivedPayments").data('id');
+			console.log($("#addExchangeReceivedPayments").data('id'));
+			if(newAddReceivedPayments==''){
+				layerObject.alert('请选择要换绑的回款', {icon: 2});
+				return false;
+			}
+			var flag=true;
+			var oldData = table.cache['receivedPaymentsConfirmTable'];
+			for (var i = 0, row; i < oldData.length; i++) {
+				row = oldData[i];
+				if (row.id == newAddReceivedPayments.id) {
+					layerObject.alert('此回款已经确定过了', {icon: 2});
+					flag=false;
+					break;
+				}
+			}
+			if(flag){
+				oldData.push($("#addExchangeReceivedPayments").data('id'));//没有已经加过的
+				table.reload('receivedPaymentsConfirmTable', {'data':oldData},true);
+			}
+		});
+
+		/**
+		 *搜索代付款
+		 */
+		$(".layui-container").on("click",".layui-icon-search",function () {
+			var id=$(this).data("id");
+			var contractId=needWaitChangeBindInfo.relatetoid;
+			var loadIndex=layerObject.load();
+			var module = app.getModuleName();
+			var postData = {
+				"module": module,
+				"action": "BasicAjax",
+				"id": id,
+				"contractId":contractId,
+				"mode":"searchStayment"
+			}
+			AppConnector.request(postData).then(
+				function(data){
+					layerObject.close(loadIndex);
+					if(data.result.flag){
+						layerObject.open({
+							title:'选择代付款协议<span class="layui-font-red">（ 如无，请到代付款功能下手工新建代付款 ）</span>',
+							type: 1,
+							content: '<div class="layui-container" style="margin-top: 10px"><table class="layui-hide" id="staymentConfirmTable" data-id="" lay-filter="staymentConfirmTable"></table></div>',
+							btn: ['选择', '取消'],
+							yes: function(index, layero){
+								var staymentcode=$("#staymentConfirmTable").data('id');
+								if(staymentcode==''){
+									layerObject.alert('选择代付款协议<span class="layui-font-red">（ 如无，请到代付款功能下手工新建代付款 ）</span>', {icon: 2});
+									return false;
+								}
+								//将staymentcode加进去
+								var oldData = table.cache['receivedPaymentsConfirmTable'];
+								for (var i = 0, row; i < oldData.length; i++) {
+									row = oldData[i];
+									if (row.id == id) {
+										oldData[i].staymentcode=staymentcode;
+										//重新刷新表格
+										table.reload('receivedPaymentsConfirmTable', {'data':oldData},true);
+									}
+								}
+								layerObject.close(index);
+							},success: function(layero, index){
+								//表格渲染
+								table.render({
+									elem: '#staymentConfirmTable'
+									,cellMinWidth: 50
+									,cols: [[
+										{type:'radio'},
+										{field:'staymentcode', title: '代付款编码',align: 'center'},
+										{field:'staypaymentjine',title: '签订代付款金额',align: 'center'},
+										{field:'surplusmoney',title: '剩余代付款金额',align: 'center'},
+									]]
+									,data: data.result.data
+								});
+								table.on('radio(staymentConfirmTable)', function(obj){
+									console.log(obj.data);
+									$("#staymentConfirmTable").data('id',obj.data.staymentcode);
+								});
+							}
+						});
+					}else{
+						layerObject.alert(data.result.msg, {icon: 2});
+					}
+				},
+				function(error,err){
+					layerObject.close(loadIndex);
+					layerObject.alert('请求失败', {icon: 2});
+				}
+			);
+		});
+
+	});
+</script>
+</html>
+

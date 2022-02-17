@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+		<title>服务合同延期审核</title>
+		{include file="header.html"}
+    <style type="text/css">
+        *{
+            text-shadow:none;
+        }
+		.select2 {
+            width:100%;
+            height:35px;
+        }
+    </style>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid w fix see-visit-list">
+        <div class="row">
+            <div class="list-head">
+                <ul class="fix">
+                    <li class="headon" style="width:100%;"><span  data-ajax="false">超期合同列表</span></li>
+
+                </ul>
+            </div>
+            <div class="tabs">
+                <div class="bd" style="padding: 0;">
+                    <ul class="ttt_list">
+                        {if !empty($list)}
+                        {foreach from=$list item=value}
+                        {assign var=IMGMD value=$value['email']|md5}
+                         <li class="fix" style="border-bottom: 1px solid #ccc;{if $value@first}border-top: 1px solid #ccc;{/if}padding:5px 10px;margin-bottom: 0;position: relative;">
+                            <div style="width:60px;height: 60px;float:left;border: 1px solid #ccc;border-radius: 60px;margin-right:10px;overflow: hidden;"><img src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}" style="width:59px;height:59px;vertical-align: inherit;"></div>
+                            <div class="content" style="float:left;margin-top:5px;white-space: nowrap;font-size:18px;overflow: hidden;text-overflow: ellipsis;">
+                                <div class="list">{$value.contract_no}</div>
+                                <div class="list" style="font-size: 14px;-ms-text-overflow: ellipsis;text-overflow: ellipsis;overflow: hidden;">{$value.userid} <span>[{$value.receivedate}]</span></div>
+                            </div>
+                            <div class="fr right" style="float:left;font-size: 16px;width:50px;height:50px;line-height:50px;" data-toggle="modal" data-contractid="{$value.servicecontractsid}" data-id="{$value.extensiontrialid}">{$value.diffdate}</div>
+                        </li>
+
+                        {/foreach}
+                        {else}
+                        {/if}
+                    </ul>
+                </div>
+            </div>
+            {include file="footer.html"}
+        </div>
+    </div>
+</body>
+<script>
+    $(function(){
+        var ulWidth=$(".ttt_list").width();
+        var contentWith=ulWidth-140;
+        $('.content').css('width',contentWith);
+    });
+
+
+</script>
+</html>

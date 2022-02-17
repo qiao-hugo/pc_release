@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>获取T云激活码</title>
+    {include file="header.html"}
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/select2.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+</head>
+<body>
+<h3 id="menu-image">图像接口</h3>
+<span class="desc">拍照或从手机相册中选图接口</span>
+<button class="btn btn_primary" id="chooseImage">chooseImage</button>
+<span class="desc">预览图片接口</span>
+<button class="btn btn_primary" id="previewImage">previewImage</button>
+<span class="desc">上传图片接口</span>
+<button class="btn btn_primary" id="uploadImage">uploadImage</button>
+<span class="desc">下载图片接口</span>
+<button class="btn btn_primary" id="downloadImage">downloadImage</button>
+
+<img style="width: 130px;height: 180px;" src="/image/primary.png" id="imgcert"/>
+<input name="mediaId" id="mediaId" type="hidden" value=""/>
+
+<script type="text/javascript">
+    wx.config({
+        debug: false,
+        appId: "{$signPackage['appId']}",
+        timestamp: "{$signPackage['timestamp']}",
+        nonceStr: "{$signPackage['nonceStr']}",
+        signature: "{$signPackage['signature']}",
+        jsApiList: [
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage'
+        ]
+    });
+    wx.ready(function () {
+// 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+            wx.ready(function () {
+
+                // 5 图片接口
+                // 5.1 拍照、本地选图
+                var images = {
+                    localId: [],
+                    serverId: []
+                };
+                document.querySelector('#chooseImage').onclick = function () {
+                    wx.chooseImage({
+                        count: 9, // 默认9
+                        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                        success: function (res) {
+                            images.localId = res.localIds;
+                            alert('已选择 ' + res.localIds+' 张图片');
+							var i = 0, length = images.localId.length;
+                            images.serverId = [];
+                            var str='';
+                            function upload() {
+                                wx.uploadImage({
+                                    localId: images.localId[i],
+                                    success: function (res) {
+                                        i++;
+                                        //alert('已上传：' + i + '/' + length);
+                                        str+=res.serverId+'/#';
+										alert('已选择 ' + str+' 张图片');
+                                        images.serverId.push(res.serverId);
+                                        if (i < length) {
+                                            upload();
+                                        }
+                                    },
+                                    fail: function (res) {
+                                        alert(JSON.stringify(res));
+                                    }
+                                });
+                            }
+                            upload();
+                            
+                        }
+                    });
+                };
+
+                // 5.2 图片预览
+                document.querySelector('#previewImage').onclick = function () {
+                    wx.previewImage({
+                        current: 'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
+                        urls: [
+                            'http://img3.douban.com/view/photo/photo/public/p2152117150.jpg',
+                            'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
+                            'http://img3.douban.com/view/photo/photo/public/p2152134700.jpg'
+                        ]
+                    });
+                };
+
+                // 5.3 上传图片
+                document.querySelector('#uploadImage').onclick = function () {
+                    if (images.localId.length == 0) {
+                        alert('请先使用 chooseImage 接口选择图片');
+                        return;
+                    }
+                    var i = 0, length = images.localId.length;
+                    images.serverId = [];
+                    function upload() {
+                        wx.uploadImage({
+                            localId: images.localId[i],
+                            success: function (res) {
+                                i++;
+                                alert('已上传：' + res.serverId + '/' +i+'/' + length);
+                                images.serverId.push(res.serverId);
+                                if (i < length) {
+                                    upload();
+                                }
+                            },
+                            fail: function (res) {
+                                alert(JSON.stringify(res));
+                            }
+                        });
+                    }
+                    upload();
+                };
+
+                // 5.4 下载图片
+                document.querySelector('#downloadImage').onclick = function () {
+                    if (images.serverId.length === 0) {
+                        alert('请先使用 uploadImage 上传图片');
+                        return;
+                    }
+                    var i = 0, length = images.serverId.length;
+                    images.localId = [];
+                    function download() {
+                        wx.downloadImage({
+                            serverId: images.serverId[i],
+                            success: function (res) {
+                                i++;
+                                alert('已下载：' + i + '/' + length);
+                                images.localId.push(res.localId);
+                                if (i < length) {
+                                    download();
+                                }
+                            }
+                        });
+                    }
+                    download();
+                };
+
+            });
+        }
+    );
+</script>
+</body>
+</html>

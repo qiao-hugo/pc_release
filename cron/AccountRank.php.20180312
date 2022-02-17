@@ -1,0 +1,58 @@
+<?php
+error_reporting(1);
+set_time_limit(0);
+
+if(time()<strtotime('2017-10-09')){
+return;
+}
+
+file_put_contents("/data/httpd/vtigerCRM/cron/account-rank-log",date('Y-m-d H:i:s'));
+
+$mysql = mysqli_connect('192.168.1.3','crmuser','crmdbpasswd123','vtigercrm600new',3306);
+$result=$mysql->query("SELECT accountid,accountcategory FROM vtiger_account WHERE accountcategory<2 and protected=0 and protectday=0");
+$accountids=array();
+while($row=$result->fetch_assoc()){
+    $accountids[]=$row;
+}
+date_default_timezone_set("PRC");
+$datetime=date('Y-m-d H:i:s');
+foreach($accountids as $account){
+    $mysql->query("INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status) SELECT id,{$account['accountid']},'Accounts',6934,'{$datetime}',0 FROM vtiger_modtracker_basic_seq limit 1");
+    $mysql->query("INSERT INTO vtiger_modtracker_detail(id,fieldname,prevalue,postvalue) SELECT id,'accountcategory', {$account['accountcategory']}, 2 FROM vtiger_modtracker_basic_seq limit 1");
+    $mysql->query("UPDATE vtiger_modtracker_basic_seq SET id=id+1");
+}
+
+$mysql->query('update vtiger_account set accountcategory=2  where accountcategory<2 and protected=0 and protectday=0');
+$mysql->query('update vtiger_account set protectday=protectday-1,effectivedays=effectivedays-1 where accountcategory<2 and protected=0 and protectday>0');
+$now = strtotime('-30 day');
+$mysql->query("update vtiger_account set accountrank='chan_notv' WHERE protected=0 AND accountrank='forp_notv' AND visitingorderlastfollowtime<{$now}");
+
+//2016-08-31 关联可能客户
+$mysql->query("UPDATE vtiger_receivedpayments,vtiger_account SET vtiger_receivedpayments.maybe_account=vtiger_account.accountid WHERE vtiger_account.accountname=vtiger_receivedpayments.paytitle AND (vtiger_receivedpayments.maybe_account IS NULL OR vtiger_receivedpayments.maybe_account='' OR vtiger_receivedpayments.maybe_account=0) AND (vtiger_receivedpayments.relatetoid='' OR vtiger_receivedpayments.relatetoid=0 OR vtiger_receivedpayments.relatetoid IS NULL)");
+//清空扫码登陆临时表
+$mysql->query("truncate table vtiger_qrcodelogin");
+
+$mysql->close();
+exit;
+error_reporting(0);
+
+exit;
+
+ini_set("include_path", "../");
+require_once('include/utils/utils.php');
+require_once('include/logging.php');
+$start=date('Y-m-d H:i:s');
+global $adb, $log;
+//$log =& LoggerManager::getLogger('RecurringInvoice');
+//$log->debug("invoked RecurringInvoice");
+
+/*客户等级管理  未保护的不跟进每日减一，为0的进入公海*/
+$ids=$adb->pquery('update vtiger_account set protectday=protectday-1 where accountcategory<2 and protected=0 and protectday>0', array());
+echo $adb->num_rows($ids);
+$adb->pquery('update vtiger_account set accountcategory=2  where accountcategory<2 and protected=0 and protectday=0', array());
+
+$now=strtotime("-30 day");
+$adb->pquery("update vtiger_account set accountrank='chan_notv' WHERE protected=0 AND accountrank='forp_notv' AND visitingorderlastfollowtime<{$now}", array());
+file_put_contents("/data/httpd/vtigerCRM/cron/account-rank-log",'start='.$start.'--end='.date('Y-m-d H:i:s'));
+
+?>

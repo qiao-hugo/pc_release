@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {include file="header.html"}
+    <title>查看工作总结</title>
+</head>
+
+<body>
+<div class="container-fluid w fix">
+    <div id="top"></div>
+    <div class="row">
+        
+        <div class="work-summary-list">
+
+            <div class="panel-group" id="accordion3" style="margin:0 5px;">
+                {if $CHECKT eq 0}
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-parent="#accordion3" style="text-align: center;">
+                        <a href="index.php?module=WorkSummarize&action=add" style="display:block;width: 100%;">添加工作总结</a>
+                    </div>
+                </div>
+                {/if}
+                {if !empty($list)}
+                {foreach from=$list item=value name=wlist}
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion3" href="#collapse{$value.id}">
+                        <a class="accordion-toggle"  data-toggle="collapse" data-parent="#accordion3" href="#collapse{$value.id}" style="display:block;height:100%;width:100%;">{$value.worksummarizename}</a>
+                    </div>
+                    <div id="collapse{$value.id}" class="panel-collapse collapse" style="height: 0px;">
+                        <div class="panel-body">
+                            <dl>
+                                <dt style="color:#555;">今日总结</dt>
+                                <dd class="panel-body" style="text-indent:2em;color:#666;"><p>{$value.todaycontent}</p></dd>
+                                <dt style="color:#555;">今日感受</dt>
+                                <dd class="panel-body" style="text-indent:2em;color:#666;"><p>{$value.dayfeel}</p></dd>
+                                <dt style="color:#555;">下个工作日计划</dt>
+                                <dd class="panel-body" style="text-indent:2em;color:#666;"><p>{$value.tommorrowcontent}</p></dd>
+                            </dl>
+                            <hr>
+                            <div>
+                                <ul style="margin-right:20px;float:right;width:140px;color:#666;">
+                                    <li>{$value.lastname}</li>
+                                    <li>{$value.createdtime}</li>
+                                </ul>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+                {else}
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-parent="#accordion3" style="text-align: center;">
+                        没有工作日报
+                    </div>
+                </div>
+                {/if}
+            </div>
+            <div id="loading" data-id="1" data-flag="2"class="loading" style="text-align: center;"></div>
+        </div>
+
+        {include file="footer.html"}
+    </div>
+</div>
+
+<script type="text/javascript">
+    {literal}
+    $(function(){
+    {/literal}
+    var totalnum={$totalnum};
+
+    {literal}
+    //$('html,body').animate({scrollTop:0}, 'slow');
+    var $num = 2;//当前的页码
+    $(window).scroll(function(){
+        //此方法是在滚动条滚动时发生的函数
+        // 当滚动到最底部以上100像素时，加载新内容
+        var $doc_height,$s_top,$now_height,dataid,dataflag;
+        $doc_height = $(document).height();        //这里是document的整个高度
+        $s_top = $(this).scrollTop();            //当前滚动条离最顶上多少高度
+        $now_height = $(this).height();            //这里的this 也是就是window对象
+        dataid=$('#loading').data("id");//阻止一次请求没有完成后再次请
+        dataflag=$('#loading').data("flag");//阻止当滚地到底部时刷新后自动请求
+        if(($doc_height - $s_top - $now_height) < 100&& $num<=totalnum&&dataid==1&&dataflag==1) jsonajax();
+        $('#loading').data("flag",1);
+        if($num>totalnum)$('#loading').html("没有了").show();
+    });
+
+    function jsonajax(){
+        $('#loading').data("id",2);
+        $('#loading').html("正在加载请稍后...");
+        $.ajax({
+            url:'index.php?module=WorkSummarize&action=doallList',
+            type:'POST',
+            data:"pagenum="+$num++,
+            dataType:'json',
+            success:function(json){
+                if(typeof json == 'object'){
+                    var neirou,$row,iheight,temp_h;
+                    var item='';
+                    for(var i=0,l=json.length;i<l;i++){
+                        item+='<div class="panel panel-default"><div class="panel-heading" data-toggle="collapse" data-parent="#accordion3" href="#collapse'+json[i].id+'"> <a class="accordion-toggle"  data-toggle="collapse" data-parent="#accordion3" href="#collapse'+json[i].id+'" style="display:block;height:100%;width:100%;">'+json[i].worksummarizename+'</a></div><div id="collapse'+json[i].id+'" class="panel-collapse collapse" style="height: 0px;"> <div class="panel-body"><dl><dt style="color:#555;">今日总结</dt><dd class="panel-body" style="text-indent:2em;color:#666;"><p>'+json[i].todaycontent+'</p></dd> <dt style="color:#555;">今日感受</dt><dd class="panel-body" style="text-indent:2em;color:#666;"><p>'+json[i].dayfeel+'</p></dd> <dt style="color:#555;">下个工作日计划</dt><dd class="panel-body" style="text-indent:2em;color:#666;"><p>'+json[i].tommorrowcontent+'</p></dd></dl><hr> <div><ul style="margin-right:20px;float:right;width:140px;color:#666;"> <li>'+json[i].lastname+'</li> <li>'+json[i].createdtime+'</li> </ul> </div><div style="clear:both;"></div></div></div></div>';
+                    }
+                    $('#loading').hide();
+                    $('#accordion3').append(item);
+                    $('#loading').data("id",1);
+                }
+            }
+        });
+    }
+    });
+    {/literal}
+</script>
+
+</body>
+</html>

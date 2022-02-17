@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_servicetask</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_servicetask` (
+  `servicetaskid` int(11) NOT NULL,
+  `taskname` varchar(100) default NULL,
+  `runmode` varchar(100) default NULL,
+  `runconditiontype` int(1) DEFAULT '0',
+  `relativeday` int(19) DEFAULT '3',
+  `circulationday` int(19) DEFAULT '3',
+  `circulationcount` int(19) DEFAULT '12',
+  `timeconsuming` int(19) DEFAULT '1',
+  `taskcontent` text,
+  `helpinfo` text,
+  `creatorid` int(19) DEFAULT '0',
+  `createdtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedby` int(19) DEFAULT '0',
+  `modifiedtime` timestamp NULL DEFAULT NULL,
+  `remark` text,
+  PRIMARY KEY  (`servicetaskid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

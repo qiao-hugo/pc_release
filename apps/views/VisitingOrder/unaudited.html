@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+		
+		{include file="header.html"}
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+        <title>待跟进拜访</title>
+</head>
+
+<body>
+
+	<div class="container-fluid w fix">
+        <div class="row">
+          
+            <div class="tabs">
+                <div class="bd">
+                    <ul class="">
+                    	{foreach from=$list item=value}
+							
+							<li class="fix">
+	                            <a href="/index.php?module=VisitingOrder&action=detail&record={$value.id}" class="fl">
+	                                <div class="list">{$value.related_to}</div>
+	                                <div class="text">
+	                                    <div class="mr20">主题：{$value.subject}</div><div>外出类型：{$value.outobjective}</div>
+	                                </div>
+	                            </a>
+	                            <div class="fr right" data-toggle="modal" data-target="#myModal" onclick="opendl({$value.id},{$value.related_to_reference})">+</div>
+	                        </li>
+						{foreachelse}
+								没有拜访单 
+						{/foreach}
+                     </ul>
+                 </div>
+            </div>
+            {include file="footer.html"}
+        </div>
+    </div>
+
+<div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">选择</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="confirm tc">  
+                        <button class="btn btn1" onclick='openurl(1)'>添加跟进</button>
+                        <button class="btn btn1" onclick='openurl(3)'>地点签到</button>
+                        <!--<button class="btn btn1" onclick='openurl(4)'>图片签到</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <input type='hidden' id = 'accountid' value='0'>
+    <input type='hidden' id = 'recode' value='0'>
+    <script type="text/javascript">
+        function opendl(id,recode){
+            $('#accountid').val(id);
+            $('#recode').val(recode);
+        }
+        function openurl(type){
+            
+            if(type==1){
+                var accountid = $('#recode').val();
+                window.location.href = "/index.php?module=VisitingOrder&action=addMod&id="+accountid;
+            }else if(type==2){
+                var accountid = $('#recode').val();
+                window.location.href = "/index.php?module=Accounts&action=addContact&id="+accountid;
+            }else if(type==3){
+                if($('#accountid').val()){
+                    window.location.href='index.php?module=VisitingOrder&action=sign&id='+$('#accountid').val();
+                }else{
+                    alert('拜访单信息有误，请刷新后重试');
+                }
+            }else if(type==4){
+                    window.location.href= 'index.php?module=VisitingOrder&action=picture&id='+$('#accountid').val();
+            }
+            
+        }
+    </script>
+</body>
+</html>

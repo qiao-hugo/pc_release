@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_salesorderworkflowstages</name>
+			<sql><![CDATA[]]></sql>
+		</table>
+	</tables>
+</schema>

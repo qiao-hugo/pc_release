@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>充值申请单回款</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/jquery.mobile-1.4.5.min.css" />
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    
+	<link href="static/css/font-awesome.min.css" rel="stylesheet">
+	<link href="static/css/Style.css" rel="stylesheet">
+	<link href="static/css/common.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+    <style type="text/css">
+        {literal}
+        *{
+            text-shadow:none;
+        }
+        .sales_title_t{
+            font-size: 12px;
+            font-weight:bold;
+        }
+        .sales_info_div{
+             font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        #bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.5;  opacity:.50;  filter: alpha(opacity=50);}  
+        {/literal}
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid w fix" id="demo-intro" data-role="page">
+    <div data-role="header" data-position="fixed">
+        <h1>充值申请单回款</h1>
+        <a href="#demo-intro" data-rel="back" data-transition="slide" class="back-btn ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-back ui-btn-left ui-btn-icon-left">返回</a>
+        </a>
+    </div>
+
+    <div class="container-fluid w fix">
+        
+        <div class="row">
+        	<div class="to-do-audit">
+                <ul>
+                    	{foreach from=$receiveData item=value}				
+    					<li>
+                            
+                            <div class="text">
+                                <div class="fix">
+                                	<div class="fl">汇款抬头：{$value.paytitle}</div>
+                                    <div class="fl">公司账号：{$value.owncompany}</div>
+                                    <div class="fl">回款时间：{$value.reality_date}</div>
+                                    <div class="fl">金额：{$value.unit_price}</div>
+                                </div>
+                            </div>
+                            <div class="list">创建时间：{$value.createdtime}</div>
+                        </li>
+    					{/foreach}
+                </ul>
+            </div>
+        </div>
+        
+   </div>
+
+
+
+
+    
+   
+   
+</div>
+
+</body>
+</html>

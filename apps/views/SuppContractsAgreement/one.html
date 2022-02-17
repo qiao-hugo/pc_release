@@ -1,0 +1,410 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>采购合同补充协议详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/jquery.mobile-1.4.5.min.css" />
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+    <style type="text/css">
+        {literal}
+        *{
+            text-shadow:none;
+        }
+        .sales_title_t{
+            font-size: 12px;
+            font-weight:bold;
+        }
+        .sales_info_div{
+             font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        #bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.5;  opacity:.50;  filter: alpha(opacity=50);}  
+        {/literal}
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid w fix" id="demo-intro" data-role="page">
+    <div data-role="header" data-position="fixed">
+        <h1>采购合同补充协议详情</h1>
+        {if $issendmsg neq 1}
+        <a href="#demo-intro"  data-rel="back" data-transition="slide" class="back-btn ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-back ui-btn-left ui-btn-icon-left">返回</a>
+        </a>
+        {else}
+        <a style="display: none;"></a>
+        {/if}
+        {if $ISROLE eq '1'}
+        <a href="#myPopupDialog" data-rel="popup"  id="gotoMyPopupDialog" data-position-to="window" data-transition="fade" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">审核</a>
+        {/if}
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <div id="data_list"  data-role="collapsible-set">
+
+                <div  class="selector" data-role="collapsible"  data-collapsed="false">
+                    <h3>基本信息</h3>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">采购合同编号:</span>
+                        {$SuppContractsAgreement.contract_no}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">补充协议编号:</span>
+                        {$SuppContractsAgreement.vtiger_suppcontractsagreementnewservicecontractsno}
+                    </div>
+                 
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">合同状态:</span>
+                        {$modulestatus[$SuppContractsAgreement["vtiger_suppcontractsagreementmodulestatus"]]}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">供应商:</span>
+                        {$SuppContractsAgreement.accountname}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">合同名称:</span>
+                        {$SuppContractsAgreement.vtiger_suppliercontractscontract_name}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">支付条款:</span>
+                        {$SuppContractsAgreement.vtiger_suppliercontractspaymentclause}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">合同金额:</span>
+                        {$SuppContractsAgreement.vtiger_suppliercontractstotal}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">负责人:</span>
+                        {$SuppContractsAgreement.smownerid_ref}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t">代领人:</span>
+                        {$SuppContractsAgreement.receiptorid}
+                    </div>
+                    <div class="sales_info_div">
+                        <span class="sales_title_t"></span>
+                        {if !empty($attr)}
+                        {foreach from=$attr item=expfilename}
+                        <a href="index.php?module=SuppContractsAgreement&action=download&filename={$expfilename['attachmentsid']|base64_encode|urlencode}" target="_blank">{$expfilename['name']}</a><br>
+                        {/foreach}
+                        {/if}
+                    </div>
+                   
+                </div>
+            <div  class="selector" data-role="collapsible"  data-collapsed="false">
+                <h3>工作流审核-{$STAGERECORDNAME}</h3>
+
+
+                <div style="font-weight:bold;">审核节点：</div>
+                <ul id="data_lists" data-role="listview" data-inset="true">
+                    {foreach item=value from=$WORKFLOWSSTAGELIST}
+                    <li>
+                        <a data-role="button" style="font-size:12px; font-weight:normal; " {if $value.isaction eq '1'}class="workflowstages_isaction"{/if} data-id="{$value.salesorderworkflowstagesid}" data-transition="slide"  href="#">{$value.workflowstagesname}【{$value.actionstatus}】{if $value.auditorid neq '--'}<br />审核人:{$value.auditorid}<br />审核时间:{$value.auditortime}{/if}</a>
+                    </li>
+                    {/foreach}
+                </ul>
+
+                {if !empty($SALESORDERHISTORY)}
+                <div style="font-weight:bold; padding-top: 15px;">历史打回原因：</div>
+                <ul id="" data-role="listview" data-inset="true">
+                    {foreach item=value from=$SALESORDERHISTORY}
+                    <li><a data-role="button" href="#" style="font-size:12px; font-weight:normal; ">{$value.reject}【{$value.last_name}】</a></li>
+                    {/foreach}
+                </ul>
+                {/if}
+                {if !empty($REMARKLIST)}
+                <div style="font-weight:bold; padding-top: 15px;">备注：</div>
+                <ul id="remarkslist" data-role="listview" data-split-icon="gear" data-split-theme="a" data-inset="true">
+
+                    {foreach item=value from=$REMARKLIST}
+                    {assign var=IMGMD value=$value['email1']|md5}
+                    <li class="ui-field-contain"><a data-role="button" href="#"><img src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}">
+                        <h2>{$value.reject}</h2><p>{$value.last_name}  {$value.rejecttime}</p></a></li>
+                    {/foreach}
+                </ul>
+                {/if}
+                {if $ISROLE eq '1'}
+                <form method="post" onsubmit='return t_submit()'>
+                    <div class="ui-field-contain">
+                        <input type="hidden" name="record" value="{$record}">
+                        <input type="hidden" name="stagerecordid" value="{$STAGERECORDID}">
+                        <input type="hidden" name="stagerecordname" value="{$STAGERECORDNAME}">
+                        <textarea placeholder="输入打回原因" name="repulseinfo" id="repulseinfo" rows="5" class="form-control"
+                                  data-content=""></textarea>
+                        <div class="confirm tc">
+                            <button class="ui-btn ui-btn-b ui-shadow ui-corner-all">打回</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="ui-field-contain">
+
+                        <textarea placeholder="输入备注信息" name="remarks" id="remarks" rows="5"
+                                  data-content=""></textarea>
+                    <div class="confirm tc">
+                        <button class="ui-btn ui-btn-c ui-shadow ui-corner-all addremarks">添加备注</button>
+                    </div>
+                </div>
+                {/if}
+            </div>
+
+            {if $userid eq 1}
+            <div class="confirm tc">
+                <select class="select"  data-native-menu="false" id="stylesd">
+                    <option value="files_style1">代付款证明</option>
+                    <option value="files_style2">验收单</option>
+                    <option value="files_style3">分成单</option>
+                    <option value="files_style4">合同</option>
+                    <option value="files_style5">其他附件</option>
+                </select>
+                <button class="ui-btn ui-btn-b ui-shadow ui-corner-all" id="chooseImage">拍照上传</button>
+            </div>
+            {/if}
+
+                
+
+
+        </div>
+        
+   </div>
+    <div data-role="popup" data-dismissible="false" id="refillApplication_examine_page_popup" >
+        <div>正在提交...</div>
+    </div>
+    <div data-role="popup" data-dismissible="false" id="refillApplication_remarks_page_popup" >
+        <div>备注信息不能为空</div>
+    </div>
+
+     <div data-role="popup" id="myPopupDialog">
+      <div data-role="header">
+        <h1>提醒</h1>
+      </div>
+      <div data-role="main" class="ui-content" style="text-align: right;">
+        <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-right">关闭</a>
+        <p>确定要审核当前的节点{$STAGERECORDNAME}</p>
+        <a href="javascript:void(0)" id="refillApplication_examine" class="ui-btn ui-btn-inline ui-mini ui-icon-action ui-btn-icon-left" >确定</a>
+      </div>
+    </div> 
+
+    
+    <div id="bg"></div> 
+    <script type="text/javascript">
+        $(document).bind("mobileinit", function() {
+            //disable ajax nav
+            $.mobile.ajaxEnabled=false
+        });
+    wx.config({
+        debug: false,
+        appId: "{$signPackage['appId']}",
+        timestamp: "{$signPackage['timestamp']}",
+        nonceStr: "{$signPackage['nonceStr']}",
+        signature: "{$signPackage['signature']}",
+        jsApiList: [
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage'
+        ]
+    });
+    {literal}
+    wx.ready(function () {
+
+        // 5 图片接口
+        // 5.1 拍照、本地选图
+        var images = {
+            localId: [],
+            serverId: []
+        };
+        document.querySelector('#chooseImage').onclick = function () {
+            wx.chooseImage({
+                count: 3, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    images.localId = res.localIds;
+                    var i = 0, length = images.localId.length;
+                    images.serverId = [];
+                    function upload() {
+                        wx.uploadImage({
+                            localId: images.localId[i],
+                            isShowProgressTips: 1,
+                            success: function (res) {
+                                i++;
+                                //alert('已上传：' + i + '/' + length);
+                                images.serverId.push(res.serverId);
+                                var params={
+                                {/literal}
+                                "record":{$record},
+                                "userid":{$userid},
+                                "userid":{$userid},
+                                "style":$('#stylesd').val(),
+                                "pictureid":res.serverId
+                                    {literal}
+                                };
+                                $.ajax({
+                                    url: "index.php?module=ContractsAgreement&action=photograph",    //请求的url地址
+                                    dataType: "json",   //返回格式为json
+                                    data: params,    //参数值
+                                    type: "POST",   //请求方式
+                                    beforeSend: function() {
+                                        //请求前的处理
+                                    },
+                                    success: function(req) {
+                                    },
+                                    complete: function() {
+                                        //请求完成的处理
+                                    },
+                                    error: function() {
+                                        //请求出错处理
+                                    }
+                                });
+                                if (i < length) {
+                                    upload();
+                                }
+                            },
+                            fail: function (res) {
+                                alert(JSON.stringify(res));
+                            }
+                        });
+                    }
+                    upload();
+                    alert('已选择 ' + res.localIds+' 张图片');
+                }
+            });
+        };
+
+    });
+    $(function(){
+        
+        // 审核
+        $('#refillApplication_examine').click(function () {
+            var stagerecordid = $('input[name=stagerecordid]').val();
+            var record = $('input[name=record]').val();
+            $('#myPopupDialog').popup('close');
+            $.ajax({ 
+                url: "index.php?module=SuppContractsAgreement&action=examine",
+                data: {
+                    stagerecordid : stagerecordid,
+                    record : record
+                },
+                type:'POST',
+                beforeSend:function() {
+                    mark('#refillApplication_examine_page_popup', 'show');
+                },
+                success: function(data){
+                    alert('审核成功');
+                    mark('#refillApplication_examine_page_popup', 'none');
+
+                    setTimeout(function() {
+                        window.location.reload(); 
+                    }, 100);
+                }
+            });
+
+        });
+        //添加备注
+        $('.addremarks').on('click',function(){
+            var stagerecordid = $('input[name=stagerecordid]').val();
+            var record = $('input[name=record]').val();
+            var remarks=$('#remarks').val();
+            if(remarks==''){
+                mark('#refillApplication_remarks_page_popup', 'show');
+                setTimeout("mark('#refillApplication_remarks_page_popup', 'none')",2000);
+                return false;
+            }
+            $.ajax({
+                url: "index.php?module=SuppContractsAgreement&action=submitremark",
+                data: {
+                    stagerecordid : stagerecordid,
+                    record : record,
+                    reject : remarks
+                },
+                type:'POST',
+                beforeSend:function() {
+                    mark('#refillApplication_examine_page_popup', 'show');
+                },
+                success: function(data){
+                    data = $.parseJSON( data );
+                    mark('#refillApplication_examine_page_popup', 'none');
+                    if (data.success) {
+                        alert('备注添加成功');
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 100);
+                    }
+                }
+            });
+        });
+    });
+
+
+    {/literal}
+
+    </script>
+</div>
+{literal}
+<script type="text/javascript">
+    //遮罩层提示
+    var mark = function(page_mark, type) {
+        if(type == 'show') {
+            //加载一个遮罩层
+            $(page_mark).popup('open');
+            document.getElementById("bg").style.display="block";  
+            $('html,body').animate({scrollTop: '0px'}, 100);
+            $('#bg').bind("touchmove",function(e){  
+                e.preventDefault();  
+            });
+        } else {
+            $(page_mark).popup('close');
+            document.getElementById("bg").style.display="none";  
+        }
+    };
+
+    // 打回
+    function t_submit() {
+        var repulseinfo = $.trim($('#repulseinfo').val());
+        if (repulseinfo) {
+            var stagerecordid = $('input[name=stagerecordid]').val();
+            var record = $('input[name=record]').val();
+            var isbackname = $('input[name=stagerecordname]').val();
+            $.ajax({ 
+                url: "index.php?module=SuppContractsAgreement&action=repulse",
+                data: {
+                    stagerecordid : stagerecordid,
+                    record : record,
+                    repulseinfo : repulseinfo,
+                    isbackname: isbackname
+                },
+                type:'POST',
+                beforeSend:function() {
+                    mark('#refillApplication_examine_page_popup', 'show');
+                },
+                success: function(data){
+                    data = $.parseJSON( data );
+                    mark('#refillApplication_examine_page_popup', 'none');
+                    if(data.success=='false'){
+                        mark('#refillApplication_examine_page_popup', 'none');
+                        alert('提示'+data.error.message);
+                        return false;
+                    }
+                    if (data.success) {
+                        alert('打回成功');
+                        setTimeout(function() {
+                        window.location.reload(); 
+                        }, 100);
+                    }
+                }
+            });
+        }
+        return false;
+    }
+</script>
+{/literal}
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>媒体外采账户管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/weui.min.css" />
+    <link rel="stylesheet" href="static/css/example.css" />
+    <link rel="stylesheet" href="static/css/tips.css" />
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+
+</head>
+<body>
+<div class="page__bd">
+
+    <div class="weui-cells weui-cells_form">
+        <form id="EditView" onsubmit="return false;">
+        <input  type="hidden"   name="record"  value="{$record}" />
+        <div class="weui-panel weui-panel_access">
+        <div class="weui-cells">
+            <div class="weui-form-preview__ft">
+                <a class="weui-form-preview__btn weui-form-preview__btn_default docancel" href="javascript:">取消</a>
+                <button type="submit" class="weui-form-preview__btn weui-form-preview__btn_primary doconfirm" href="javascript:">保存</button>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after" style="font-size:0.9em;">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">工作流<span style="margin-left: 5px;color:red;">*</span></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="workflowsid">
+                        {foreach from=$workflows item=value name=wlist}
+                        <option value="{$value.workflowsid}">{$value.workflowsname}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_vcode" style="font-size:0.9em;">
+            <div class="weui-cell__hd">
+                <label class="weui-label">客户<span style="margin-left: 5px;color:red;">*</span></label>
+            </div>
+            <div class="weui-cell__bd" style="position: relative;">
+                <input type="hidden" name="accountid" value="{$detailInfo.accountid}" data-msg="客户" />
+                <input class="weui-input" name="accountid_display" type="text" value="{$detailInfo.accountname}" placeholder="请输入公司名称"/>
+                <div class="weui-panel__bd" id="accountid_downlist" style="position: absolute;transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);width:100%;z-index:3; ">
+                    <div class="weui-media-box weui-media-box_small-appmsg">
+                        <div class="weui-cells" id="accountid_downcontent" style="overflow-y: auto;max-height: 20em;font-size:0.9em;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-cell__ft">
+                <button class="weui-vcode-btn search_list" data-name="accountid">查找</button>
+            </div>
+        </div>
+        <div class="weui-cell" style="font-size:0.9em;">
+            <div class="weui-cell__hd"><label class="weui-label">客户返点(%)</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" name="accountrebate"  data-msg="客户返点" placeholder="请输入客户返点" value="{$detailInfo.accountrebate}" autocomplete="off">
+            </div>
+        </div>
+        <div class="weui-cells" style="margin-top:0;font-size:0.9em;">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">客户来源属性<span style="margin-left: 5px;color:red;">*</span></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="customeroriginattr">
+                        <option value="free"  {if $detailInfo.customeroriginattr eq '自有' }selected="selected"{/if}>自有</option>
+                        <option value="nonfree" {if $detailInfo.customeroriginattr eq '非自有'}selected="selected"{/if}>非自有</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">客户返点类型<span style="margin-left: 5px;color:red;">*</span></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="accountrebatetype">
+                        <option value="CashBack" {if $detailInfo.accountrebatetype eq '返现'}selected="selected"{/if}>返现</option>
+                        <option value="GoodsBack" {if $detailInfo.accountrebatetype eq '返货'}selected="selected"{/if}>返货</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">有无服务<span style="margin-left: 5px;color:red;">*</span></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="isprovideservice">
+                        <option value="yes" {if $detailInfo.isprovideservice eq '有'}selected="selected"{/if}>有</option>
+                        <option value="no" {if $detailInfo.isprovideservice eq '无'}selected="selected"{/if}>无</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">供应商返点类型<span style="margin-left: 5px;color:red;">*</span></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="rebatetype">
+                        <option value="CashBack" {if $detailInfo.rebatetype eq '返现'} selected="selected"{/if}>返现</option>
+                        <option value="GoodsBack" {if $detailInfo.rebatetype eq '返货'} selected="selected"{/if}>返货</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell" style="font-size:0.9em;">
+                <div class="weui-cell__hd"><label class="weui-label">供应商返点(%)</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="supplierrebate"  data-msg="供应商返点" placeholder="请输入供应商返点" value="{$detailInfo.supplierrebate}">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_vcode" style="font-size:0.9em;">
+            <div class="weui-cell__hd">
+                <label class="weui-label">产品<span style="margin-left: 5px;color:red;">*</span></label>
+            </div>
+            <div class="weui-cell__bd" style="position:relative;">
+                <input type="hidden" name="productid" value="{$detailInfo.productid}"  data-msg="产品" />
+                <input class="weui-input" name="productid_display" type="text" placeholder="请输入产品名称"  value="{$detailInfo.productname}" />
+                <div class="weui-panel__bd" id="productid_downlist" style="position: absolute;transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);width:100%;z-index:3; ">
+                    <div class="weui-media-box weui-media-box_small-appmsg">
+                        <div class="weui-cells" id="productid_downcontent" style="overflow-y: auto;max-height: 20em;font-size:0.9em;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cell__ft">
+                <button class="weui-vcode-btn search_list"  data-name="productid">查找</button>
+            </div>
+        </div>
+        <div class="weui-cell" style="font-size:0.9em;">
+            <div class="weui-cell__hd"><label class="weui-label">供应商<span style="margin-left: 5px;color:red;">*</span></label></div>
+            <div class="weui-cell__bd">
+                <input type="hidden" name="vendorid" value="{$detailInfo.vendorid}"  data-msg="供应商" />
+                <input class="weui-input" type="text" name="vendorid_display" readonly="readonly"  value="{$detailInfo.vendorname}">
+            </div>
+        </div>
+        <div class="weui-cell" style="font-size:0.9em;">
+            <div class="weui-cell__hd"><label class="weui-label">采购合同<span style="margin-left: 5px;color:red;">*</span></label></div>
+            <div class="weui-cell__bd">
+                <input type="hidden" name="suppliercontractsid" value="{$detailInfo.suppliercontractsid}"  data-msg="采购合同" />
+                <input class="weui-input" type="text" name="suppliercontractsid_display" readonly="readonly"  value="{$detailInfo.suppliercontractsname}"/>
+            </div>
+        </div>
+        <div class="weui-cell" style="font-size:0.9em;">
+            <div class="weui-cell__hd"><label for="" class="weui-label">账户有效开始日期<span style="margin-left: 5px;color:red;">*</span></label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="date" name="servicestartdate" pattern="yyyy-MM-dd"  data-msg="账户有效开始日期" value="{$detailInfo.servicestartdate}"/>
+            </div>
+        </div>
+        <div class="weui-cell" style="font-size:0.9em;">
+            <div class="weui-cell__hd"><label for="" class="weui-label">账户有效结束日期<span style="margin-left: 5px;color:red;">*</span></label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="date" name="serviceenddate"  data-msg="账户有效结束日期" pattern="yyyy-MM-dd" value="{$detailInfo.serviceenddate}" id="showDatePicker"/>
+            </div>
+        </div>
+
+
+    </div>
+        <div class="weui-panel weui-panel_access">
+        </div>
+
+        <div id="beforevendor"></div>
+        <div class="weui-form-preview__ft">
+            <a class="weui-form-preview__btn weui-form-preview__btn_default docancel" href="javascript:">取消</a>
+            <button type="submit" class="weui-form-preview__btn weui-form-preview__btn_primary doconfirm" href="javascript:">保存</button>
+        </div>
+    </div>
+    </form>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <div class="weui-cells">
+    </div>
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+</div>
+
+
+<script src="./static/js/zepto.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script src="./static/js/tips.min.js"></script>
+<script src="./js/productprovider/edit.js"></script>
+<script1 src="./static/js/example.js"></script1>
+
+</body>
+</html>

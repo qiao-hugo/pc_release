@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_servicecomments</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_servicecomments` (
+  `servicecommentsid` int(11) NOT NULL,
+  `related_to` int(11) NOT NULL,
+  `salesorderproductsrelid` int(11) NOT NULL,
+  `salesorderprojecttasksrelid` int(11) NOT NULL,
+  `addtime` varchar(20) DEFAULT NULL,
+  `serviceid` varchar(20) DEFAULT NULL,
+  `allocatetime` varchar(20) DEFAULT NULL,
+  `assignerid` varchar(20) DEFAULT NULL,
+  `modifiedtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `remark` text,
+  PRIMARY KEY (`servicecommentsid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

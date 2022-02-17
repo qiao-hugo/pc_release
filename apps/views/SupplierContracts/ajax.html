@@ -1,0 +1,27 @@
+{if !empty($list)}
+{foreach from=$list item=value name=wlist}
+<li>
+    {assign var=IMGMD value=$value['email']|md5}
+    <a data-ajax="false" data-transition="slide" href="/index.php?module=SupplierContracts&action=one&id={$value.servicecontractsid}" class="ui-btn ui-btn-icon-right ui-icon-carat-r">
+        <img style="top:10px;height:80px;width:80px;border: 1px solid #eee;border-radius:80px;overflow: hidden;" src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}">
+        <h2>{$value.contract_no}&nbsp;</h2>
+        <p>领: {$value.smownerid} &nbsp;&nbsp; {$value.receivedate}</p>
+        {if $receiveid}
+            <p>提: {$value.receiveid} {$value.returndate}</p>
+        {/if}
+        <p>待审核节点:【{$value.workflowsnode}】</p>
+    </a></li>
+{/foreach}
+{/if}
+<script type="text/javascript">
+$(function(){
+	$('#loading').attr("data-totalnum",{$totalnum});
+});
+</script>
+
+{*<!-- <li>
+    <a href="#">
+    <span style="font-size:12px;">
+        {$value.smownerid}&nbsp;&nbsp;{$value.dailydatetime}</span>
+    </a>
+</li> -->*}

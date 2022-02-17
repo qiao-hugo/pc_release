@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {include file="header.html"}
+</head>
+<body>
+    <div class="container-fluid w fix notice">
+        <div class="row">
+            
+            <div class="tabs">
+                <ul class="hd fix">
+                    <li class="on">公</li>
+                    <li class="on">告</li>
+                </ul>
+                <div class="bd">
+                        {foreach from=$list item=value}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-toggle="collapse"
+                             data-parent="#accordion3" href="#collapse{$value.knowledgeid}">
+                            <a class="accordion-toggle"  data-toggle="collapse" data-parent="#accordion3" href="#collapse{$value.knowledgeid}" style="display:block;height:100%;width:100%;">
+                            {if $value.knowledgetop eq '是'}【置顶】{/if}<span class="list">{$value.knowledgetitle}</span><h6><span>{$value.cmdtime}</span><h6></a>
+                        </div>
+                        <div id="collapse{$value.knowledgeid}" class="panel-collapse collapse" style="height: 0px;">
+                            <div class="panel-body">
+                                    {$value.knowledgecontent|unescape:"html"}
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                        {foreachelse}
+                    <div class="list">暂无公告</div>
+                        {/foreach}
+                </div>
+            </div>
+            {include file="footer.html"}
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

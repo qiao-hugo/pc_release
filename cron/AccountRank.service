@@ -1,0 +1,18 @@
+<?php
+ini_set("include_path", "../");
+require_once('include/utils/utils.php');
+require_once('include/logging.php');
+
+global $adb, $log;
+//$log =& LoggerManager::getLogger('RecurringInvoice');
+//$log->debug("invoked RecurringInvoice");
+
+/*客户等级管理  未保护的不跟进每日减一，为0的进入公海*/
+$ids=$adb->pquery('update vtiger_account set protectday=protectday-1 where accountcategory<2 and protected=0 and protectday>0', array());
+echo $adb->num_rows($ids);
+$adb->pquery('update vtiger_account set accountcategory=2  where accountcategory<2 and protected=0 and protectday=0', array());
+
+$now=strtotime("-30 day");
+$adb->pquery("update vtiger_account set accountrank='chan_notv' WHERE protected=0 AND accountrank='forp_notv' AND visitingorderlastfollowtime<{$now}", array());
+
+?>

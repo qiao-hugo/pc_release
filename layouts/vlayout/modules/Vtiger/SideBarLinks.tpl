@@ -1,0 +1,33 @@
+{*<!--
+/***列表默认搜索类型菜单**
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+*{if $CURRENT_VIEW eq 'List'}
+	{assign var=PUBLICCUSTOM_VIEWS value=$CUSTOM_VIEWS['Public']}{assign var=MINECUSTOM_VIEWS value=$CUSTOM_VIEWS['Mine']}
+	{if empty($PUBLICCUSTOM_VIEWS) }{assign var=PUBLICCUSTOM_VIEWS value=array()}{/if}
+	{if empty($MINECUSTOM_VIEWS) }{assign var=MINECUSTOM_VIEWS value=array()}{/if}
+	{if count($PUBLICCUSTOM_VIEWS)}<span class="divider">|&nbsp;&nbsp;&nbsp;</span>
+	{foreach item="CUSTOM_VIEW" from=$PUBLICCUSTOM_VIEWS}<li onclick="window.location.href='?module={$MODULE}&parent=&page=1&view=List&viewname={$CUSTOM_VIEW->get('cvid')}&orderby=&sortorder=&public="  class="btn-link"  ><a  href="?module={$MODULE}&parent=&page=1&view=List&viewname={$CUSTOM_VIEW->get('cvid')}&orderby=&sortorder=&public=">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}</a></li><span class="divider">&nbsp;&nbsp;&nbsp;</span>
+	{/foreach}{/if}
+	{if count($MINECUSTOM_VIEWS)}<span class="divider">|&nbsp;&nbsp;&nbsp;</span>{foreach item="CUSTOM_VIEW" from=$MINECUSTOM_VIEWS}<li class="btn-link" ><a href="javascript:void(0)" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-id="{$CUSTOM_VIEW->get('cvid')}" class="historyFilter">{if $CUSTOM_VIEW->get('viewname') neq 'All'}{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}&nbsp;<i class="icon-remove hide" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}"></i>{else}{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}&nbsp;{vtranslate($MODULE, $MODULE)}{/if}</a></li><span class="divider">&nbsp;&nbsp;&nbsp;</span>{/foreach}{/if}
+	<span class="divider">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+	{/if}<li><a href="javascript:void(0);" data-createurl="index.php?module=CustomView&view=EditAjax&source_module={$MODULE}" data-id="{$smarty.get.viewname}" id="advsearch">搜索<i class="icon-chevron-down" id="searchicon"></i></a></li>
+ ********************************************************************************/
+-->*}
+{strip}
+
+<ul class="breadcrumb" style="margin-bottom:5px;">
+<li><i class="icon-filter"></i>所有视图</li><span class="divider">:&nbsp;&nbsp;&nbsp;</span>
+	{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
+        {assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
+		{assign var="EXPLODED_PARSE_URL" value=explode('?',$SIDE_LINK_URL)}
+		{assign var="COUNT_OF_EXPLODED_URL" value=count($EXPLODED_PARSE_URL)}
+		{if $COUNT_OF_EXPLODED_URL gt 1}{assign var="EXPLODED_URL" value=$EXPLODED_PARSE_URL[$COUNT_OF_EXPLODED_URL-1]}{/if}
+		{assign var="PARSE_URL" value=explode('&',$EXPLODED_URL)}
+		{assign var="CURRENT_LINK_VIEW" value='view='|cat:$CURRENT_VIEW}
+		{assign var="LINK_LIST_VIEW" value=in_array($CURRENT_LINK_VIEW,$PARSE_URL)}
+		{assign var="CURRENT_MODULE_NAME" value='module='|cat:$MODULE}
+		{assign var="IS_LINK_MODULE_NAME" value=in_array($CURRENT_MODULE_NAME,$PARSE_URL)}
+		<li class="btn-link"><a href="{$SIDEBARLINK->getUrl()}">{vtranslate($SIDEBARLINK->getLabel(), $MODULE)}</a></li><span class="divider">&nbsp;&nbsp;&nbsp;</span>
+	{/foreach}
+</ul>   
+{/strip}

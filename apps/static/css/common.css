@@ -1,0 +1,45 @@
+﻿.tc{text-align:center;}
+ul { list-style: none;padding:0;margin-bottom: 0; }
+.block{display: block;}
+.fl{float: left;}
+.fr{float: right;}
+.mr20{margin-right: 20px;}
+ .form-control { -moz-appearance: none; -webkit-appearance: none; appearance: none; color: #999; }
+
+
+.fix:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+.fix { display: inline-table; }
+* html .fix { height: 1%; }
+.fix { display: block; *zoom:1;}
+
+
+html{height:100%;}
+body{height:100%;}
+
+.w{max-width: 640px;margin:0 auto;}
+.container-fluid{position: relative;padding-bottom:60px;width:100%;min-height:100%;}
+.header{position: relative;background:#626199;height: 47px;line-height: 47px;color:#fff;font-size:20px;font-weight:500;}
+.header i.icon-chevron-left{position: absolute;left:30px;top:14px;}
+.header .cancel{position:absolute;right:25px;top:5px;font-size:16px;}
+.footer{position: fixed;bottom:0;left:0;width: 100%;background:#626199;}
+.nineblock li{float: left;width: 33.3%;border-bottom:1px solid #ccc;text-align:center;font-size:14px;height: 70px;
+ position: relative;}
+.nineblock{margin-top:-25px;}
+.nineblock .blockcenter{border-right:1px solid #ccc;border-left:1px solid #ccc;}
+.nineblock li a{display:block;color:#666;position:absolute;height:100%;width:100%;}
+.nineblock li span{display: block;
+ margin: 10px auto 5px auto;font-size: 24px;position: relative;width: 30px;color:#626199}
+.footer li{float: left;width: 33.3%;border-right:1px solid #7271a3;border-left:1px solid #535282;text-align:center;font-size:16px;height: 60px; }
+.footer li a{color:#fff;}
+.footer li span{display:block;margin:8px auto 5px auto;font-size:20px;position: relative;width:30px;}
+.footer li span i{position: absolute;top:-5px;right:-5px;background:#ff9600;width: 18px;height: 18px;border-radius:50%;color:#fff;font:inherit;vertical-align:baseline;line-height: 18px;font-size:14px;}
+.footer li a:hover{text-decoration:none;}
+.footer li .glyphicon{margin:8px 0 5px 0;}
+.footer li:nth-child(1){border-left:none;}
+.footer li:nth-child(3){border-right:none;}
+.confirm{padding-bottom:20px;}
+.confirm .btn{background:#626199;width:60%;padding:12px;color:#fff;font-size:16px;border-radius:24px;position: relative;}
+
+.keyBox{position: relative;}
+.keyBox .keyText{position: absolute;left: 0;top:34px;z-index: 10;border:1px solid #ddd;border-top: none;background-color: #fff;border-radius: 0 0 5px 5px}
+.keyBox .keyText li{padding:0 12px;line-height: 1.8;}

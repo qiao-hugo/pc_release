@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>媒体外采账户列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/jquery.mobile-1.4.5.min.css" />
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+    <style type="text/css">
+        {literal}
+        *{
+            text-shadow:none;
+        }
+        
+        #bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.5;  opacity:.50;  filter: alpha(opacity=50);}  
+        {/literal}
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid w fix ui-page-theme-d" id="demo-intro" data-role="page">
+    <div data-role="header" data-position="fixed">
+        <h1>媒体外采账户列表</h1>
+        <a href="javascript:void(0)" data-transition="slide" id="daydealcancel" class="back-btn ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-back ui-btn-left ui-btn-icon-left">返回</a> 
+        <a href="/index.php?module=ProductProvider&action=add" data-ajax="false" data-transition="slide" data-rel="back2" id="addRefillApplication" class="back-btn ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-btn-active ui-btn-right ui-icon-plus ui-btn-icon-right">添加</a>
+    </div>
+	<div class="container-fluid w fix ui-page-theme-d" data-role="none">
+        <form action="index.php?module=ProductProvider&action=index" method="post" data-ajax="false">
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" >
+                <div class="ui-controlgroup-controls" data-inset="false">
+                    <div class="ui-radio"><label for="radio-v-1a" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">ID</label><input type="radio" name="radiot" id="radio-v-1a" value="vtiger_productprovider.idaccount" {if $radiot eq 'vtiger_productprovider.idaccount'}checked="checked"{/if}></div>
+                    <div class="ui-radio"><label for="radio-v-1b" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-off">客户</label><input type="radio" name="radiot" id="radio-v-1b" value="vtiger_account.accountname" {if $radiot eq 'vtiger_account.accountname'}checked="checked"{/if}></div>
+                    <div class="ui-radio"><label for="radio-v-1c" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-off ui-last-child">账户名称</label><input type="radio" name="radiot" id="radio-v-1c" value="vtiger_productprovider.accountzh" {if $radiot eq 'vtiger_productprovider.accountzh'}checked="checked"{/if}></div>
+                </div>
+            </fieldset>
+            <input type="text" name="searchvalue" id="text-basic" placeholder="请输入要查找的内容" value="{$searchvalue}">
+            <input type="submit" name="submit" value="搜索">
+        </form>
+    </div>
+    <div data-role="main" class="ui-content" data-theme="d">
+        {if !empty($list)}
+
+            <ul id="data_list" data-role="listview" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                {foreach from=$list item=value name=wlist}
+                {assign var=IMGMD value=$value['email']|md5}
+                    <li>
+                        <a href="/index.php?module=ProductProvider&action=one&id={$value.productproviderid}" data-transition="slide" style="line-height: 1.2;" class="gotoOne" data-ajax="false">
+                            <img src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}" style="max-height: 6.1em;max-width: 6.1em;height:97px;width: 97px;border: 1px solid #eee;border-radius:97px;overflow: hidden;">
+                            <p>客户:{$value.accountid}</p>
+                            <h2>&nbsp;</h2>
+                            <p>[{$value.smownerid}][{$modulestatus[$value.modulestatus]}]</p>
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {else}
+        <div class="panel panel-default">
+            <div class="panel-heading" data-parent="#accordion3" style="text-align: center;">
+                没有充值申请单
+            </div>
+        </div>
+        {/if}
+        
+
+
+
+   </div>
+   <div id="loading"  data-id="1" data-flag="2" data-searchfieldname="{$fieldname}"  data-searchvalue="{$fieldvalue}" data-searchflag="{$searchflag}" class="loading" data-totalnum="{$totalnum}" style="text-align: center; padding-bottom: 10px;">加载中...
+   </div>
+
+   <script type="text/javascript">
+  
+    {literal}
+    $(function(){
+        //$( ".selector" ).collapsible( "expand" );
+    {/literal}
+
+        /*$('#addRefillApplication').click(function() {
+            window.location.href = '/index.php?module=RefillApplication&action=add';
+        });*/
+
+        $('#daydealcancel').click(function() {
+            window.location.href = '/index.php?action=mycrm';
+        });
+
+        
+
+        {literal}
+        //$('html,body').animate({scrollTop:0}, 'slow');
+        var $num = 2;//当前的页码
+        $(window).scroll(function(){
+            //此方法是在滚动条滚动时发生的函数
+            // 当滚动到最底部以上100像素时，加载新内容
+            var $doc_height,$s_top,$now_height,dataid,dataflag,datastatus;
+            $doc_height = $(document).height();        //这里是document的整个高度
+            $s_top = $(this).scrollTop();            //当前滚动条离最顶上多少高度
+            $now_height = $(this).height();            //这里的this 也是就是window对象
+            dataid=$('#loading').attr("data-id");//阻止一次请求没有完成后再次请
+            dataflag=$('#loading').attr("data-flag");//阻止当滚地到底部时刷新后自动请求
+            datastatus=$('#loading').attr("data-status");//取当前的状态
+            var status = $("#status").val();
+			var totalnum=$('#loading').attr("data-totalnum");
+            if((($doc_height - $s_top - $now_height) < 100&& $num<=totalnum&&dataid==1&&dataflag==1)){
+                jsonajax();
+            }
+            $('#loading').attr("data-flag",1);
+            //alert($num);
+            setTimeout(function() {
+                if($num > totalnum) {
+                    $('#loading').html("没有了").show();
+                }
+            }, 2000);
+            
+        });
+
+        function jsonajax(){
+            $('#loading').attr("data-id",2);
+            $('#loading').html("正在加载请稍后...");
+            var status = $("#status").val();//取当前审核的条件
+            var datastatus=$('#loading').attr("data-status");//取当前已经存在的审核 条件
+            $('#loading').attr("data-status",status);//当当前的审核条件给已经存在的条件
+            var radiovalue='';
+            var searchvalue='';
+                //只有通过搜索过来的才加载该查询条件,
+            radiovalue= $('input[name="radiot"]:checked').val();
+            searchvalue= $('input[name="searchvalue"]').val();
+            $.ajax({
+                url:'index.php?module=ProductProvider&action=index&type=ajax',
+                type:'POST',
+                data: {pagenum: $num++,type: 'ajax','radiot':radiovalue,'searchvalue':searchvalue,},
+                dataType:'html',
+                success:function(html){
+                    if(html){
+                        $('#loading').hide();
+                        $('#data_list').append(html);
+                        $('#data_list').listview('refresh');  
+                        $('#data_list').listview();
+                        $('#loading').attr("data-id",1);
+                    }
+                }
+            });
+        }
+    });
+    {/literal}
+    </script>
+
+
+</div>
+
+
+
+
+
+</body>
+</html>

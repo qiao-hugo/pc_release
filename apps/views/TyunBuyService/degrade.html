@@ -1,0 +1,740 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+		<title>T云服务降级</title>
+		{include file="header.html"}
+        <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+		<script src="static/js/jquery.form.js?v={$versionjs}"></script>
+        <script src="static/js/select2.js?v={$versionjs}"></script>
+         <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script type="text/javascript" src="static/js/watermark.js"></script>
+        {literal}
+    <style type="text/css">
+    html,body{
+    	height:100%;
+    }
+.rowFrame{
+	overflow-y:auto;
+	    min-height: 50%;
+}
+ .cls_servicetype{
+    background: #3590df;
+    color: white;
+    border-radius: 5px;
+    padding-top: 8px;
+}
+        *{
+            text-shadow:none;
+        }
+        .ui-page{
+        height:100%;
+        }
+        
+        .footer{
+        	position: absolute;
+        	bottom:0
+        }
+        .close{
+        	color:#fff;
+        	text-shadow:0 1px 0 #000;
+        	opacity: 1;
+        }
+       /* .add-visit label{
+        	width: 27%;
+        }*/
+        /*.add-visit .input-box{
+        	width: 71%;
+        }*/
+        .form-group{
+        margin-bottom:10px;
+        }
+    #loading{background-color:#000000;height:100%;width:100%;position:fixed;z-index:99999;margin:0px;padding:0px;top:0px;opacity: 0.5;}
+    #loading-center{width:100%;height:100%;position: relative;}
+    #loading-center-absolute {position:absolute;left:50%;top:50%;height:20px;width:100px;margin-top:-10px;margin-left:-50px;}
+    .object{width:20px;height:20px;color:#333;font-size:10px;text-align:center;line-height:20px;background-color: #FFF;-moz-border-radius: 50% 50% 50% 50%;-webkit-border-radius: 50% 50% 50% 50%;border-radius: 50% 50% 50% 50%;margin-right: 20px;margin-bottom: 20px;position: absolute;opacity: 1;}
+    #object_one{-webkit-animation: object 2s linear infinite;animation: object 2s linear infinite;}
+    #object_two{-webkit-animation: object 2s linear infinite -.4s;animation: object 2s linear infinite -.4s;}
+    #object_three{-webkit-animation: object 2s linear infinite -.8s;animation: object 2s linear infinite -.8s;}
+    #object_four{-webkit-animation: object 2s linear infinite -1.2s;animation: object 2s linear infinite -1.2s;}
+    #object_five{-webkit-animation: object 2s linear infinite -1.6s;animation: object 2s linear infinite -1.6s;}
+    @-webkit-keyframes object{0% {left:100px;top:0} 80% {left:0;top:0;} 85% {left:0;top:-20px;width:20px;height:20px;} 90% {width:40px;height:15px;} 95% {left:100px;top:-20px;width:20px;height:20px;} 100% {left:100px; top:0; }}
+    @keyframes object{0% { left:100px;top:0} 80% {left:0;top:0;} 85% {left:0;top:-20px;width:20px;height:20px;} 90% {width:40px; height:15px;} 95% {left:100px;top:-20px;width:20px;height: 20px;} 100% {left: 100px; top:0; }}
+    .cls_service_table{
+        width:100%;
+    }
+    .cls_service_table tr{
+        height: 35px;
+    }
+    .cls_service_table th{
+        border: 1px solid #ccc;
+        text-align: center;
+        background-color: #eee;
+    }
+    .cls_service_table td{
+        text-align: center;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        height: 34px;
+        padding: 5px 2px;
+    }
+    </style>
+    {/literal}
+</head>
+<body>
+<div id="div_degrade_determine_input" class="container-fluid w fix rowFrame" style='padding-bottom:0;'>
+<!-- <div id='test'></div> -->
+        <div class="row ">
+            <div class="add-visit">
+                <div class="form-group fix">
+                    <input type="hidden" id="receivetimeflag" value="0">
+                    <input type="hidden" id="isCustomServiceAdmin" value="{$is_cs_admin}">
+                    <div class="input-group">
+                        <div class="input-group-addon">T云账号</div>
+                        <input type="text" data-toggle="popover" data-placement="bottom" placeholder="输入T云账号"
+                               data-content="T云账号不能为空" id="tyun_account_s" class="form-control keyInput">
+                        <div class="input-group-addon" onclick="searchTyunBuyServiceInfo(4)" id="searchTyunBuyServiceInfo" ><i id="searchTyunBuyServiceInfo_li" class="fa icon-search" aria-hidden="true" onclick="searchTyunBuyServiceInfo(4)"></i></div>
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom: 0px;">
+                    <label style="font-weight: bold;">T云账号</label>
+                    <div class="input-box">
+                        <label id="tyun_account_display" style="text-align: left;width: 100%;"></label>
+                        <input type="hidden" id="tyun_account" value="" >
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom: 0px;">
+                    <label style="font-weight: bold;">原客户名称</label>
+                    <div class="input-box">
+                        <label id="oldcustomername_display" style="text-align: left;width: 100%;"></label>
+                        <input type="hidden" id="oldcustomerid" value="" >
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom: 0px;">
+                    <label style="font-weight: bold;">原合同</label>
+                    <div class="input-box">
+                        <label id="oldcontractcode_display" style="text-align: left;width: 100%;"></label>
+                    </div>
+                    <input type="hidden" id="oldcontractid" value="" >
+                </div>
+                <div class="form-group fix" style="margin-bottom: 0px;">
+                    <label style="font-weight: bold;">原版本</label>
+                    <div class="input-box">
+                        <label id="oldproductname_display" style="text-align: left;width: 100%;"></label>
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom: 0px;">
+                    <label style="font-weight: bold;">到期时间</label>
+                    <div class="input-box">
+                        <label id="oldexpiredate_display" style="text-align: left;width: 100%;"></label>
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom: 0px;">
+                    <label style="font-weight: bold;">最近降级</label>
+                    <div class="input-box">
+                        <label id="lately_add_display" style="text-align: left;width: 100%;color: red"></label>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div style="text-align: center;padding: 5px;"><span style="color: blue;font-weight: 600;font-size: 15px;">请核对以上信息无误后继续操作</span></div>
+                </div>
+
+                <div class="form-group fix">
+                    <input type="hidden" id="customerid"  value="" >
+                    <input type="hidden" id="customerowenid" value="" >
+                    <div class="input-group">
+                        <div class="input-group-addon">降级客户</div>
+                        <input type="text" data-toggle="popover" data-placement="bottom" placeholder="输入客户名称"
+                               data-content="客户名称不能为空" id="customername_display"  class="form-control keyInput">
+                        <div class="input-group-addon" onclick="searchBuyCustome(1)" id="searchBuyCustome"><i class="fa icon-search" aria-hidden="true"></i></div>
+                    </div>
+                    <div>
+<!--                        <span style="color:red" id="customerowenidmsg"></span>-->
+                    </div>
+                </div>
+
+
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">降级合同</div>
+                        <input type="text" data-toggle="popover" data-placement="bottom" placeholder="输入合同后4位"
+                               data-content="降级合同不能为空" id="contractcode"  name="contractcode" class="form-control keyInput">
+                        <div class="input-group-addon" onclick="searchDegradeContract()" id="searchDegradeContract"><i onclick="searchDegradeContract()" id="searchDegradeContract_li" class="fa icon-search" aria-hidden="true"></i></div>
+                        <input type="hidden" id="contractid" value="" >
+                        <input type="hidden" id="contractowenid" value="">
+                    </div>
+                    <div>
+                        <span style="color:red" id="contractowenidmsg"></span>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">合同金额</div>
+                        <input type="number" data-toggle="popover" data-placement="bottom" data-content="合同金额不能为空" id="contractamount"  class="form-control" value="">
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">降级版本</div>
+                        <select id="productid" name="productid" class="form-control" onchange="select_product(this.options[this.options.selectedIndex].value);"  data-toggle="popover" data-placement="bottom" data-content="产品必选">
+                            <option value='' selected>请选择版本</option>
+                        </select>
+                        <input type="hidden" id="pipre" value="">
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">降级年限</div>
+                        <select id="productlife" name="productlife" class="form-control" onchange="select_year(this.options[this.options.selectedIndex].value);" data-toggle="popover" data-placement="bottom" data-content="年限必选">
+
+                        </select>
+                        <input type="hidden" id="plpre" value="">
+                    </div>
+                </div>
+                {if $is_cs_admin eq 1}
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">降级时间</div>
+                        <input data-toggle="popover" data-placement="bottom"
+                               data-content="降级时间不能为空" type="date" id="buydate" name="buydate" placeholder="降级时间" class="form-control" value="">
+                    </div>
+                </div>
+                {/if}
+                <div class="form-group fix" id="div_tyun_serviceitem">
+                    <div style="text-align: center;">
+                        <table class="cls_service_table">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group fix" id="div_serviceItem">
+                    <div style="text-align: center;padding: 5px;"><i class="fa icon-plus" aria-hidden="true"></i><span style="color: blue;font-weight: 600;font-size: 15px;padding-left: 5px;" onclick="add_TyunServiceItem('btn_tyun_degrade',4)">添加另购服务</span></div>
+                </div>
+
+                <div class="confirm tc">
+                        <input type="button" class="btn" data-toggle="popover" data-placement="top"
+                        data-content="正在处理,请稍等…" value="确定降级" id="btn_tyun_degrade" onclick="doDetermineDegrade()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- 降级确认页面 -->
+<div id="div_degrade_determine_save" class="container-fluid w fix rowFrame" style='padding-bottom:0;display: none'>
+    <div class="row ">
+        <form id='frm_degrade'  method="POST">
+            <input type="hidden" id="buyid_save" name="buyid">
+            <input type="hidden" id="loginname_save" name="loginname">
+            <input type="hidden" id="secretkeyid_save" name="secretkeyid">
+            <input type="hidden" id="oldproductid_save" name="oldproductid">
+            <input type="hidden" id="contractid_save" name="contractid" >
+            <input type="hidden" id="contractname_display_save" name="contractname_display">
+            <input type="hidden" id="oldexpiredate_save" name="oldexpiredate">
+            <input type="hidden" id="agents_save" name="agents">
+            <input type="hidden" id="customername_save" name="customername">
+            <input type="hidden" id="customerid_save" name="customerid">
+            <input type="hidden" id="contractamount_save" name="contractamount">
+            <input type="hidden" id="startdate_save" name="startdate">
+            <input type="hidden" id="buydate_save" name="buydate">
+            <div class="add-visit" style="padding: 0px">
+                <div class="form-group fix">
+                    <div style="text-align: center;padding: 5px;"><span style="color: red;font-weight: 600;font-size: 15px;">请确认以下降级内容</span></div>
+                </div>
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">成交合同</label>
+                    <div class="input-box">
+                        <label id="contractcode_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">合同金额</label>
+                    <div class="input-box">
+                        <label id="contractamount_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">降级账号</label>
+                    <div class="input-box">
+                        <label id="loginname_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">原客户名称</label>
+                    <div class="input-box">
+                        <label id="oldcustomername_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">降级客户名称</label>
+                    <div class="input-box">
+                        <label id="customername_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">原版本</label>
+                    <div class="input-box">
+                        <label id="oldproductname_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">原到期时间</label>
+                    <div class="input-box">
+                        <label id="oldexpiredate_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">降级版本</label>
+                    <div class="input-box">
+                        <label id="productid_display2" style="width: 100%;text-align: left"></label>
+                        <input type="hidden" id="productid_save" name="productid">
+                    </div>
+                </div>
+
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">降级年限</label>
+                    <div class="input-box">
+                        <label id="productlife_display2" style="width: 100%;text-align: left"></label>
+                        <input type="hidden" id="productlife_save" name="productlife">
+                    </div>
+                </div>
+
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">降级日期</label>
+                    <div class="input-box">
+                        <label id="degradedate_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+
+                <!--<div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">到期日期</label>
+                    <div class="input-box">
+                        <label id="expiredate_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>-->
+
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">另购服务</label>
+                    <div style="text-align: center;padding: 5px;">
+                        <table class="cls_service_table">
+                            <tr>
+                                <th style="width: 50%">服务名称</th>
+                                <th style="width: 25%">数量</th>
+                                <!--<th style="width: 25%">年限</th>-->
+                            </tr>
+                            <tbody id="tbody_service_display">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="div_hid_service_save"></div>
+                </div>
+
+                <div class="confirm tc">
+                    <input type="button" id='doback' class="btn" data-toggle="popover" data-placement="top" style="background: #9b9ba0;"
+                           value="返回修改" onclick="back_edit()">
+                </div>
+                <div class="confirm tc">
+                    <input type="button" id='dosave' class="btn" data-toggle="popover" data-placement="top"
+                           data-content="正在处理,请稍等…" value="确定降级" onclick="degrade_save()">
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<div id="loading" style="display: none;">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"style="background-color:green;"></div>
+            <div class="object" id="object_two" style="left:20px;">理</div>
+            <div class="object" id="object_three" style="left:40px;">处</div>
+            <div class="object" id="object_four" style="left:60px;">在</div>
+            <div class="object" id="object_five" style="left:80px;">正</div>
+        </div>
+    </div>
+</div>
+{literal}
+<script src="js/tyunBuyService.js"></script>
+<script>
+    $("input").attr('data-role','none');
+    $("select").attr('data-role','none');
+    $("a").attr('data-role','none');
+    //禁止a标签ajax跳转
+    $("a").attr('data-ajax','false');
+    $("div,ul,li,span").attr('data-role','none');
+
+    $("#searchTyunBuyServiceInfo_li").click(function(event){
+        event.stopPropagation();//阻止事件冒泡即可
+    });
+    $("#searchDegradeContract_li").click(function(event){
+        event.stopPropagation();//阻止事件冒泡即可
+    });
+
+    //初始化购买年限
+    initBuyYearList("productlife");
+
+    blankFixExt('keyInput', 'keyText');
+
+    function blankFixExt(node, targetNode) {
+        $(document).bind('click', function (e) {
+            var o = "." + node + ",." + node + " *";
+
+            if (!$(e.target).is(o)&& (e.target.id)!='searchDegradeContract' && (e.target.id)!='searchDegradeContract_li') {
+                $('.' + targetNode).hide();
+            }
+        });
+    }
+
+    //搜索降级合同
+    function searchDegradeContract() {
+        var o = $('#contractcode');
+        var ov = o.val();
+        var op = o.parent();
+        var sb = [];
+        if('' == ov){
+            Tips.alert({
+                content: '合同编号不能为空',
+            });
+            return;
+        }
+        //客户id
+        var oldcustomerid = $("#oldcustomerid").val();
+
+        o.next('ul').remove();
+        $('.delefalg').remove();
+        var dheight=$(document).height();
+        dheight=dheight*0.5;
+        oul = op.append('<ul class="keyText delefalg" style="max-height:'+dheight+'px;overflow:auto;left: 82px"></ul>');
+
+        if (ov) {
+            op.addClass('keyBox');
+            $('#loading').show();
+            $.ajax({
+                url: '/index.php?module=TyunBuyService&action=searchTyunBuyServiceContract&customerid='+ oldcustomerid +'&contract_no='+ov,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#loading').hide();
+                    if (data && data.length > 0) {
+                        for (var i = 0;i<data.length; i++) {
+                            //console.log(data[i].item.servicecontracts_no);alert(data[i]['servicecontracts_no']);
+                            var item2=data[i];
+                            var nArr = item2.contract_no;
+                            var nid = item2.servicecontractsid;
+                            var username = item2.username;
+                            var userid = item2.userid;
+                            var oli=op.children('ul');
+                            oli.append("<li onclick='selectBuyContract(\""+nArr+"\", \""+nid+"\", \""+username+"\", \""+userid+"\" )'>" + nArr + '</li>');
+
+                        }
+
+                    }else{
+                        Tips.alert({
+                            content: '找不到合同编号',
+                            define:'确定',
+                            after:function(){
+                                $("#contractcode").val('');
+                                $("#contractid").val('');
+                            }
+                        });
+
+                    }
+                },error:function(){
+                    $('#loading').hide();
+                    Tips.alert({
+                        content: 'error'
+                    });
+                }
+            });
+        }
+    }
+    function selectBuyContract(contract_no, servicecontractsid,username,userid){
+        $("#contractid").val(servicecontractsid);
+        $("#contractcode").val(contract_no);
+        $("#contractowenid").val(userid);
+        $("#contractowenidmsg").text('合同提单人:'+username);
+        window.scroll(0,0)
+    }
+
+    function doDetermineDegrade() {
+        //T云账号是否为空
+        /*$('#tyun_account').popover('destroy');
+        if(''==$('#tyun_account').val()){
+            $('#tyun_account').focus();
+            $("#tyun_account").val('');
+            $('#tyun_account').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#tyun_account').popover('destroy')",2000);
+            return;
+        }*/
+
+        //是否查询原版本
+        if(''==$('#oldproductid_save').val()){
+            Tips.alert({
+                content: '先查询原版本',
+            });
+            return;
+        }
+
+        //降级合同编号
+        $('#contractid').popover('destroy');
+        if(''==$('#contractid').val()){
+            $('#contractcode').focus();
+            $("#contractcode").val('');
+            $("#contractid").val('');
+            $('#contractcode').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#contractcode').popover('destroy')",2000);
+            return;
+        }
+
+        //合同金额
+        $('#contractamount').popover('destroy');
+        if(''==$('#contractamount').val()){
+            $('#contractamount').focus();
+            $("#contractamount").val('');
+            $('#contractamount').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#contractamount').popover('destroy')",2000);
+            return;
+        }
+
+        //降级产品
+        $('#productid').popover('destroy');
+        if(''==$('#productid').val()){
+            $('#productid').focus();
+            $("#productid").val('');
+            $('#productid').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#productid').popover('destroy')",2000);
+            return;
+        }
+        //降级年限
+        $('#productlife').popover('destroy');
+        if(''==$('#productlife').val()){
+            $('#productlife').focus();
+            $("#productlife").val('');
+            $('#productlife').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#productlife').popover('destroy')",2000);
+            return;
+        }
+
+        //购买时间
+        var is_cs_admin = $("#isCustomServiceAdmin").val();
+        if(is_cs_admin == '1'){
+            var buydate = $('#buydate').val();
+            if(''== buydate){
+                $('#buydate').focus();
+                $("#buydate").val('');
+                $('#buydate').popover("show");
+                $('.popover-content').css({"color":"red","fontSize":"12px"});
+                setTimeout("$('#buydate').popover('destroy')",2000);
+                return;
+            }
+            var curDate = new Date();
+            var dt_expiredate = new Date(buydate.replace(/\-/g, "\/"));
+            if(dt_expiredate > curDate){
+                Tips.alert({
+                    content: '降级时间必须小于等于系统时间',
+                });
+                return;
+            }
+        }
+        //判断另购服务是否重复
+        if(!checkServiceInput('degrade')) return;
+
+        doConfirmPage();
+    }
+
+    //跳转到确认页面
+    function doConfirmPage() {
+        //购买合同
+        //$("#contractcode_display2").text($("#oldcontractcode_display").text());
+        $("#contractcode_display2").text($("#contractcode").val());
+        $("#contractamount_display2").text($("#contractamount").val());
+        //降级账号
+        $("#loginname_display2").text($("#tyun_account").val());
+        //购买客户
+        $("#oldcustomername_display2").text($("#oldcustomername_display").text());
+        $("#customername_display2").text($("#customername_display").val());
+
+        //原版本
+        $("#oldproductname_display2").text($("#oldproductname_display").text());
+        //原到期时间
+        $("#oldexpiredate_display2").text($("#oldexpiredate_display").text());
+
+        //降级版本
+        $("#productid_display2").text($("#productid").val()==''?'':$("#productid").find("option:selected").text());
+        //购买年限
+        $("#productlife_display2").text($("#productlife").val()==''?'':$("#productlife").find("option:selected").text());
+        //购买时间
+        $("#buydate_save").val($("#buydate").val());
+        //到期日期
+       /* var curDate = new Date();
+        var oldexpiredate = $("#oldexpiredate_display").text();
+        if(oldexpiredate!='--'){
+            var re=new RegExp("-","g");
+            oldexpiredate = $.trim(oldexpiredate).replace(re,'/');
+            var oldTime = (new Date(oldexpiredate)).getTime();
+            curDate = new Date(oldTime);
+        }
+        var buy_year = $("#productlife").val();
+        if(buy_year == '') buy_year = '0';
+        var y = curDate.getFullYear() + parseInt(buy_year);
+        var m = curDate.getMonth() + 1;
+        var d = curDate.getDate();
+        var expiredate = y + '-' + m + '-' + d;
+        $("#expiredate_display2").text(expiredate);*/
+
+        //降级日期
+        var is_cs_admin = $("#isCustomServiceAdmin").val();
+        if(is_cs_admin == '1'){
+            var buydate = $('#buydate').val();
+            $("#degradedate_display2").text(buydate);
+        }else{
+            var curDate = new Date();
+            var u_y = curDate.getFullYear();
+            var u_m = curDate.getMonth() + 1;
+            var u_d = curDate.getDate();
+            var upgardedate = u_y + '-' + u_m + '-' + u_d;
+            $("#degradedate_display2").text(upgardedate);
+        }
+
+        //设置开始时间
+        var strcurDate = $("#degradedate_display2").text();
+        var dt_curdate = new Date(strcurDate.replace(/\-/g, "\/"));
+        $("#startdate_save").val(customDateToString(dt_curdate));
+        var oldexpiredate = $("#oldexpiredate_display").text();
+        if(oldexpiredate!='--' && oldexpiredate != ""){
+            var dt_expiredate = new Date(oldexpiredate.replace(/\-/g, "\/"));
+            if(dt_expiredate > dt_curdate) {
+                $("#startdate_save").val(customDateToString(dt_expiredate));
+            }
+        }
+
+        //另购服务
+        var service_count = $("#div_tyun_serviceitem table tbody tr").length;
+        $("#tbody_service_display").empty();
+        $("#div_hid_service_save").empty();
+        if(service_count >0){
+            var html_tr="";
+            var hidden_html="";
+            $("#div_tyun_serviceitem table tbody tr").each(function () {
+                var tmpNum = $(this).attr("data-num");
+                var tmpServiceID = $("#servicename"+tmpNum).val();
+                //html_tr += "<tr><td>"+ $("#servicename"+tmpNum).find("option:selected").text() +"</td><td>"+ $("#buycount"+tmpNum).find("option:selected").text() +"</td><td>"+ $("#buyyear"+tmpNum).find("option:selected").text() +"</td></tr>";
+                html_tr += "<tr><td>"+ $("#servicename"+tmpNum).find("option:selected").text() +"</td><td>"+ $("#buycount"+tmpNum).find("option:selected").text() +"</td></tr>";
+                //设置保存项
+                hidden_html += '<input type="hidden" name="inserti['+tmpNum+']" value="'+tmpNum+'">';
+                hidden_html += '<input type="hidden" name="ServiceID['+tmpNum+']" value="'+$("#servicename"+tmpNum).val()+'">';
+                hidden_html += '<input type="hidden" name="BuyCount['+tmpNum+']" value="'+$("#buycount"+tmpNum).val()+'">';
+                hidden_html += '<input type="hidden" name="TyunBuyCount['+tmpNum+']" value="'+$("#buycount"+tmpNum).find("option:selected").attr('tyun-value')+'">';
+                hidden_html += '<input type="hidden" name="servicename_display['+tmpNum+']" value="'+$("#servicename"+tmpNum).find("option:selected").text()+'">';
+                hidden_html += '<input type="hidden" name="buycount_display['+tmpNum+']" value="'+$("#buycount"+tmpNum).find("option:selected").text()+'">';
+                //hidden_html += '<input type="hidden" name="BuyYear['+tmpNum+']" value="'+$("#buyyear"+tmpNum).val()+'">';
+            });
+            if(html_tr == ""){
+                //html_tr = "<tr><td>无</td><td>无</td><td>无</td></tr>";
+                html_tr = "<tr><td>无</td><td>无</td></tr>";
+            }
+            $("#tbody_service_display").append(html_tr);
+            $("#div_hid_service_save").append(hidden_html);
+        }else{
+            $("#tbody_service_display").append("<tr><td>无</td><td>无</td></tr>");
+        }
+
+        //设置保存值====================================================================
+        //合同信息
+        $("#contractid_save").val($("#contractid").val());
+        $("#contractname_display_save").val($("#contractcode").val());
+        $("#productlife_save").val($("#productlife").val());
+        $("#productid_save").val($("#productid").val());
+        $("#contractamount_save").val($("#contractamount").val());
+        //================================================================================
+
+        $("#div_degrade_determine_input").hide();
+        $("#div_degrade_determine_save").show();
+        //重新设置iframe高度
+        parent.setTyunIframeHeight(4,0);
+    }
+    //返回修改
+    function back_edit() {
+        $("#div_degrade_determine_input").show();
+        $("#div_degrade_determine_save").hide();
+        //重新设置iframe高度
+        parent.setTyunIframeHeight(4,0);
+    }
+
+    //保存处理
+    var dosaveflag=1;
+    var back_page_src = "index.php?module=TyunBuyService&action=index&type=4";
+    function degrade_save() {
+        $('#loading').show();
+        //$('#dosave').removeAttr("onclick");//防止多次点击提交
+        /*if(dosaveflag!=1){
+            //防止多次提多;
+            return false;
+        }
+        dosaveflag=2;*/
+
+        $('#frm_degrade').ajaxSubmit({
+            type: 'post',
+            url:"/index.php?module=TyunBuyService&action=saveTyunBuyService&type=4",
+            dataType :'json',
+            success: function(data) {
+                $('#loading').hide();
+                if(data.success==1){
+                    Tips.alert({
+                        content: '降级成功',
+                        before: function(){
+                        },
+                        after: function(b){
+                            if(b){
+                                //window.location.href = back_page_src;
+                                window.location.reload();
+                            }
+                        }
+                    });
+
+                }else{
+                    Tips.alert({
+                        content: data.msg,
+                        before: function(){
+                        },
+                        after: function(b){
+                            if(b){
+                                //window.location.href= back_page_src;
+                            }
+                        }
+                    });
+                }
+            },
+            error:function(){
+                $('#loading').hide();
+                Tips.alert({
+                    content: 'error',
+                    before: function(){
+                    },
+                    after: function(b){
+                        if(b){
+                            //window.location.href= back_page_src;
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+</script>
+{/literal}
+</body>
+</html>

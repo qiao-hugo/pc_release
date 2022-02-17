@@ -1,0 +1,105 @@
+﻿.textarea { padding: 15px; }
+.list-head li { float: left; width: 33.3%; color: #666; height: 50px; text-align: center; line-height: 50px; font-size: 18px; }
+.tabs .hd { padding: 25px 15px; background: #e8ecf8; }
+.tabs .hd li { float: left; width: 33%; text-align: center; background: #fff; color: #4a4a4a; font-size: 16px; padding: 12px 0; }
+.tabs .hd li:nth-child(1) { border-radius: 5px 0 0 5px; }
+.tabs .hd li:nth-child(2) { border-radius: 0px 0 0 0px; }
+.tabs .hd li:nth-child(3) { border-radius: 0 5px 5px 0; }
+.tabs .hd .on { background: #5ec4ab; color: #fff; }
+.tabs .bd { padding: 15px; }
+.tabs .bd li { margin-bottom: 25px; }
+.tabs .bd li:last-child { margin-bottom: 0; }
+.tabs .bd .list { color: #666; font-size: 20px; }
+.tabs .bd .text div { display: inline-block; color: #999; font-size: 16px; }
+.tabs .bd .right { background: #5ec4ab; color: #fff; text-align: center; width: 50px; height: 50px; line-height: 50px; font-size: 40px; border-radius: 50%; }
+
+.visit-list .cont-box { /*background: url(../img/a1.png) no-repeat center -4px;*/ background-size: 100% 100%; padding: 12% 10% 12% 10%;color:#4a4a4a; }
+.visit-list .cont-box .theme {background:url(../img/a6.png) no-repeat center bottom;background-size:100% auto; font-size:25px;line-height:2;text-indent:3px; }
+.visit-list .cont-box .list li{background:url(../img/a6.png) no-repeat center bottom;background-size:100% auto;font-size:20px;padding:3% 8% 3% 3px; }
+.visit-list .remarks{padding:8px 3px;font-size:20px;}
+.visit-list .remarks-box li{font-size:20px;line-height: 2;padding:0 8% 0 3px;}
+.visit-list .confirm{margin-top:3%;}
+.visit-list .confirm .btn{background:no-repeat center center;background-size:100% 100%;border-radius:0;width:30%;padding:8px 12px;}
+.visit-list .confirm .btn1{background-image:url(../img/a7.png);}
+.visit-list .confirm .btn2{background-image:url(../img/a8.png);}
+
+.work-summary-list .list, .to-do-audit .list { font-weight: bold; height: 35px; line-height: 35px; background: #f2f2f2; padding: 0 15px; }
+.work-summary-list .text, .to-do-audit .text { padding: 15px; color: #666; }
+.to-do-audit .text h5 { font-size: 18px; }
+.to-do-audit .text .fl { margin-right: 10px; }
+
+.modal-content { border: none; }
+.modal-header { background: #464e61; color: #fff; font-size: 20px; border-radius: 5px 5px 0 0; }
+.modal-content .confirm .btn1 { background: #626199; margin-bottom: 25px; }
+.modal-content .confirm .btn2 { background: #5ec4ab; }
+
+.add-visit, .add-follow-up { padding: 15px; }
+.add-visit label, .add-follow-up label { line-height: 32px; text-align: right; float: left; width: 25%; font-weight: normal; color: #666; }
+.add-visit .input-box, .add-follow-up .input-box { float: right; width: 70%; }
+
+textarea.form-control { text-align: left; }
+
+.add-theme { padding: 15px; }
+
+.add-follow-up .confirm .btn1 { background: #e11717; width: 40%; margin-right: 15px; }
+.add-follow-up .file-box { display: inline-block; position: relative; width: 40%; }
+.add-follow-up .file-box .file { opacity: 0; filter: alpha(opacity=0); position: absolute; left: 0; width: 100%; top: 0; height: 52px; z-index: 10; }
+.add-follow-up .file-box .btn { width: 100%; background: #5ec4ab; }
+.add-follow-up .confirm2 { margin-top: 25px; }
+
+.add-report { padding: 15px; }
+.add-report label { color: #666; font-weight: normal; }
+
+.notice .bd .list { font-size: 16px; }
+
+.my-crm .logo { background: url(../img/a2.png) no-repeat center center; height: 150px; width: 150px; margin: 10% auto 5% auto; background-size: 100% 100%; }
+.my-crm .nemo-text { font-size: 20px; margin: 0 15px 25px; padding-bottom: 20px; border-bottom: 1px solid #ececec; }
+.my-crm .confirm .btn { width: 40%; }
+.my-crm .confirm .btn1 { background: #626199; }
+.my-crm .confirm .btn2 { background: #5ec4ab; }
+
+.message-box { padding: 15px; box-shadow: 0 0 8px 8px #f0f0f0; margin: 15% 0; background: #fff; }
+.message-box li { width: 33.3%; float: left; text-align: center; }
+.message-box li a { color: #666; }
+.message-box li .circle { width: 85%; margin: 0 auto; margin-bottom: 10px; }
+.message-box li .circle img { display: block; width: 100%; }
+.message-box li .text { font-size: 16px; }
+.message-box li .text span { color: #ff0000; }
+
+@media only screen and (max-width: 411px) {
+    .see-visit-list .tabs .bd .list { font-size: 16px; }
+    .tabs .bd .text div { font-size: 12px; }
+    .tabs .bd .right { width: 40px; height: 40px; line-height: 40px; }
+    .tabs .bd ul:nth-child(2) .list { line-height: 40px; }
+}
+
+@media only screen and (max-width: 450px) {
+    .see-visit-list .tabs .bd .list { font-size: 16px; }
+    .see-visit-list .tabs .bd .text div { font-size: 12px; }
+    .see-visit-list .tabs .bd .right { width: 40px; height: 40px; line-height: 40px; }
+    .see-visit-list .tabs .bd ul:nth-child(2) .list { line-height: 40px; }
+    .to-do-audit .text h5 { font-size: 16px; }
+}
+
+@media only screen and (max-width: 362px) {
+    .see-visit-list .tabs .bd .list { font-size: 14px; }
+    .see-visit-list .tabs .bd .right { width: 30px; height: 30px; line-height: 30px; margin-top: 10px; }
+    .see-visit-list .tabs .bd ul:nth-child(2) .list { line-height: 30px; }
+}
+
+@media only screen and (min-width: 412px) {
+    .tabs .bd ul:nth-child(2) .list { line-height: 50px; }
+}
+
+@media only screen and (max-width: 399px)  {
+    .visit-list .cont-box { padding: 12% 10% 15% 10%; }
+    .visit-list .cont-box .theme {  font-size: 18px;   }
+    .visit-list .cont-box .list li {  font-size: 14px; padding: 3% 8% 3% 3px; }
+    .visit-list .remarks { padding: 8px 3px; font-size: 14px; }
+    .visit-list .remarks-box li { font-size: 14px; line-height: 1.6; padding: 0 8% 0 3px; }
+    .visit-list .confirm { margin-top: 10px; }
+}
+
+@media only screen and (max-width: 330px) {
+    .message-box li .text { font-size: 14px; }
+}

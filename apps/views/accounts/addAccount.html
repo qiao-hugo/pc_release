@@ -1,0 +1,397 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>添加跟进</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <link rel="stylesheet" href="static/css/weui.min.css" />
+    <link rel="stylesheet" href="static/css/jqueryui/jquery-weui.min.css" />
+    <link rel="stylesheet" href="static/css/example.css" />
+    <link rel="stylesheet" href="static/css/tyunwebbuyservice.css" />
+    <link rel="stylesheet" href="static/css/iconfont.css" />
+    <link rel="stylesheet" href="static/iconfont/iconfont.css">
+    <link  href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body  style="background: #F4F4F4;">
+<input type="hidden" name="modcommentsid" value="{$modcommentsid}" />
+<input id="accountId" name="accountId" type="hidden" value="{$ACCOUNTID}" />
+<div>
+    <div style="background: #626199;color:white;border-top: 0px;">
+        <div style="float: right;width: 20%;color:#626199;">1</div>
+        <div style="width: 60%;float:right;font-size: 1.2em;font-weight: bold;min-height: 1.1em;text-align: center;display: block;padding: .6em  0 ;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;outline: 0 !important;">{$accountName}</div>
+        <div  style="float: right;width: 20%;"><span style="margin-top: 7px;margin-left: 7px;background: none;border:none;color: white;font-size: 15px;font-weight: bold;width: 21px;height: 21px;background: url('../../static/img/returnback.png') no-repeat;overflow: hidden;background-size:cover;" type="button" class="btn btn-default"  onclick="javascript :history.back(-1);"></span></div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div style="padding: 20px 10px; margin: 20px;background: white;-webkit-border-radius: 8px;-moz-border-radius: 8px;border-radius: 8px;box-shadow:0 0 5px #9E9E9E;">
+        <table  width="100%">
+           <tbody>
+                {*<!--<tr>
+                    <td align="right"><label for="activitytype">跟进类型:</label></td>
+                    <td align="right">
+                            <select name="modcommenttype" class="form-control" >
+                                {foreach key=index item=COMMENTtype from=$COMMENTSTYPE}
+                                <option value="{$COMMENTtype}">{$COMMENTtype}</option>
+                                {/foreach}
+                            </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="taskpriority">联系人:</label></td>
+                    <td align="right">
+                            <select style="margin: 10px 0px;" class="form-control" name="modcommentcontacts" >
+                                {foreach key=index item=MODCOMMENTContacts from=$MODCOMMENTCONTACTS}
+                                <option value="{$MODCOMMENTContacts['contactid']}">{$MODCOMMENTContacts['name']}</option>
+                                {/foreach}
+                            </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="taskpriority">跟进方式:</label></td>
+                    <td align="right">
+                        <select style="margin: 10px 0px;" class="form-control" name="modcommentmode" >
+                            {foreach key=index item=COMMENTMode from=$COMMENTSMODE}
+                            <option value="{$COMMENTMode}">{$COMMENTMode}</option>
+                            {/foreach}
+                        </select>
+                    </td>
+                </tr>-->*}
+                <tr>
+                    <td colspan="2">
+                        <div class="form-group fix">
+                            <label>跟进类型:</label>
+                            <div class="input-box">
+                                <select name="modcommenttype" class="form-control" >
+                                    {foreach key=index item=COMMENTtype from=$COMMENTSTYPE}
+                                    <option value="{$COMMENTtype}">{$COMMENTtype}</option>
+                                    {/foreach}
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group fix">
+                            <label>意向度评估:</label>
+                            <div class="input-box">
+                                <select style="margin: 10px 0px;" class="form-control" name="accountintentionality" >
+                                    {foreach key=index item=COMMENTtype from=$ACCOUNTINTENTIONALITY}
+                                    <option value="{$index}">{$COMMENTtype}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group fix">
+                            <label>联系人:</label>
+                            <div class="input-box">
+                                <select style="margin: 10px 0px;" class="form-control" name="modcommentcontacts" >
+                                    {foreach key=index item=MODCOMMENTContacts from=$MODCOMMENTCONTACTS}
+                                    <option value="{$MODCOMMENTContacts['contactid']}">{$MODCOMMENTContacts['name']}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group fix">
+                            <label>跟进方式:</label>
+                            <div class="input-box">
+                                <select style="margin: 10px 0px;" class="form-control" name="modcommentmode" >
+                                    {foreach key=index item=COMMENTMode from=$COMMENTSMODE}
+                                    <option value="{$COMMENTMode}">{$COMMENTMode}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div  id="firstInput" class="add-visit" style="display:none;">
+                            <div class="form-group fix">
+                                <label>1.客户资料来源</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="客户资料来源" type="text" placeholder=""  data-thisid="1" name="followup[1]"  class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>2.客户语气态度</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="客户语气态度" type="text" placeholder=""  data-thisid="2" name="followup[2]"  class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>3.是否了解过珍岛</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="是否了解过珍岛" type="text" placeholder=""  data-thisid="3" name="followup[3]"  class="form-control">
+                                </div>
+                            </div>
+                            <fieldset>
+                                <div class="form-group fix">
+                                    <label>4.客户质量</label>
+                                </div>
+                                <div class="form-group fix">
+                                    <label> &nbsp; &nbsp;&nbsp;①注册时间</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="注册时间" type="text" placeholder=""  data-thisid="4" name="followup[4]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label> &nbsp; &nbsp;&nbsp;①注册资金</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="注册资金" type="text" placeholder=""  data-thisid="5" name="followup[5]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label> &nbsp; &nbsp;&nbsp;①法人还是股东</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="法人还是股东" type="text" placeholder=""  data-thisid="6" name="followup[6]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label> &nbsp; &nbsp;&nbsp;②意向点</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="意向点" type="text" placeholder=""  data-thisid="7" name="followup[7]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label> &nbsp; &nbsp;&nbsp;③客户行业和产品</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="客户行业和产品" type="text" placeholder=""  data-thisid="8" name="followup[8]"   class="form-control">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group fix">
+                            <label>5.本次未能邀约见面的原因</label>
+                            <div class="input-box">
+                                <input data-toggle="popover" data-placement="bottom"
+                                       data-content="本次未能邀约见面的原因" type="text" placeholder=""   data-thisid="9" name="followup[9]"   class="form-control">
+                            </div>
+                        </div>
+                            <div class="form-group fix">
+                                <label>6.预约下次电话的时间</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="预约下次电话的时间" type="text" placeholder=""  data-thisid="10" name="followup[10]"   class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div  id="firstVisit" class="add-visit" style="display:none;">
+                            <div class="form-group fix">
+                                <label>1.公司规模，公司大概多少人</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="公司规模，公司大概多少人" type="text" placeholder=""  data-thisid="1" name="followupvisit[1]"  class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>2.拜访的负责人/老板</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="拜访的负责人/老板" type="text" placeholder="（若是负责人，写清楚具体职位）"  data-thisid="2" name="followupvisit[2]"  class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>3.拜访人性格描述</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="拜访人性格描述" type="text" placeholder=""  data-thisid="3" name="followupvisit[3]"  class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>4.拜访人年龄阶段/老家哪里</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="拜访人年龄阶段/老家哪里" type="text" placeholder=""   data-thisid="4" name="followupvisit[4]"   class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>5.客户目前的网络现状</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="客户目前的网络现状" type="text" placeholder=""  data-thisid="5" name="followupvisit[5]"   class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label>6.客户问了哪些问题</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="客户目前的网络现状" type="text" placeholder=""  data-thisid="6" name="followupvisit[6]"   class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group fix">
+                                <label> 7.整个面谈过程中，客户对那几个点比较感兴趣</label>
+                                <div class="input-box">
+                                    <input data-toggle="popover" data-placement="bottom"
+                                           data-content="整个面谈过程中，客户对那几个点比较感兴趣" type="text" placeholder=""  data-thisid="7" name="followupvisit[7]"   class="form-control">
+                                </div>
+                            </div>
+
+                            <fieldset>
+
+                                <div class="form-group fix">
+                                <label>8.关于我们谈判中给到客户方的信息</label>
+                                </div>
+
+                                <div class="form-group fix">
+                                    <label>&nbsp;&nbsp;①谈的什么产品/版本/年限</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="谈的什么产品/版本/年限" type="text" placeholder=""  data-thisid="8" name="followupvisit[8]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label>&nbsp;&nbsp;②给客户报价多少，是否提到优惠，如果提到了，提到的优惠是什么</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="给客户报价多少，是否提到优惠，如果提到了，提到的优惠是什么" type="text" placeholder=""  data-thisid="9" name="followupvisit[9]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label>&nbsp;&nbsp;③当时给客户介绍的案例是哪些</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="当时给客户介绍的案例是哪些" type="text" placeholder=""  data-thisid="10" name="followupvisit[10]"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group fix">
+                                    <label>&nbsp;&nbsp;④客户没有当场签单的原因</label>
+                                    <div class="input-box">
+                                        <input data-toggle="popover" data-placement="bottom"
+                                               data-content="客户没有当场签单的原因" type="text" placeholder=""  data-thisid="11" name="followupvisit[11]"  class="form-control">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        {*<!--<div id="firstInput1" style="display:none;border-left: 5px solid #f0ad4e;border-radius: 3px;padding-left: 20px;box-shadow:2.9px 3.99px 3px  rgba(0,0,0,.5)"><h5 style="color: #FF9E0E;"><首次客户录入系统跟进>跟进内容规范提示：</h5>
+                            <p style="margin:2px;">
+                                1.客户资料来源？<br>
+                                2.客户语气态度？<br>
+                                3.是否了解过珍岛？<br>
+                                4.客户质量<br>
+                                ①注册时间，注册资金，法人还是股东？<br>
+                                ②意向点：是否主动让加微信，客户微信同意情况，电话通话时间，客户问的问题<br>
+                                ③客户行业和产品<br>
+                                5.本次未能邀约见面的原因（邀约成功可不写）<br>
+                                6.预约下次电话的时间（邀约成功可不写）？<br>
+                            </p>
+                        </div>
+                        <div id="firstVisit1" style="display:none;border-left: 5px solid #f0ad4e;border-radius: 3px;padding-left: 20px;box-shadow:2.9px 3.99px 3px  rgba(0,0,0,.5) "><h5 style="color: #FF9E0E;"><首次拜访客户后跟进>跟进内容规范提示：</h5>
+                            <p style="margin: 2px;">
+                                1.公司规模，公司大概多少人<br>
+                                2.拜访的负责人/老板（若是负责人，写清楚具体职位）<br>
+                                3.拜访人性格描述<br>
+                                4.拜访人年龄阶段/老家哪里<br>
+                                5.客户目前的网络现状，比如投入了那些平台，花了多少钱，做了大概多久<br>
+                                6.客户问了哪些问题<br>
+                                7.整个面谈过程中，客户对那几个点比较感兴趣？<br>
+                            </p>
+                        </div>-->*}
+                        <textarea  class="form-control" rows="3" name="commentcontents" id="commentcontent"  placeholder="在这里添加你要跟进的内容......"></textarea>
+                    </td>
+                </tr>
+
+           </tbody>
+        </table>
+        <div>
+            <button  style="float: right;margin-top:10px;margin-right: 20px;" type="button" id="alertPeople" class="btn btn-info">确定</button>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="static/js/jquery-2.1.0.min.js"></script>
+<script src="./js/jqueryweui/jquery-weui.min.js"></script>
+<script type="text/javascript" src="static/js/watermark.js"></script>
+<script>
+    $('[name=modcommenttype]').change(function(){
+        var modcommenttype=$(this).val();
+        if(modcommenttype=='首次客户录入系统跟进'){
+            $("#firstInput").css("display","block");
+            $("#firstVisit").css("display","none");
+            $("#commentcontent").css("display","none");
+        }else if(modcommenttype=='首次拜访客户后跟进'){
+            $("#firstInput").css("display","none");
+            $("#firstVisit").css("display","block");
+            $("#commentcontent").css("display","none");
+        }else{
+            $("#firstInput").css("display","none");
+            $("#firstVisit").css("display","none");
+            $("#commentcontent").css("display","block");
+        }
+    });
+    $('#alertPeople').click(function(){
+        var modcommentpurpose='';
+        var modcommentcontacts = $('[name=modcommentcontacts]').val();
+        var modcommenttype = $('[name=modcommenttype]').val();
+        var modcommentmode = $('[name=modcommentmode]').val();
+        var commentcontents = $('[name=commentcontents]').val();
+        var accountid = $('#accountId').val();
+        var contact_id = $('[name=modcommentcontacts]').val();
+        var related_to = $('#accountId').val();
+        var moduleid= $('#accountId').val();
+        var accountintentionality = $("select[name='accountintentionality']").val();
+        var trueflag=true;
+        var followupData=[];
+        if(modcommenttype=='首次客户录入系统跟进' || modcommenttype=='首次拜访客户后跟进'){
+            trueflag=false;
+            var followupflag=false;
+            if(modcommenttype=='首次拜访客户后跟进'){
+                var followupdata=$('input[name*="followupvisit["]');
+                var thisNum=11;
+            }else{
+                var followupdata=$('input[name*="followup["]');
+                var thisNum=9;
+            }
+            $.each(followupdata,function(key,value){
+                var valuedata=$(value).val();
+                var thisid=$(value).data('thisid')
+                followupData[key]=key+'**#**'+valuedata;
+                if($.trim(valuedata)=='' && thisid<thisNum){
+                    $(value).focus();
+                    alert($(value).data('content')+'必填');
+                    followupflag=true;
+                    return false;
+                }
+
+            });
+            if(followupflag){
+                return false;
+            }
+        }
+        if((commentcontents == '' || commentcontents==null) && trueflag){
+            alert('填写跟进内容');
+            return false;
+        }
+        if(accountintentionality==''){
+            alert('请选择意向度评估');
+            return false;
+        }
+
+        $.ajax({
+            url: "index.php?module=Accounts&action=addFollowInfo",
+            data: {
+                modcommentcontacts : modcommentcontacts,
+                modcommenttype : modcommenttype,
+                modcommentpurpose : modcommentpurpose,
+                modcommentmode : modcommentmode,
+                commentcontents : commentcontents,
+                modulename:'Accounts',
+                contact_id : contact_id,
+                related_to : related_to,
+                moduleid : moduleid,
+                accountid:accountid,
+                followupdata:followupData,
+                accountintentionality:accountintentionality
+            },
+            type:'POST',
+            dataType:'JSON',
+            success: function (data) {
+                alert("添加成功");
+                window.location.href="index.php?module=Accounts&action=userDetail&record="+accountid;
+            },error:function(){
+            }
+        });
+    });
+</script>

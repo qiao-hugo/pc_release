@@ -1,0 +1,950 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>T云服务购买</title>
+    {include file="header.html"}
+    <link href="static/css/select2.css" rel="stylesheet" type="text/css" />
+    <script src="static/js/jquery.form.js?v={$versionjs}"></script>
+    <script src="static/js/select2.js?v={$versionjs}"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+    {literal}
+    <style type="text/css">
+        html,body{
+            height:100%;
+        }
+        .rowFrame{
+            overflow-y:auto;
+            min-height: 50%;
+        }
+        .cls_servicetype{
+            background: #3590df;
+            color: white;
+            border-radius: 5px;
+            padding-top: 8px;
+        }
+        *{
+            text-shadow:none;
+        }
+        .ui-page{
+            height:100%;
+        }
+
+        .footer{
+            position: absolute;
+            bottom:0
+        }
+        .close{
+            color:#fff;
+            text-shadow:0 1px 0 #000;
+            opacity: 1;
+        }
+        .form-group{
+            margin-bottom:10px;
+        }
+        #loading{background-color:#000000;height:100%;width:100%;position:fixed;z-index:99999;margin:0px;padding:0px;top:0px;opacity: 0.5;}
+        #loading-center{width:100%;height:100%;position: relative;}
+        #loading-center-absolute {position:absolute;left:50%;top:50%;height:20px;width:100px;margin-top:-10px;margin-left:-50px;}
+        .object{width:20px;height:20px;color:#333;font-size:10px;text-align:center;line-height:20px;background-color: #FFF;-moz-border-radius: 50% 50% 50% 50%;-webkit-border-radius: 50% 50% 50% 50%;border-radius: 50% 50% 50% 50%;margin-right: 20px;margin-bottom: 20px;position: absolute;opacity: 1;}
+        #object_one{-webkit-animation: object 2s linear infinite;animation: object 2s linear infinite;}
+        #object_two{-webkit-animation: object 2s linear infinite -.4s;animation: object 2s linear infinite -.4s;}
+        #object_three{-webkit-animation: object 2s linear infinite -.8s;animation: object 2s linear infinite -.8s;}
+        #object_four{-webkit-animation: object 2s linear infinite -1.2s;animation: object 2s linear infinite -1.2s;}
+        #object_five{-webkit-animation: object 2s linear infinite -1.6s;animation: object 2s linear infinite -1.6s;}
+        @-webkit-keyframes object{0% {left:100px;top:0} 80% {left:0;top:0;} 85% {left:0;top:-20px;width:20px;height:20px;} 90% {width:40px;height:15px;} 95% {left:100px;top:-20px;width:20px;height:20px;} 100% {left:100px; top:0; }}
+        @keyframes object{0% { left:100px;top:0} 80% {left:0;top:0;} 85% {left:0;top:-20px;width:20px;height:20px;} 90% {width:40px; height:15px;} 95% {left:100px;top:-20px;width:20px;height: 20px;} 100% {left: 100px; top:0; }}
+
+        .verificationcode-msg{
+            width: 250px;
+            height: 210px;
+            position: absolute;
+            top: 100px;
+            z-index: 9999;
+            left: 75px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .tyun-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.5);
+            display: none;
+        }
+
+        .cls_service_table{
+            width:100%;
+        }
+        .cls_service_table tr{
+            height: 35px;
+        }
+        .cls_service_table th{
+            border: 1px solid #ccc;
+            text-align: center;
+            background-color: #eee;
+        }
+        .cls_service_table td{
+            text-align: center;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            height: 34px;
+            padding: 5px 2px;
+        }
+    </style>
+    {/literal}
+</head>
+<body>
+<div id="div_buy_determine_input" class="container-fluid w fix rowFrame" style='padding-bottom:0;'>
+    <div class="row ">
+            <div class="add-visit">
+                <div class="form-group fix">
+                    <input type="hidden" id="contractid" value="" >
+                    <input type="hidden" id="contractowenid" value="">
+                    <input type="hidden" id="receivetimeflag" value="-1">
+                    <input type="hidden" id="isCustomServiceAdmin" value="{$is_cs_admin}">
+                    <input type="hidden" id="isIgnoreCheck" value="{$is_ignore_check}">
+
+                    <div class="input-group">
+                        <div class="input-group-addon">购买合同</div>
+                        <input type="text" data-toggle="popover" data-placement="bottom" placeholder="输入合同编号后4位"
+                               data-content="购买合同不能为空" id="contractcode"  name="contractcode" class="form-control keyInput">
+                        <div class="input-group-addon" onclick="searchBuyContract()" id="searchBuyContract"><i onclick="searchBuyContract()" id="searchBuyContract_li" class="fa icon-search" aria-hidden="true"></i></div>
+                    </div>
+                    <div>
+                        <span style="color:red" id="contractowenidmsg"></span>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">合同金额</div>
+                        <input type="number" data-toggle="popover" data-placement="bottom" data-content="合同金额不能为空" id="contractamount"  class="form-control" value="">
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <input type="hidden" id="customerid"  value="" >
+                    <input type="hidden" id="customerowenid" value="" >
+                    <div class="input-group">
+                        <div class="input-group-addon">购买客户</div>
+                        <input type="text" data-toggle="popover" data-placement="bottom" placeholder="输入客户名称"
+                               data-content="客户名称不能为空" id="customername_display"  class="form-control keyInput">
+                        <div class="input-group-addon" onclick="searchBuyCustome()" id="searchBuyCustome"><i class="fa icon-search" aria-hidden="true"></i></div>
+                    </div>
+                    <div>
+                        <span style="color:red" id="customerowenidmsg"></span>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">购买产品</div>
+                        <select id="productid" class="form-control" onchange="select_product(this.options[this.options.selectedIndex].value);"  data-toggle="popover" data-placement="bottom" data-content="购买产品必选">
+
+                        </select>
+                        <input type="hidden" id="pipre" value="">
+                    </div>
+                </div>
+
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">购买年限</div>
+                        <select id="productlife" class="form-control" onchange="select_year(this.options[this.options.selectedIndex].value);" data-toggle="popover" data-placement="bottom" data-content="购买年限必选">
+
+                        </select>
+                        <input type="hidden" id="plpre" value="">
+                    </div>
+                </div>
+                {if $is_cs_admin eq 1}
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">购买时间</div>
+                            <input data-toggle="popover" data-placement="bottom"
+                                   data-content="购买时间不能为空" type="date" id="buydate" name="buydate" placeholder="购买时间" class="form-control" value="">
+                    </div>
+                </div>
+                {/if}
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">客户手机</div>
+                        <input type="number" data-toggle="popover" data-placement="bottom" data-content="客户手机号码不能为空" id="mobile"  class="form-control" value="">
+                    </div>
+                    <div>
+                        <span style="color:red">激活码将与此手机号码绑定，请与客户确认。</span>
+                    </div>
+                </div>
+                <div class="form-group fix">
+                    <div class="input-group">
+                        <div class="input-group-addon">代理标识</div>
+                        <input type="number" data-toggle="popover" data-placement="bottom" data-content="代理商标识码不能为空" id="agents" value="{$agents}" class="form-control"  readonly="true">
+                    </div>
+                </div>
+
+                <div class="form-group fix" id="div_tyun_serviceitem">
+                    <div style="text-align: center;">
+                        <table class="cls_service_table">
+                            <tbody>
+                            <!--<tr>
+                                <td style="width: 40%;border: 0px">
+                                    <select id="servicename" name="servicename" class="form-control" onchange="pl(this.options[this.options.selectedIndex].value);" data-toggle="popover" data-placement="bottom" data-content="服务名称">
+                                        <option value='1'>小程序</option>
+                                        <option value='2'>V5</option>
+                                    </select>
+                                </td>
+                                <td style="border: 0px">
+                                    <select id="buycount" name="buycount" class="form-control" onchange="pl(this.options[this.options.selectedIndex].value);" data-toggle="popover" data-placement="bottom" data-content="购买数量">
+                                        <option value='1'>1套</option>
+                                        <option value='2'>2套</option>
+                                    </select>
+                                </td>
+                                <td style="border: 0px">
+                                    <select id="buyyear" name="buyyear" class="form-control" onchange="pl(this.options[this.options.selectedIndex].value);" data-toggle="popover" data-placement="bottom" data-content="购买数量">
+                                        <option value='1'>1年</option>
+                                        <option value='2'>2年</option>
+                                    </select>
+                                </td>
+                                <td style="width: 10px;border: 0px"><i class="fa icon-minus fa-6" aria-hidden="true" title="移除"></i></td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group fix" id="div_serviceItem">
+                    <div style="text-align: center;padding: 5px;"><i class="fa icon-plus" aria-hidden="true"></i><span style="color: blue;font-weight: 600;font-size: 15px;padding-left: 5px;" onclick="add_TyunServiceItem('btn_tyun_buy',0)">添加另购服务</span></div>
+                </div>
+
+                <div class="confirm tc">
+                    <input type="button"  class="btn" data-toggle="popover" data-placement="top"
+                           data-content="正在处理,请稍等…" value="确定购买" id="btn_tyun_buy" onclick="doDetermineBuy()">
+                </div>
+
+            </div>
+    </div>
+</div>
+<!-- 购买确认页面 -->
+<div id="div_buy_determine_save" class="container-fluid w fix rowFrame" style='padding-bottom:0;display: none'>
+    <div class="row ">
+        <form id='frm_buy' method="POST">
+            <input type="hidden" id="agents_save" name="agents" >
+            <input type="hidden" id="mobile_save" name="mobile" >
+            <input type="hidden" id="auth_code_save" name="auth_code" >
+            <input type="hidden" id="contractamount_save" name="contractamount">
+            <input type="hidden" id="buydate_save" name="buydate">
+            <div class="add-visit" style="padding: 0px">
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <div style="text-align: center;padding: 5px;"><span style="color: red;font-weight: 600;font-size: 15px;">请确认以下购买内容</span></div>
+                </div>
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">成交合同</label>
+                    <div class="input-box">
+                        <label id="contractcode_display2" style="width: 100%;text-align: left"></label>
+                        <input type="hidden" id="contractname_display_save" name="contractname_display">
+                        <input type="hidden" id="contractid_save" name="contractid" >
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">合同金额</label>
+                    <div class="input-box">
+                        <label id="contractamount_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">客户名称</label>
+                    <div class="input-box">
+                        <label id="oldcustomername_display2" style="width: 100%;text-align: left"></label>
+                        <input type="hidden" id="customerid_save" name="customerid" >
+                        <input type="hidden" id="customername_display_save" name="customername">
+                    </div>
+                </div>
+
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">购买版本</label>
+                    <div class="input-box">
+                        <label id="oldproductname_display2" style="width: 100%;text-align: left"></label>
+                        <input type="hidden" id="productid_save" name="productid">
+                    </div>
+                </div>
+                <div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">购买年限</label>
+                    <div class="input-box">
+                        <label id="productlife_display2" style="width: 100%;text-align: left"></label>
+                        <input type="hidden" id="productlife_save" name="productlife">
+                    </div>
+                </div>
+                <!--<div class="form-group fix" style="margin-bottom:0px">
+                    <label style="font-weight: 800;">到期日期</label>
+                    <div class="input-box">
+                        <label id="expiredate_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>-->
+                <div class="form-group fix"  style="margin-bottom:0px">
+                    <label style="font-weight: 800;">购买日期</label>
+                    <div class="input-box">
+                        <label id="buydate_display2" style="width: 100%;text-align: left"></label>
+                    </div>
+                </div>
+
+                <div class="form-group fix">
+                    <label style="font-weight: 800;">另购服务</label>
+                    <div style="text-align: center;padding: 5px;">
+                        <table class="cls_service_table">
+                            <tr>
+                                <th style="width: 50%">服务名称</th>
+                                <th style="width: 25%">数量</th>
+                                <!--<th style="width: 25%">年限</th>-->
+                            </tr>
+                            <tbody id="tbody_service_display">
+                            <!--<tr>
+                                <td>小程序</td>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="div_hid_service_save"></div>
+                </div>
+
+                <div class="confirm tc">
+                    <input type="button" id='doback' class="btn" data-toggle="popover" data-placement="top" style="background: #9b9ba0;"
+                           value="返回修改" onclick="back_edit()">
+                </div>
+                <div class="confirm tc">
+                    <input type="button" id='dosave' class="btn" data-toggle="popover" data-placement="top"
+                           data-content="正在处理,请稍等…" value="确定购买" onclick="buy_save()">
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<div id="bg" class="tyun-mask"></div>
+<div class="panel panel-default verificationcode-msg">
+    <div style="text-align: center;border-radius: 10px;font-size: 18px;padding-top: 10px;font-weight: 800;">短信验证</div>
+    <div class="panel-body">
+        <label>验证码已发送至手机：</label>
+        <div class="form-group fix" style="text-align: center;">
+            <label id="lbl_mobile"></label>
+        </div>
+        <div class="form-group fix" style="text-align: center;display: flex;">
+            <input type="text" id="verificationcode1" data-index="1" class="form-control keyInput verificationcode" style="width: 40px;margin-right: 5px;" maxlength="1">
+            <input type="text" id="verificationcode2" data-index="2" class="form-control keyInput verificationcode" style="width: 40px;margin-right: 5px;" maxlength="1">
+            <input type="text" id="verificationcode3" data-index="3" class="form-control keyInput verificationcode" style="width: 40px;margin-right: 5px;" maxlength="1">
+            <input type="text" id="verificationcode4" data-index="4" class="form-control keyInput verificationcode" style="width: 40px;margin-right: 5px;" maxlength="1">
+            <input type="text" id="verificationcode5" data-index="5" class="form-control keyInput verificationcode" style="width: 40px;" maxlength="1">
+        </div>
+        <div class="form-group fix" style="float: right;">
+            <input id="btn_finishVerification" type="button" class="btn" style="border-radius: 25px;font-weight: 900; color: white;background-color: royalblue;" data-toggle="popover" data-placement="top" value="完成验证" onclick="finishVerification()" disabled="disabled">
+            <label style="width: 15px"></label>
+            <input type="button" class="btn btn-default" id="sendVerify" onclick="settime(this);" value="发送验证码">
+        </div>
+    </div>
+</div>
+
+<div id="loading" style="display: none;">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"style="background-color:green;"></div>
+            <div class="object" id="object_two" style="left:20px;">理</div>
+            <div class="object" id="object_three" style="left:40px;">处</div>
+            <div class="object" id="object_four" style="left:60px;">在</div>
+            <div class="object" id="object_five" style="left:80px;">正</div>
+        </div>
+    </div>
+</div>
+{literal}
+<script src="js/tyunBuyService.js"></script>
+<script>
+    $("input").attr('data-role','none');
+    $("select").attr('data-role','none');
+    $("a").attr('data-role','none');
+    //禁止a标签ajax跳转
+    $("a").attr('data-ajax','false');
+    $("div,ul,li,span").attr('data-role','none');
+
+    //初始化购买产品
+    initBuyProductList("productid");
+    //初始化购买年限
+    initBuyYearList("productlife");
+
+    //禁用juqery mobile 加载自带的样式
+    $(document).bind("mobileinit", function(){
+        $.mobile.page.prototype.options.keepNative = "select, input, textarea, a,div,ul,li,span,button,form";
+    });
+
+    //验证码变更
+    $(".verificationcode-msg .verificationcode").on('input',function(){
+        var bl_check = true;
+        $(".verificationcode-msg .verificationcode").each(function () {
+            if($(this).val() == ''){
+                bl_check = false;
+                return false;
+            }
+        })
+        if(bl_check){
+            $("#btn_finishVerification").removeAttr("disabled");
+        }else{
+            $("#btn_finishVerification").attr("disabled","disabled");
+            var num = parseInt($(this).attr("data-index"))+1;
+            $("#verificationcode"+ num).focus();
+        }
+    });
+
+    var countdown=60;
+    function settime(obj){
+        var mobile = $("#mobile").val();
+        if(mobile == ''){
+            Tips.alert({
+                content: '手机号码不能为空'
+            });
+            return false;
+        }
+        var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if (!reg.test(mobile)) {
+            Tips.alert({
+                content: '手机号码填写有误'
+            });
+            return false;
+        }
+        if(countdown == 60){
+            countdown = 59;
+            obj.setAttribute("disabled", true);
+            obj.setAttribute("class", 'btn btn-default');
+            sendMobileVerify(mobile);
+        }
+
+        if(countdown == 0){
+            obj.removeAttribute("disabled");
+            obj.setAttribute("class", 'btn btn-default');
+            obj.value="发送验证码";
+            countdown = 60;
+            return false;
+        }else{
+            obj.setAttribute("disabled", true);
+            obj.setAttribute("class", 'btn btn-default');
+            obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+            settime(obj) },1000);
+    }
+
+    blankFixExt('keyInput', 'keyText');
+    function blankFixExt(node, targetNode) {
+        $(document).bind('click', function (e) {
+            var o = "." + node + ",." + node + " *";
+
+            if (!$(e.target).is(o)&& (e.target.id)!='searchBuyContract' && (e.target.id)!='searchBuyContract_li') {
+                $('.' + targetNode).hide();
+            }
+        });
+    }
+    $("#searchBuyContract_li").click(function(event){
+        event.stopPropagation();//阻止事件冒泡即可
+    });
+
+    function mark(type) {
+        if(type == 'show') {
+            //加载一个遮罩层
+            $('#bg').show();
+            $('#bg').bind("touchmove",function(e){
+                e.preventDefault();
+            });
+            $(".verificationcode-msg").show();
+            $("#verificationcode1").focus();
+        } else {
+            $('#bg').hide();
+            $(".verificationcode-msg").hide();
+        }
+    }
+
+    //搜索购买合同
+    function searchBuyContract() {
+        var o = $('#contractcode');
+        var ov = o.val();
+        var op = o.parent();
+        var sb = [];
+        if('' == ov){
+            Tips.alert({
+                content: '合同编号不能为空',
+            });
+            return;
+        }
+        o.next('ul').remove();
+        $('.delefalg').remove();
+        var dheight=$(document).height();
+        dheight=dheight*0.5;
+        oul = op.append('<ul class="keyText delefalg" style="max-height:'+dheight+'px;overflow:auto;left: 82px"></ul>');
+
+        if (ov) {
+            op.addClass('keyBox');
+            $('#loading').show();
+            $.ajax({
+                //url: '/index.php?module=ActivationCode&action=searchContract&contract_no='+ov,
+                url: '/index.php?module=TyunBuyService&action=searchTyunBuyServiceContract&contract_no='+ov,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#loading').hide();
+                    if (data && data.length > 0) {
+                        for (var i = 0;i<data.length; i++) {
+                            //console.log(data[i].item.servicecontracts_no);alert(data[i]['servicecontracts_no']);
+                            var item2=data[i];
+                            var nArr = item2.contract_no;
+                            var nid = item2.servicecontractsid;
+                            var username = item2.username;
+                            var userid = item2.userid;
+                            var oli=op.children('ul');
+                            oli.append("<li onclick='selectBuyContract(\""+nArr+"\", \""+nid+"\", \""+username+"\", \""+userid+"\" )'>" + nArr + '</li>');
+
+                        }
+
+                    }else{
+                        Tips.alert({
+                            content: '找不到合同编号',
+                            define:'确定',
+                            after:function(){
+                                $("#contractcode").val('');
+                                $("#contractid").val('');
+                            }
+                        });
+
+                    }
+                },error:function(){
+                    $('#loading').hide();
+                    Tips.alert({
+                        content: 'error'
+                    });
+                }
+            });
+        }
+    }
+    function selectBuyContract(contract_no, servicecontractsid,username,userid){
+        $("#contractid").val(servicecontractsid);
+        $("#contractcode").val(contract_no);
+        $("#contractowenid").val(userid);
+        $("#contractowenidmsg").text('合同提单人:'+username);
+        window.scroll(0,0)
+    }
+
+    //搜索购买客户
+    function searchBuyCustome() {
+        var o = $('#customername_display');
+        var ov = o.val();
+        var op = o.parent();
+        var sb = [];
+        if('' == ov){
+            Tips.alert({
+                content: '客户名称不能为空',
+            });
+            return;
+        }
+        o.next('ul').remove();
+        $('.delefalg').remove();
+        var dheight=$(document).height();
+        dheight=dheight*0.5;
+        oul = op.append('<ul id="keyText2" class="keyText delefalg" style="max-height:'+dheight+'px;overflow:auto;left: 82px"></ul>');
+
+        if (ov) {
+            $('#loading').show();
+            op.addClass('keyBox');
+            $.ajax({
+                url: '/index.php?module=Accounts&action=searchAccount&company='+ov,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#loading').hide();
+                    if (data && data.length > 0) {
+                        for (var i = 0;i<data.length; i++) {
+                            var item2=data[i];
+                            var nArr = item2.value;console.log(nArr)
+                            var oli=op.children('ul');
+                            oli.append("<li onclick='selectBuyCustome("+item2.id+")'>" + nArr + '</li>');
+
+                        }
+                        $("#keyText2").show();
+                    }else{
+                        Tips.alert({
+                            content: '找不到客户',
+                            define:'确定',
+                            after:function(){
+                                $("#customername_display").val('');
+                                $("#customerid").val('');
+                            }
+                        });
+                    }
+                },error:function(){
+                    $('#loading').hide();
+                    Tips.alert({
+                        content: 'error'
+                    });
+                }
+            });
+        }
+    }
+    function selectBuyCustome(id){
+        var idval = id;
+        $.ajax({
+            url: "/index.php?module=Accounts&action=getAccountMsg&id="+id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if(data==''){
+                    Tips.alert({
+                        content: '客户信息不全'
+                    });
+                    return false;
+                }
+                //$('#destination').val(data.address);
+                $('#customerid').val(data.accountid);
+                $('#customerowenid').val(data.userid);
+                $('#customerowenidmsg').text('客户负责人:'+data.username);
+                //$('#contacts').val(data.linkname);
+                $('#customername_display').val(data.accountname);//$('#related_to_display').val(data.accountname);
+                //$('#customeraddress').val(data.customeraddress);
+            },error:function(){
+                Tips.alert({
+                    content: 'error'
+                });
+            }
+        });
+    }
+
+    //确认购买
+    function doDetermineBuy() {
+        //if(!checkServiceInput()) return;
+        //$("#sendVerify").click();
+        //doConfirmPage();
+        //return;
+
+        //合同编号
+        $('#contractid').popover('destroy');
+        if(''==$('#contractid').val()){
+            $('#contractcode').focus();
+            $("#contractcode").val('');
+            $("#contractid").val('');
+            $('#contractcode').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#contractcode').popover('destroy')",2000);
+            return;
+        }
+
+        //合同金额
+        $('#contractamount').popover('destroy');
+        if(''==$('#contractamount').val()){
+            $('#contractamount').focus();
+            $("#contractamount").val('');
+            $('#contractamount').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#contractamount').popover('destroy')",2000);
+            return;
+        }
+
+        //客户名称
+        $('#customerid').popover('destroy');
+        if(''==$('#customerid').val()){
+            $('#customername_display').focus();
+            $("#customername_display").val('');
+            $("#customerid").val('');
+            $('#customername_display').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#customername_display').popover('destroy')",2000);
+            return;
+        }
+        //购买产品
+        $('#productid').popover('destroy');
+        if(''==$('#productid').val()){
+            $('#productid').focus();
+            $("#productid").val('');
+            $('#productid').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#productid').popover('destroy')",2000);
+            return;
+        }
+        //购买年限
+        $('#productlife').popover('destroy');
+        if(''==$('#productlife').val()){
+            $('#productlife').focus();
+            $("#productlife").val('');
+            $('#productlife').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#productlife').popover('destroy')",2000);
+            return;
+        }
+        //客户手机
+        $('#mobile').popover('destroy');
+        if(''==$('#mobile').val()){
+            $('#mobile').focus();
+            $("#mobile").val('');
+            $('#mobile').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#mobile').popover('destroy')",2000);
+            return;
+        }
+        //代理商标识
+        $('#agents').popover('destroy');
+        if(''==$('#agents').val() || '0'==$('#agents').val()){
+            $('#agents').focus();
+            $("#agents").val('');
+            $('#agents').popover("show");
+            $('.popover-content').css({"color":"red","fontSize":"12px"});
+            setTimeout("$('#agents').popover('destroy')",2000);
+            return;
+        }
+
+        //购买时间
+        var is_cs_admin = $("#isCustomServiceAdmin").val();
+        if(is_cs_admin == '1'){
+            var buydate = $('#buydate').val();
+            if(''== buydate){
+                $('#buydate').focus();
+                $("#buydate").val('');
+                $('#buydate').popover("show");
+                $('.popover-content').css({"color":"red","fontSize":"12px"});
+                setTimeout("$('#buydate').popover('destroy')",2000);
+                return;
+            }
+            var curDate = new Date();
+            var dt_expiredate = new Date(buydate.replace(/\-/g, "\/"));
+            if(dt_expiredate > curDate){
+                Tips.alert({
+                    content: '购买时间必须小于等于系统时间',
+                });
+                return;
+            }
+        }
+
+        var reg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var mobile = $("#mobile").val();
+        if (!reg.test(mobile)) {
+            Tips.alert({
+                content: '手机号码填写有误'
+            });
+            return;
+        }
+
+        var isIgnoreCheck = $("#isIgnoreCheck").val();
+        if(isIgnoreCheck != '1') {
+            //合同负责人和客户负责人是否一致
+            if ($('#contractowenid').val() != $('#customerowenid').val() || $('#customerowenid').val() == '' || $('#contractowenid').val() == '') {
+                Tips.alert({
+                    content: '合同提单人与客户负责人不是同一人'
+                });
+                return;
+            }
+        }
+
+        //判断另购服务是否重复
+       if(!checkServiceInput('buy')) return;
+
+        //发送手机验证码
+        $("#sendVerify").click();
+        //doConfirmPage();
+    }
+
+    //发送手机验证码
+    function sendMobileVerify(mobile){
+        $.ajax({
+            url: "/index.php?module=ActivationCode&action=ajaxGetMobileVerify&mobile="+mobile,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if(!data.success){
+                    Tips.alert({
+                        content: data.msg,
+                    });
+                }else{
+                    //跳转到确认页面
+                    doConfirmPage();
+                }
+            }
+        });
+    }
+    //跳转到确认页面
+    function doConfirmPage() {
+        //购买合同
+        $("#contractcode_display2").text($("#contractcode").val());
+        $("#contractamount_display2").text($("#contractamount").val());
+        //购买客户
+        $("#oldcustomername_display2").text($("#customername_display").val());
+        //购买版本
+        $("#oldproductname_display2").text($("#productid").val()==''?'':$("#productid").find("option:selected").text());
+        //购买年限
+        $("#productlife_display2").text($("#productlife").val()==''?'':$("#productlife").find("option:selected").text());
+        //购买时间
+        $("#buydate_save").val($("#buydate").val());
+        //到期日期
+       /* var curDate = new Date();
+        var buy_year = $("#productlife").val();
+        if(buy_year == '') buy_year = '0';
+        var y = curDate.getFullYear() + parseInt(buy_year);
+        var m = curDate.getMonth() + 1;
+        var d = curDate.getDate();
+        var expiredate = y + '-' + m + '-' + d;
+        $("#expiredate_display2").text(expiredate);
+*/
+        //购买日期
+        var is_cs_admin = $("#isCustomServiceAdmin").val();
+        if(is_cs_admin == '1'){
+            var buydate = $('#buydate').val();
+            $("#buydate_display2").text(buydate);
+        }else{
+            var curDate = new Date();
+            var u_y = curDate.getFullYear();
+            var u_m = curDate.getMonth() + 1;
+            var u_d = curDate.getDate();
+            var upgardedate = u_y + '-' + u_m + '-' + u_d;
+            $("#buydate_display2").text(upgardedate);
+        }
+
+        //另购服务
+        var service_count = $("#div_tyun_serviceitem table tbody tr").length;
+        $("#tbody_service_display").empty();
+        $("#div_hid_service_save").empty();
+        if(service_count >0){
+            var html_tr="";
+            var hidden_html="";
+            $("#div_tyun_serviceitem table tbody tr").each(function () {
+                var tmpNum = $(this).attr("data-num");
+                var tmpServiceID = $("#servicename"+tmpNum).val();
+                //html_tr += "<tr><td>"+ $("#servicename"+tmpNum).find("option:selected").text() +"</td><td>"+ $("#buycount"+tmpNum).find("option:selected").text() +"</td><td>"+ $("#buyyear"+tmpNum).find("option:selected").text() +"</td></tr>";
+                html_tr += "<tr><td>"+ $("#servicename"+tmpNum).find("option:selected").text() +"</td><td>"+ $("#buycount"+tmpNum).find("option:selected").text() +"</td></tr>";
+                //设置保存项
+                hidden_html += '<input type="hidden" name="inserti['+tmpNum+']" value="'+tmpNum+'">';
+                hidden_html += '<input type="hidden" name="ServiceID['+tmpNum+']" value="'+$("#servicename"+tmpNum).val()+'">';
+                hidden_html += '<input type="hidden" name="BuyCount['+tmpNum+']" value="'+$("#buycount"+tmpNum).val()+'">';
+                hidden_html += '<input type="hidden" name="TyunBuyCount['+tmpNum+']" value="'+$("#buycount"+tmpNum).find("option:selected").attr('tyun-value')+'">';
+                hidden_html += '<input type="hidden" name="servicename_display['+tmpNum+']" value="'+$("#servicename"+tmpNum).find("option:selected").text()+'">';
+                hidden_html += '<input type="hidden" name="buycount_display['+tmpNum+']" value="'+$("#buycount"+tmpNum).find("option:selected").text()+'">';
+                //hidden_html += '<input type="hidden" name="BuyYear['+tmpNum+']" value="'+$("#buyyear"+tmpNum).val()+'">';
+            });
+            if(html_tr == ""){
+                //html_tr = "<tr><td>无</td><td>无</td><td>无</td></tr>";
+                html_tr = "<tr><td>无</td><td>无</td></tr>";
+            }
+            $("#tbody_service_display").append(html_tr);
+            $("#div_hid_service_save").append(hidden_html);
+        }else{
+            $("#tbody_service_display").append("<tr><td>无</td><td>无</td></tr>");
+        }
+
+        //设置保存值====================================================================
+        //合同信息
+        $("#contractid_save").val($("#contractid").val());
+        $("#contractname_display_save").val($("#contractcode").val());
+        $("#contractamount_save").val($("#contractamount").val());
+
+        //客户信息
+        $("#customerid_save").val($("#customerid").val());
+        $("#customername_display_save").val($("#customername_display").val());
+
+        $("#agents_save").val($("#agents").val());
+        $("#productlife_save").val($("#productlife").val());
+        $("#productid_save").val($("#productid").val());
+        $("#mobile_save").val($("#mobile").val());
+        //================================================================================
+
+        //设置手机号
+        $("#lbl_mobile").text($("#mobile").val());
+        //设置完成验证不可用
+        $("#btn_finishVerification").attr("disabled","disabled");
+        //清空验证码
+        $(".verificationcode-msg .verificationcode").each(function () {
+            $(this).val("");
+        })
+        $("#div_buy_determine_input").hide();
+        $("#div_buy_determine_save").show();
+        mark("show");
+        //重新设置iframe高度
+        parent.setTyunIframeHeight(1,0);
+    }
+    //返回修改
+    function back_edit() {
+        $("#div_buy_determine_input").show();
+        $("#div_buy_determine_save").hide();
+        //重新设置iframe高度
+        parent.setTyunIframeHeight(1,0);
+    }
+    //完成验证
+    function finishVerification() {
+        var verificationcode1 = $("#verificationcode1").val();
+        var verificationcode2 = $("#verificationcode2").val();
+        var verificationcode3 = $("#verificationcode3").val();
+        var verificationcode4 = $("#verificationcode4").val();
+        var verificationcode5 = $("#verificationcode5").val();
+
+        if (verificationcode1 && verificationcode2 && verificationcode3 && verificationcode4 && verificationcode5){
+            //设置验证码
+            $("#auth_code_save").val(verificationcode1+verificationcode2+verificationcode3+verificationcode4+verificationcode5);
+            mark('hide');
+        }
+    }
+    //保存处理
+    var dosaveflag=1;
+    var back_page_src = "index.php?module=TyunBuyService&action=index&type=0";
+    function buy_save() {
+        $('#loading').show();
+        //$('#dosave').removeAttr("onclick");//防止多次点击提交
+        /*if(dosaveflag!=1){
+            //防止多次提多;
+            return false;
+        }
+        dosaveflag=2;*/
+
+        $('#frm_buy').ajaxSubmit({
+            type: 'post',
+            url:"/index.php?module=ActivationCode&action=ajaxGetSecreCode",
+            dataType :'json',
+            success: function(data) {
+                $('#loading').hide();
+                if(data.success==1){
+                    Tips.alert({
+                        content: '购买成功',
+                        before: function(){
+                        },
+                        after: function(b){
+                            if(b){
+                                //window.location.href = back_page_src;
+                                window.location.reload();
+                            }
+                        }
+                    });
+
+                }else{
+                    Tips.alert({
+                        content: data.msg,
+                        before: function(){
+                        },
+                        after: function(b){
+                            if(b){
+                                //window.location.href= back_page_src;
+                            }
+                        }
+                    });
+                }
+            },
+            error:function(){
+                $('#loading').hide();
+                Tips.alert({
+                    content: 'error',
+                    before: function(){
+                    },
+                    after: function(b){
+                        if(b){
+                            //window.location.href= back_page_src;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+{/literal}
+</body>
+</html>

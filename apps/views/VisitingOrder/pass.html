@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+		
+		{include file="header.html"}
+        <title>待审核列表</title>
+        <link rel="stylesheet" href="static/css/dialog.css">
+        <link href="static/css/select2c.css" rel="stylesheet" type="text/css" />
+        <script src="static/js/select2c.js?v={$versionjs}"></script>
+    <script type="text/javascript" src="static/js/watermark.js"></script>
+        <style type="text/css">
+
+        .headon{
+            border-bottom: 2px solid #535282;
+        }
+        .select2 {
+            width:100%;
+            height:35px;
+        }
+        .btn-primary{
+            color:#333333;
+            background-color:#F6F6F6;
+            border-color:#DDDDDD;
+        }
+        .btn-primary.active{
+            color:#fff;
+            background-color:#3388CC;
+            border-color:#204d74;
+        }
+        .btn-primary:hover{
+            color:#333333;
+            background-color:#E9E9E9;
+            border-color:#DDDDDD;
+        }
+        .btn-primary.active:hover{
+            color:#fff;
+            background-color:#3388CC;
+            border-color:#204d74;
+        }
+
+        /**
+           列表样式修改
+         */
+        .leftImage{
+            width: 25%;
+            height: 80px;
+            float: left;
+        }
+        .rightContent{
+            float: left;
+            width: 75%;
+        }
+        .pContent{
+            color: #666;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+            line-height: 26px;
+            margin-bottom: 0px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .clearFloat{
+            clear: both;
+        }
+        .crmTitle{
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid w fix">
+    <input type="hidden" name="currentnum" value="1">
+    <input type="hidden" name="flag" value="1">
+
+    <div class="row">
+        <div class="list-head">
+            <div style="text-align: center;background: #E9E9E9;padding-top: 5px;padding-bottom: 5px;border: 1px solid #DDDDDD; ">
+                <span class="crmTitle">待审核列表</span>
+            </div>
+            <ul class="fix" >
+                <li {if $checkstatus eq 1} class="headon" {/if} style="width:33%;"><span onclick='openurl(1)' data-ajax="false">待我审</span></li>
+                <li {if $checkstatus eq 2} class="headon" {/if} style="width:33%;"><span onclick='openurl(2)' data-ajax="false">我发起</span></li>
+                <li {if $checkstatus eq 3} class="headon" {/if} style="width:33%;"><span onclick='openurl(3)' data-ajax="false">我已审</span></li>
+            </ul>
+            <form action="index.php?module=VisitingOrder&action=pass&checkstatus={$checkstatus}" method="post" data-ajax="false">
+                <div style="margin-top: 1rem;">
+                    <select name="modulename" id="modulename"  class="select2">
+                        <option value="">所有模块</option>
+                        <option value="SalesOrder" {if $modulename eq 'SalesOrder' } selected {/if}>{$moduleNameArray['SalesOrder']}</option>
+                        <option value="VisitingOrder" {if $modulename eq 'VisitingOrder'} selected {/if}>{$moduleNameArray['VisitingOrder']}</option>
+                        <option value="ServiceContracts" {if $modulename eq 'ServiceContracts' } selected {/if}>{$moduleNameArray['ServiceContracts']}</option>
+                        <option value="Newinvoice" {if $modulename eq 'Newinvoice' } selected {/if}>{$moduleNameArray['Newinvoice']}</option>
+                        <option value="ExtensionTrial" {if $modulename eq 'ExtensionTrial' } selected {/if}>{$moduleNameArray['ExtensionTrial']}</option>
+                        <option value="OrderChargeback" {if $modulename eq 'OrderChargeback' } selected {/if}>{$moduleNameArray['OrderChargeback']}</option>
+                        <option value="RefillApplication" {if $modulename eq 'RefillApplication' } selected {/if}>{$moduleNameArray['RefillApplication']}</option>
+                        <option value="Vendors" {if $modulename eq 'Vendors' } selected {/if}>{$moduleNameArray['Vendors']}</option>
+                        <option value="ContractsAgreement" {if $modulename eq 'ContractsAgreement' } selected {/if}>{$moduleNameArray['ContractsAgreement']}</option>
+                        <option value="SupplierContracts" {if $modulename eq 'SupplierContracts' } selected {/if}>{$moduleNameArray['SupplierContracts']}</option>
+                        <option value="SuppContractsAgreement" {if $modulename eq 'SuppContractsAgreement' } selected {/if}>{$moduleNameArray['SuppContractsAgreement']}</option>
+                        <option value="Accounts" {if $modulename eq 'Accounts' } selected {/if}>{$moduleNameArray['Accounts']}</option>
+                        <option value="ContractGuarantee" {if $modulename eq 'ContractGuarantee' } selected {/if}>{$moduleNameArray['ContractGuarantee']}</option>
+                        <option value="RefundTimeoutAudit" {if $modulename eq 'RefundTimeoutAudit' } selected {/if}>{$moduleNameArray['RefundTimeoutAudit']}</option>
+                        <option value="SeparateInto" {if $modulename eq 'SeparateInto' } selected {/if}>{$moduleNameArray['SeparateInto']}</option>
+                        <option value="AccountPlatform" {if $modulename eq 'AccountPlatform' } selected {/if}>{$moduleNameArray['AccountPlatform']}</option>
+                        <option value="ProductProvider" {if $modulename eq 'ProductProvider' } selected {/if}>{$moduleNameArray['ProductProvider']}</option>
+                        <option value="ProductProvider" {if $modulename eq 'AchievementallotStatistic' } selected {/if}>{$moduleNameArray['AchievementallotStatistic']}</option>
+                    </select>
+                </div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary {if  $searchWhere  eq 'vtiger_salesorderworkflowstages.accountname' } active {/if}">
+                        <!--<label class="btn btn-primary active">
+                            <input type="radio" name="options"    id="option1" autocomplete="off" checked> 客户/供应商-->
+                        <input type="radio" name="searchWhere"  value="vtiger_salesorderworkflowstages.accountname"  id="option5" autocomplete="off" {if $searchWhere eq 'vtiger_salesorderworkflowstages.accountname'} checked='checked' {/if} > 客户/供应商
+                    </label>
+                    <label class="btn btn-primary {if  $searchWhere  eq 'vtiger_salesorderworkflowstages.salesorder_nono' } active {/if}">
+                        <input type="radio" name="searchWhere"  value="vtiger_salesorderworkflowstages.salesorder_nono"   id="option6" autocomplete="off" {if $searchWhere eq 'vtiger_salesorderworkflowstages.salesorder_nono'} checked='checked' {/if} > 编号
+                    </label>
+                </div>
+                <!--<div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                   <button class="btn btn-default" type="submit">Go!</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class=" w fix"  style="margin-top: 1rem;">
+                    <input type="text" class="form-control" id="searchValue" name="searchValue" placeholder="请输入要查找内容"  value="{$searchValue}">
+                </div>
+                <div class=" w fix"  style="margin-top: 1rem;">
+                    <input class="btn btn-default btn-block" style="background: #626199;color: white;" type="submit"  id="submitButton" value="查询">
+                </div>
+            </form>
+        </div>
+        <div data-role="main" class="ui-content" data-theme="d">
+
+            </div>
+            <div class="to-do-audit">
+                <ul id="content">
+                    {if $sum > 0 }
+                        {foreach from=$list item=value}
+    					<li style="width: 100%;border-bottom:1px solid #CCCCCC;">
+                            <a   href="/index.php?module={$value.modulename}&action={if $value.modulename eq 'VisitingOrder'}detail&record={$value.newsalesorderid}{else if $value.modulename eq 'ExtensionTrial'}one&id={$value.newsalesorderid}{else}one&id={$value.newsalesorderid}{/if}">
+                            <div class="changecolor" style="width: 100%;height:80px;">
+                                  <div class="leftImage" ><img src="{if isset($USERIMGS[$IMGMD])}{$USERIMGS[$IMGMD]}{else}../../static/img/trueland.png{/if}" style="height:80px;width:80px;border: 1px solid #eee;border-radius:80px;overflow: hidden;"></div>
+                                  <div class="rightContent" >
+                                         <p class="pContent" style="font-weight: bold;">{$value.accountname}</p>
+                                         <p class="pContent"><span>{if $value.smcreatorid !='' }[{$value.smcreatorid}]{/if}</span>&nbsp;{if $value.modulename !=''}[{$moduleNameArray[$value.modulename]}]{/if}</p>
+                                         <p class="pContent">{if  $value.salesorder_nono !=''  }[{$value.salesorder_nono}]{/if}&nbsp;{if $value.workflowstagesname !=''}[{$value.workflowstagesname}]{/if}</p>
+                                  </div>
+                                  <div  class="clearFloat"></div>
+                            </div>
+                            </a>
+                            <!--{if in_array($value.modulename,$ACTIONMODULE)}
+                            <a href="/index.php?module={$value.modulename}&action={if $value.modulename eq 'VisitingOrder'}detail&record={$value.newsalesorderid}{else}one&id={$value.newsalesorderid}{/if}"><div class="list">{$value.workflowsid}</div>
+                            {else}
+                                <a>
+                                {/if}
+                                <div class="text">
+                                <h5>
+                                    {$value.workflowstagesid}</h5>
+                                <div class="fix">
+                                    <div class="fl">负责人：{$value.smcreatorid}</div>
+
+                        </div>
+                    </div>
+                    </a>-->
+                </li>
+                {foreachelse}
+                没有数据了
+                {/foreach}
+                {else}
+                无审核内容
+                {/if}
+            </ul>
+        </div>
+        {include file="footer.html"}
+    </div>
+    <input type="hidden"   id="ncheckstatus"  value="{$checkstatus}"/>
+</div>
+<script src="static/js/dialog.min.js"></script>
+<script type="text/javascript">
+    function openurl(type){
+        if(type=='1'){
+            window.location.href= '/index.php?module=VisitingOrder&action=pass&checkstatus=1';
+        }else if(type=='2'){
+            window.location.href= '/index.php?module=VisitingOrder&action=pass&checkstatus=2';
+        }else if(type=='3'){
+            window.location.href= '/index.php?module=VisitingOrder&action=pass&checkstatus=3';
+        }
+    }
+    $(".select2").select2({
+        width: '100%',
+        height: 200
+    });
+
+    {literal}
+
+    $(function(){
+        {/literal}
+            var totalnum={$sum};
+            {literal}
+            // 选中模块后查询
+            $("#modulename").change(function () {
+                $("#submitButton").click();
+            });
+            initcontentchange();
+
+            $(window).scroll(function(){
+                var $doc_height,$s_top,$now_height;
+                $doc_height = $(document).height();        //这里是document的整个高度
+                $s_top = $(this).scrollTop();            //当前滚动条离最顶上多少高度
+                $now_height = $(this).height();            //这里的this 也是就是window对象
+                var currentnum=$('input[name="currentnum"]').val();
+                var flag=$('input[name="flag"]').val();
+                if(($doc_height - $s_top - $now_height) < 100&& currentnum<=totalnum && flag==1) {
+                    jsonajax();
+                }
+            });
+            function jsonajax(){
+                var toast6 = $(document).dialog({
+                    type : 'toast',
+                    infoIcon: '../static/images/icon/loading.gif',
+                    infoText: '数据获取中...',
+                });
+                var currentnum=$('input[name="currentnum"]').val();
+                currentnum++;
+                $('input[name="currentnum"]').val(currentnum);
+                $('input[name="flag"]').val(2);
+                var checkstatus =$("#ncheckstatus").val();
+                var searchValue =$("#searchValue").val();
+                var searchWhere =$("input[name='searchWhere']:checked").val();
+                var modulename   =$("#modulename").val();
+                /*console.log(checkstatus);
+                console.log(searchValue);
+                console.log(searchWhere);
+                console.log(modulestatus);
+                console.log(modulename);
+                return false;*/
+                $.ajax({
+                    url:'index.php?module=VisitingOrder&action=pass',
+                    type:'POST',
+                    data:{"pagenum":currentnum,"checkstatus":checkstatus,"searchValue":searchValue,"searchWhere":searchWhere,"modulename":modulename,"ajax":1},
+                    dataType:'text',
+                    success:function(data){
+                        toast6.close();
+                        console.log(data);
+                        $('input[name="flag"]').val(1);
+                        $('#content').append(data);
+                        initcontentchange();
+                    }
+                });
+            }
+        })
+    function initcontentchange(){
+        $(".changecolor").on("click",function() {
+            $(this).css("background",'#E8E8E8');
+        });
+    }
+
+    {/literal}
+</script>
+
+</body>
+</html>
