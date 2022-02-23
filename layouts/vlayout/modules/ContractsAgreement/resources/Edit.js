@@ -54,6 +54,13 @@ Vtiger_Edit_Js("ContractsAgreement_Edit_Js", {}, {
             form = this.getForm();
         }
         form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+
+            if ('无锡珍岛数字生态服务平台技术有限公司' == $('select[name="invoicecompany"]').val() && !$('select[name="sealplace"]').val()) {
+                Vtiger_Helper_Js.showMessage({type:'error', text:'无锡珍岛数字生态服务平台技术有限公司必须选择用章地点'});
+                e.preventDefault();
+                return false;
+            }
+
             var attachments=$('input[name*="attachmentsid["]');
             var signaturetype=$('select[name="signaturetype"]').val();
             if(attachments.length==0 )
@@ -591,7 +598,32 @@ Vtiger_Edit_Js("ContractsAgreement_Edit_Js", {}, {
         this.displayTPL();
         this.initInstance();
         this.eleccontracttplidChange();
-    }
+        this.sealplaceChange();
+    },
+    sealplaceChange: function () {
+        if ('无锡珍岛数字生态服务平台技术有限公司' != $('select[name="invoicecompany"]').val()) {
+            // $('select[name="sealplace"]').parent().hide();
+            $('select[name="sealplace"]').val('');
+            $('select[name="sealplace"]').parents('.fieldValue').prev().css('visibility', 'hidden');
+            $('select[name="sealplace"]').parents('.fieldValue').css('visibility', 'hidden');
+        }
+        $('#EditView').on('change', 'select[name="invoicecompany"]', function () {
+            // alert($('select[name="invoicecompany"]').val());
+            //当操作类型为“订单信息”
+            if ('无锡珍岛数字生态服务平台技术有限公司' == $('select[name="invoicecompany"]').val()) {
+                // alert('show');
+                // $('select[name="sealplace"]').parent().show();
+                $('select[name="sealplace"]').parents('.fieldValue').prev().css('visibility', 'visible');
+                $('select[name="sealplace"]').parents('.fieldValue').css('visibility', 'visible');
+            } else {
+                // alert('hide');
+                // $('select[name="sealplace"]').parent().hide();
+                $('select[name="sealplace"]').val('');
+                $('select[name="sealplace"]').parents('.fieldValue').prev().css('visibility', 'hidden');
+                $('select[name="sealplace"]').parents('.fieldValue').css('visibility', 'hidden');
+            }
+        });
+    },
 });
 
 

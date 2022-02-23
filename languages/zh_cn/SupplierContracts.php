@@ -110,6 +110,7 @@ $languageStrings = array(
     'parentcate'=>'项目大类',
     'soncate'=>'项目小类',
     'comparefile'=>'询比价单附件',
+    'sealplace'=>'用章地点',
 
 
     //'firstreceivepaydate'=>'首次回款时间',

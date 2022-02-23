@@ -52,6 +52,7 @@ $languageStrings = array(
     'c_elec_cancel'=>'已拒签',
     'a_elec_withdraw'=>'已撤回',
     'stagepay'=>'分期',
+    'sealplace'=>'用章地点',
     
 
 );

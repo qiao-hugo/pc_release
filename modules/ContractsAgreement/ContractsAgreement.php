@@ -188,7 +188,8 @@ class ContractsAgreement extends CRMEntity
 
         $query="SELECT
                     vtiger_salesorderworkflowstages.workflowstagesflag,
-        		vtiger_salesorderworkflowstages.workflowsid
+        		vtiger_salesorderworkflowstages.workflowsid,
+       vtiger_salesorderworkflowstages.sequence
                 FROM
                     `vtiger_salesorderworkflowstages`
                 LEFT JOIN vtiger_workflowstages ON vtiger_workflowstages.workflowstagesid = vtiger_salesorderworkflowstages.workflowstagesid
@@ -198,6 +199,7 @@ class ContractsAgreement extends CRMEntity
         $result=$this->db->pquery($query,array($stagerecordid));
         $currentflag=$this->db->query_result($result,0,'workflowstagesflag');
         $workflowsid=$this->db->query_result($result,0,'workflowsid');
+        $sequence=$this->db->query_result($result,0,'sequence');
         $recordModel = Vtiger_Record_Model::getInstanceById($record,'ContractsAgreement',true);
         $entity=$recordModel->entity->column_fields;
         $currentflag=trim($currentflag);
@@ -372,9 +374,44 @@ class ContractsAgreement extends CRMEntity
         $params['salesorderid']=$request->get('record');
         $params['workflowsid']=$workflowsid;
         $this->hasAllAuditorsChecked($params);
-    }
+        $nextNodeFlag = $this->getNextNodeFlag($record,$sequence);
+        if($nextNodeFlag=='DO_PRINT'){
+            $recordModel = Vtiger_Record_Model::getInstanceById($record,'ContractsAgreement',true);
+            $entity=$recordModel->entity->column_fields;
+            $contractsRecordModel=Vtiger_Record_Model::getInstanceById($entity['servicecontractsid'],'ServiceContracts',true);
+            $entity2=$contractsRecordModel->entity->column_fields;
+            //向章管家盖章并将文件信息保存下来
+            $sealParams=array(
+                'uid'=>$entity['assigned_user_id'],
+                'name'=>$entity['newservicecontractsno'],
+                'sealapply_id'=>$record,
+                'sealseq'=>$entity['sealseq'],
+                'invoicecompany'=>$entity2['invoicecompany'],
+            );
+            $sContractnoGenerationRecordModel = SContractNoGeneration_Record_Model::getCleanInstance("SContractNoGeneration");
+            $result=$sContractnoGenerationRecordModel->syncToSealHandler($sealParams,'ContractsAgreement',true);
 
-    //打回合同补充协议工作流，取消合同编号的判断 2021-8-3
+
+            $files=explode("*|*",$entity['file']);
+            $attachmentsids=array();
+            foreach ($files as $file){
+                $attachmentsid = explode("##",$file);
+                $attachmentsids[]=$attachmentsid[1];
+            }
+            //向章管家盖章并将文件信息保存下来
+            $sealParams=array(
+                "sealapply_id"=>$record,
+                'attachmentsids'=>$attachmentsids,
+                "uid"=>$entity['assigned_user_id'],
+                "module"=>'ContractsAgreement',
+            );
+            $sContractnoGenerationRecordModel = SContractNoGeneration_Record_Model::getCleanInstance("SContractNoGeneration");
+            $data = $sContractnoGenerationRecordModel->sendFileToZhangGuanJia($sealParams);
+            if($data['success']&&$data['fileStr']){
+                $this->db->pquery("update vtiger_contractsagreement set file=? where contractsagreementid=?",array($data['fileStr'],$record));
+            }
+        }
+    }
     /**
      * 工作流打回处理事件
      * @param Vtiger_Request $request
@@ -470,7 +507,7 @@ class ContractsAgreement extends CRMEntity
         $result=$adb->pquery($query,array($current_user->id));
         $parentdepartment=$result->fields['parentdepartment'];
         $parentdepartment.='::';
-        if(strpos($parentdepartment,'H3::')===false || strpos($parentdepartment,'H23::')!==false){
+        if(strpos($parentdepartment,'H3::')===false){
             $deleteSQL="DELETE FROM vtiger_salesorderworkflowstages WHERE salesorderid=? AND vtiger_salesorderworkflowstages.workflowstagesflag='CUSTOMER_SERVICE' AND vtiger_salesorderworkflowstages.modulename='ContractsAgreement'";
             $adb->pquery($deleteSQL,array($salesorderid));
             $query="SELECT sequence FROM vtiger_salesorderworkflowstages WHERE salesorderid=? AND vtiger_salesorderworkflowstages.modulename='ContractsAgreement' ORDER BY sequence ASC LIMIT 1";
@@ -489,6 +526,81 @@ class ContractsAgreement extends CRMEntity
         //新建时 消息提醒第一审核人进行审核
         $object = new SalesorderWorkflowStages_SaveAjax_Action();
         $object->sendWxRemind(array('salesorderid'=>$salesorderid,'salesorderworkflowstagesid'=>0));
+    }
+
+    function workflowcheckbefore(Vtiger_Request $request)
+    {
+        $stagerecordid = $request->get('stagerecordid');
+        $record = $request->get('record');
+        $db = PearDatabase::getInstance();
+
+        $query = "SELECT
+                    vtiger_workflowstages.workflowstagesflag,
+       vtiger_salesorderworkflowstages.higherid,
+                                vtiger_salesorderworkflowstages.sequence
+                FROM
+                    `vtiger_salesorderworkflowstages`
+                LEFT JOIN vtiger_workflowstages ON vtiger_workflowstages.workflowstagesid = vtiger_salesorderworkflowstages.workflowstagesid
+                WHERE
+                    vtiger_salesorderworkflowstages.salesorderworkflowstagesid = ?
+                AND vtiger_salesorderworkflowstages.modulename = 'ContractsAgreement'";
+        $result = $db->pquery($query, array($stagerecordid));
+        $data = $db->fetchByAssoc($result, 0);
+        $currentflag = $db->query_result($result, 0, 'workflowstagesflag');
+        $sequence = $db->query_result($result, 0, 'sequence');
+
+        $recordModel = Vtiger_Record_Model::getInstanceById($record,'ContractsAgreement',true);
+        $entity=$recordModel->entity->column_fields;
+        $nextFlag = $this->getNextNodeFlag($record,$sequence);
+        if($nextFlag=='DO_PRINT'){
+            if (!$entity['file']) {
+                $resultaa['success'] = 'false';
+                $resultaa['error']['message'] = "缺少待打印附件";
+                //若果是移动端请求则走这个返回
+                if ($request->get('isMobileCheck') == 1) {
+                    return $resultaa;
+                } else {
+                    echo json_encode($resultaa);
+                    exit;
+                }
+            }
+            $contractsRecordModel = Vtiger_Record_Model::getInstanceById($entity['servicecontractsid'], 'ServiceContracts', true);
+            $entity2 = $contractsRecordModel->entity->column_fields;
+
+            //向章管家盖章并将文件信息保存下来
+            $sealParams = array(
+                'uid' => $entity['assigned_user_id'],
+                'name' => $record,
+                'sealapply_id' => $record,
+                'sealseq' => $entity['sealseq'],
+                'invoicecompany' => $entity2['invoicecompany'],
+                'apply_status' => 0
+            );
+            $sContractnoGenerationRecordModel = SContractNoGeneration_Record_Model::getCleanInstance("SContractNoGeneration");
+            $result = $sContractnoGenerationRecordModel->syncToSealHandler($sealParams, 'ContractsAgreement');
+            if (!$result['success']) {
+                $resultaa['success'] = 'false';
+                $resultaa['error']['message'] = $result['msg'];
+                //若果是移动端请求则走这个返回
+                if ($request->get('isMobileCheck') == 1) {
+                    return $resultaa;
+                } else {
+                    echo json_encode($resultaa);
+                    exit;
+                }
+            }
+        }
+    }
+
+    function getNextNodeFlag($record,$sequence){
+        $db=PearDatabase::getInstance();
+        $sql="select workflowstagesflag from vtiger_salesorderworkflowstages where salesorderid=? and sequence>? order by sequence limit 1";
+        $result = $db->pquery($sql,array($record,$sequence));
+        if($db->num_rows($result)){
+            $row=$db->fetchByAssoc($result,0);
+            return $row['workflowstagesflag'];
+        }
+        return '';
     }
 }
 ?>

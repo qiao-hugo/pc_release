@@ -57,11 +57,11 @@ class SContractNoGeneration extends CRMEntity {
     var $search_fields = Array(
         /* Format: Field Label => Array(tablename, columnname) */
         // tablename should not have prefix 'vtiger_'
- 
+
     );
     var $search_fields_name = Array(
         /* Format: Field Label => fieldname */
-    
+
     );
 
     // For Popup window record selection
@@ -127,6 +127,7 @@ class SContractNoGeneration extends CRMEntity {
             }
             $datetime=date('Y-m-d H:i:s');
             $products_code=$MosaicSql['products_codeflag']==1?$_POST['products_code']:'';
+            $contractNos=array();
             if($num){
                 $scrow=$this->db->query_result_rowdata($result);
                 $maxnumber=$scrow['maxnumber'];
@@ -138,6 +139,7 @@ class SContractNoGeneration extends CRMEntity {
                     }
                     $sequence=$MosaicSql['codeprefix'].str_pad($newsequence,$row['number'],0,STR_PAD_LEFT);
                     $insertsql.='('.$this->id.',\''.$_POST['company_codeno'].'\',\''.$products_code.'\',\''.$sequence.'\',\''.$_POST['contract_template'].'\',\''.$datetime.'\',\''.$constractsstatus.'\','.$smownerid.',\''.$contractclassification.'\',\''.$contract_classification.'\'),';
+                    $contractNos[]=$sequence;
                 }
 
             }else{
@@ -149,6 +151,7 @@ class SContractNoGeneration extends CRMEntity {
                     }
                     $sequence=$MosaicSql['codeprefix'].str_pad($i,$row['number'],0,STR_PAD_LEFT);
                     $insertsql.='('.$this->id.',\''.$_POST['company_codeno'].'\',\''.$products_code.'\',\''.$sequence.'\',\''.$_POST['contract_template'].'\',\''.$datetime.'\',\''.$constractsstatus.'\','.$smownerid.',\''.$contractclassification.'\',\''.$contract_classification.'\'),';
+                    $contractNos[]=$sequence;
                 }
             }
             $insertsql=rtrim($insertsql,',');
@@ -166,6 +169,21 @@ class SContractNoGeneration extends CRMEntity {
             $updatesql.='smownerid='.$current_user->id;
             $sql='UPDATE vtiger_scontractnogeneration SET '.$updatesql.' WHERE scontractnogenerationid=?';
             $this->db->pquery($sql,array($this->id));
+
+            if( $constractsstatus=='c_generated'&&$_POST['fromPC']){
+                //向章管家盖章并将文件信息保存下来
+                $sealParams=array(
+                    'uid'=>$current_user->id,
+                    'name'=>$contractNos[0].'-'.end($contractNos),
+                    'sealapply_id'=>'9999'.$this->id,  //加9999 主要是为了保证传给章管家的是唯一的id
+                    'sealseq'=>'batchSign',
+                    'companycode'=>$_POST['company_codeno']
+                );
+                $sContractnoGenerationRecordModel = SContractNoGeneration_Record_Model::getCleanInstance("SContractNoGeneration");
+                $sContractnoGenerationRecordModel->syncToSealHandler($sealParams,'');
+
+                $sContractnoGenerationRecordModel->handleTemplateData($_POST['contract_template'],$current_user->id,$this->id);
+            }
         }
     }
     function retrieve_entity_info($record, $module){

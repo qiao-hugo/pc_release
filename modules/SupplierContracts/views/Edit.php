@@ -217,6 +217,9 @@ Class SupplierContracts_Edit_View extends Vtiger_Edit_View
         $viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
         //合同状态
         $viewer->assign('MODULESTATUS', $recordModel->get('modulestatus'));
+        if(!$record || $recordModel->get("sealseq")){
+            $viewer->assign('SHOWSEALSEQ', 1);
+        }
         $viewer->view('EditView.tpl', $moduleName);
     }
 }

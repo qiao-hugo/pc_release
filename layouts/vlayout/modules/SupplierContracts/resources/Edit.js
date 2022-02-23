@@ -16,6 +16,13 @@ Vtiger_Edit_Js("SupplierContracts_Edit_Js", {}, {
         var thisInstance = this;
         var editViewForm = this.getForm();
         editViewForm.on(Vtiger_Edit_Js.recordPreSave,function(e,data){
+
+        if ('无锡珍岛数字生态服务平台技术有限公司' == $('select[name="invoicecompany"]').val() && !$('select[name="sealplace"]').val()) {
+            Vtiger_Helper_Js.showMessage({type:'error', text:'无锡珍岛数字生态服务平台技术有限公司必须选择用章地点'});
+            e.preventDefault();
+            return false;
+        }
+
             //合同是已回收状态时，签收复选框必须勾选
         if($("input[name='current_modulestatus']").val()=='c_recovered') {
             if(!$('#SupplierContracts_editView_fieldName_iscomplete').attr('checked')) {
@@ -598,6 +605,30 @@ Vtiger_Edit_Js("SupplierContracts_Edit_Js", {}, {
             }
         })
     },
+    sealplaceChange: function () {
+        if ('无锡珍岛数字生态服务平台技术有限公司' != $('select[name="invoicecompany"]').val()) {
+            // $('select[name="sealplace"]').parent().hide();
+            $('select[name="sealplace"]').val('');
+            $('select[name="sealplace"]').parent().prev().css('visibility', 'hidden');
+            $('select[name="sealplace"]').parent().css('visibility', 'hidden');
+        }
+        $('#EditView').on('change', 'select[name="invoicecompany"]', function () {
+            // alert($('select[name="invoicecompany"]').val());
+            //当操作类型为“订单信息”
+            if ('无锡珍岛数字生态服务平台技术有限公司' == $('select[name="invoicecompany"]').val()) {
+                // alert('show');
+                // $('select[name="sealplace"]').parent().show();
+                $('select[name="sealplace"]').parent().prev().css('visibility', 'visible');
+                $('select[name="sealplace"]').parent().css('visibility', 'visible');
+            } else {
+                // alert('hide');
+                // $('select[name="sealplace"]').parent().hide();
+                $('select[name="sealplace"]').val('');
+                $('select[name="sealplace"]').parent().prev().css('visibility', 'hidden');
+                $('select[name="sealplace"]').parent().css('visibility', 'hidden');
+            }
+        });
+    },
     registerEvents: function (container) {
         this._super(container);
         this.registerRecordPreSaveEvent();
@@ -614,6 +645,7 @@ Vtiger_Edit_Js("SupplierContracts_Edit_Js", {}, {
         this.iscomplete();
         this.clearVendorData();
         this.currencytypeChange();
+        this.sealplaceChange();
         showTagMust();
     }
 });

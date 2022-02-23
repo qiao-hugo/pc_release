@@ -1,7 +1,7 @@
 <?php
 
 class SupplierContracts_Module_Model extends Vtiger_Module_Model{
-    
+
 	 public function getSideBarLinks($linkParams) {
 		$parentQuickLinks = array();
 		$quickLink = array(
@@ -49,6 +49,28 @@ class SupplierContracts_Module_Model extends Vtiger_Module_Model{
              );
              $parentQuickLinks['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink2);
          }
+
+         if($this->exportGrouprt('SupplierContracts','BatchArchive')){
+             $quickLink2 = array(
+                 'linktype' => 'SIDEBARLINK',
+                 'linklabel' => '批量归档',
+                 'linkurl' => $this->getListViewUrl() . '&public=BatchArchive',
+                 'linkicon' => '',
+             );
+             $parentQuickLinks['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink2);
+         }
+
+         if($this->exportGrouprt('SupplierContracts','ArchiveCode')){
+             $quickLink2 = array(
+                 'linktype' => 'SIDEBARLINK',
+                 'linklabel' => '归档编号图表生成',
+                 'linkurl' => $this->getListViewUrl() . '&public=ArchiveCode',
+                 'linkicon' => '',
+             );
+             $parentQuickLinks['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink2);
+         }
+
+
          /*if($this->exportGrouprt('SupplierContracts','Received')){
              $quickLink2 = array(
                  'linktype' => 'SIDEBARLINK',
@@ -243,6 +265,102 @@ class SupplierContracts_Module_Model extends Vtiger_Module_Model{
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="采购合同导出.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        header('Cache-Control: max-age=1');
+
+
+        header ('Expires: Mon, 14 Jul 2015 08:18:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($phpexecl, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
+    }
+
+    public function exportArchiveData(Vtiger_Request $request)
+    {
+        $company_code = $request->get('department');
+        $start_time = $request->get('datatime');
+        $end_time = $request->get('enddatatime');
+        $end_time_str = strtotime($end_time) + 24*3600;
+
+        ob_clean();                              //清空缓存
+        header('Content-type: text/html;charset=utf-8');
+        global $adb;
+
+        $sql = "select count(*) as code_active,min(code) as min_code, max(code) as max_code,ym 
+                    from vtiger_archive_log   where companycode = '".$company_code."' 
+                    and create_time > '".strtotime($start_time)."' and create_time < '".$end_time_str."' group by ym";
+        $res = $adb->run_query_allrecords($sql);
+
+        $invoicecompany = $adb->run_query_allrecords("SELECT * FROM vtiger_invoicecompany");
+        $invoicecompany = array_column($invoicecompany, 'invoicecompany','companycode');
+        $rows = [];
+        if(count($res)){
+            $sql = "select code,ym from vtiger_archive_log where companycode = '".$company_code."'  and status = 0
+                                and create_time > '".strtotime($start_time)."' and create_time < '".$end_time_str."'";
+            $_codes = $adb->run_query_allrecords($sql);
+            $time_code_diff = [];
+            array_map(function ($val) use (&$time_code_diff){
+                $time_code_diff[$val['ym']][] = str_pad($val['code'],4,"0",STR_PAD_LEFT);
+            }, $_codes);
+
+            array_map(function ($val) use (&$rows, $time_code_diff, $invoicecompany , $company_code){
+                $month_start_time = strtotime($val['ym'] .'01');
+                $star_time = date('Y年m月d日', $month_start_time);
+                $end_time = date('Y年m月d日', strtotime("last day of this month",$month_start_time) );
+                $ym_diff = count($time_code_diff[$val['ym']]) ? $time_code_diff[$val['ym']] : [];
+                $rows[] = [
+                    'company_name'=> $invoicecompany[$company_code],
+                    'time_range'=>$star_time . '-' . $end_time,
+                    'code_range'=>str_pad($val['min_code'],4,"0",STR_PAD_LEFT) . '-' . str_pad($val['max_code'],4,"0",STR_PAD_LEFT),
+                    'code_diff'=> $ym_diff ? implode(',', $ym_diff) : '',
+                    'code_active'=>$val['code_active'] - count($ym_diff) ,
+                ];
+            }, $res);
+        }
+        include_once $root_directory.'libraries/PHPExcel/PHPExcel.php';
+        $phpexecl=new PHPExcel();
+
+        $phpexecl->getProperties()->setCreator("CRM")
+            ->setLastModifiedBy("CRM")
+            ->setTitle("采购订单归档编号")
+            ->setCategory(" 归档编号图表生成");
+
+
+        // 添加头信处
+        $phpexecl->setActiveSheetIndex(0)
+            ->setCellValue('A1', '合同主体')
+            ->setCellValue('B1', '归档日期区间')
+            ->setCellValue('C1', '档案编号')
+            ->setCellValue('D1', '断档编号')
+            ->setCellValue('E1', '有效档案数');
+
+        //设置自动居中
+        $phpexecl->getActiveSheet()->getStyle('A1:E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        //设置边框
+        $phpexecl->getActiveSheet()->getStyle('A1:E1')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+        if(!empty($rows)){
+            foreach($rows as $key=>$value){
+                $current=$key+2;
+                //$purchasemount=$value['purchasemount']+$value['waici']+$value['qite']+$value['meijai']+ $value['xalong']+$value['costing'];
+                $phpexecl->setActiveSheetIndex(0)
+                    ->setCellValueExplicit('A'.$current, $value['company_name'])
+                    ->setCellValueExplicit('B'.$current, $value['time_range'])
+                    ->setCellValueExplicit('C'.$current, $value['code_range'])
+                    ->setCellValueExplicit('D'.$current, $value['code_diff'])
+                    ->setCellValueExplicit('E'.$current, $value['code_active']);
+
+                //加上边框
+                $phpexecl->getActiveSheet()->getStyle('A'.$current.':E'.$current)->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            }
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="采购合同归档编号导出.xlsx"');
         header('Cache-Control: max-age=0');
 
         header('Cache-Control: max-age=1');

@@ -237,7 +237,8 @@ class SupplierContracts extends CRMEntity {
 
         $query="SELECT
                     vtiger_workflowstages.workflowstagesflag,
-                    vtiger_salesorderworkflowstages.workflowsid
+                    vtiger_salesorderworkflowstages.workflowsid,
+                    vtiger_salesorderworkflowstages.sequence
                 FROM
                     `vtiger_salesorderworkflowstages`
                 LEFT JOIN vtiger_workflowstages ON vtiger_workflowstages.workflowstagesid = vtiger_salesorderworkflowstages.workflowstagesid
@@ -247,6 +248,7 @@ class SupplierContracts extends CRMEntity {
         $result=$this->db->pquery($query,array($stagerecordid));
         $currentflag=$this->db->query_result($result,0,'workflowstagesflag');
         $workflowsid=$this->db->query_result($result,0,'workflowsid');
+        $sequence=$this->db->query_result($result,0,'sequence');
         $recordModel = Vtiger_Record_Model::getInstanceById($record,'SupplierContracts');
         $entity=$recordModel->entity->column_fields;
         $currentflag=trim($currentflag);
@@ -383,6 +385,12 @@ class SupplierContracts extends CRMEntity {
                     $this->db->pquery("UPDATE vtiger_suppliercontracts SET modulestatus='c_cancel' WHERE suppliercontractsid=?",array($row['newservicecontractsid']));
                 }
                 //合同作废处理激活码信息
+                // 合同归档处理
+                if(!empty($entity['archive_code'])){
+                    $archive_code = $entity['archive_code'];
+                    $this->db->pquery("UPDATE vtiger_suppliercontracts SET archive_code=null,archive_status='archive_no' WHERE suppliercontractsid=?",[$record]);
+                    $this->cancelArchiveLog($archive_code);
+                }
                 break;
             case 'CREATE_SIGN_ONE':
                 //合同领取更新领取时间
@@ -394,25 +402,144 @@ class SupplierContracts extends CRMEntity {
         $this->db->pquery("UPDATE vtiger_suppliercontracts SET workflowsnode=(SELECT vtiger_salesorderworkflowstages.workflowstagesname FROM `vtiger_salesorderworkflowstages` WHERE vtiger_salesorderworkflowstages.isaction=1 AND vtiger_salesorderworkflowstages.salesorderid=? AND vtiger_salesorderworkflowstages.modulename='SupplierContracts' LIMIT 1) WHERE suppliercontractsid=?",array($record,$record));
         if($entity['modulestatus']=='c_complete'){
             $this->db->pquery("UPDATE `vtiger_suppliercontracts` SET returndate=? WHERE suppliercontractsid=?",array(date("Y-m-d"),$record));
+            // 判断归档信息
+            if(empty($entity['archive_code'])){
+                $sql = "select attachmentsid from vtiger_files where style = files_style4 and relationid = ?";
+                $res = $this->db->pquery($sql , [$record]);
+                if($this->db->num_rows($res)){
+                    $archive_status = 'archive_waiting';
+                    $companycode = $entity['companycode'];
+                    $archive_code = $this->makeArchiveCode($companycode);
+
+                    $this->db->startTransaction();
+                    $sql = "update vtiger_suppliercontracts set archive_code = ?,archive_status = ? where suppliercontractsid = ? ";
+                    $this->db->pquery($sql,[$archive_code, $archive_status, $record]);
+                    $this->updateOrInsert($archive_code, $companycode, $record);
+                    $this->db->completeTransaction();
+                }
+            }
         }
         // cxh 2019-08-02 添加 如果该审核需要修改审核列表中的modulestatus（审核流程状态）审核完后走下面代码
         $params['salesorderid']=$request->get('record');
         $params['workflowsid']=$workflowsid;
         $this->hasAllAuditorsChecked($params);
+
+        $nextNodeFlag = $this->getNextNodeFlag($record,$sequence);
+        if($nextNodeFlag=='DO_PRINT'){
+            $recordModel = Vtiger_Record_Model::getInstanceById($record,'SupplierContracts',true);
+            $entity=$recordModel->entity->column_fields;
+            $attachmentsids=$this->getFileStyle6Ids($record);
+            //向章管家盖章并将文件信息保存下来
+            $sealParams=array(
+                "sealapply_id"=>$record,
+                "uid"=>$entity['assigned_user_id'],
+                "attachmentsids"=>$attachmentsids,
+                "module"=>'SupplierContracts',
+                "servicecontractsprintid"=>$record
+            );
+            $sContractnoGenerationRecordModel = SContractNoGeneration_Record_Model::getCleanInstance("SContractNoGeneration");
+            $sContractnoGenerationRecordModel->sendFileToZhangGuanJia($sealParams);
+        }
     }
+
+    /**
+     * Notes: 合同作废时 - 作废归档日志
+     * Author: Bruce.z
+     * DateTime: 2022/1/28 11:33
+     * @param $archice_code
+     */
+    private function cancelArchiveLog($archice_code)
+    {
+        $_companycode = substr(current(explode('-', $archice_code)),0, -6);
+        $_ym = substr(current(explode('-', $archice_code)), -6);
+        $_code = (int) end(explode('-', $archice_code));
+        $sql = "update vtiger_archive_log set suppliercontractsid=NULL ,status=0 where code = ? and ym=? and companycode = ?";
+
+        $this->db->pquery($sql,[$_code, $_ym, $_companycode]);
+    }
+
+    /**
+     * Notes: 生成归档编号
+     * 公司编码+年月-当月序号 （四位编号），次月从0开始，
+     * 如1月第一个编号，ZD202201-0001；2月 第一个编号：ZD202202-0001
+     * Author: Bruce.z
+     * DateTime: 2022/1/27 16:35
+     * @return string
+     */
+    public function makeArchiveCode($company_code)
+    {
+        global $adb;
+
+        $sql = "select code from vtiger_archive_log
+                where ym = '".date('Ym')."' and companycode = ? and status = 0 
+                order by id desc limit 1";
+        $res = $adb->pquery($sql,[$company_code]);
+        if($adb->num_rows($res)){
+            $number = $res->fields['code'];
+        }else{
+            $sql = "select max(code) as code from vtiger_archive_log
+                where ym = '".date('Ym')."' and companycode = ?  ";
+            $res = $adb->pquery($sql,[$company_code]);
+            if($adb->num_rows($res)) $number = $res->fields['code'] + 1;
+            else $number = 1;
+
+        }
+        $number = str_pad($number,4,'0',STR_PAD_LEFT);
+        return $company_code . date('Ym') . '-' . $number;
+    }
+
+    /**
+     * Notes: 更新/插入 log
+     * Author: Bruce.z
+     * DateTime: 2022/1/27 18:15
+     * @param $code
+     * @param $company_code
+     * @param $suppliercontractsid
+     */
+    private function updateOrInsert($code, $company_code, $suppliercontractsid)
+    {
+        global $adb;
+
+        $_code = (int) end(explode('-', $code));
+        $sql = "select id from vtiger_archive_log
+                where ym = '".date('Ym')."' and code = ?  and companycode = ? and status = 0
+                order by id desc limit 1";
+        $res = $adb->pquery($sql,[$_code, $company_code]);
+        if($adb->num_rows($res)){
+            $sql = "update vtiger_archive_log set suppliercontractsid = ? , status = 1 where id = ?";
+            $adb->pquery($sql,[$suppliercontractsid, $res->fields['id']]);
+        }else{
+            $sql = "insert into vtiger_archive_log (ym,code,suppliercontractsid,companycode,create_time) values (?,?,?,?,?)";
+            $adb->pquery($sql,[date('Ym'),$_code, $suppliercontractsid, $company_code, time()]);
+        }
+    }
+
     /**
      * @审核工作流程触发
      * @前置事件
      * @指定结点有
      * @param Vtiger_Request $request
      */
+
+    function getNextNodeFlag($record,$sequence){
+        $db=PearDatabase::getInstance();
+        $sql="select workflowstagesflag from vtiger_salesorderworkflowstages where salesorderid=? and sequence>? order by sequence limit 1";
+        $result = $db->pquery($sql,array($record,$sequence));
+        if($db->num_rows($result)){
+            $row=$db->fetchByAssoc($result,0);
+            return $row['workflowstagesflag'];
+        }
+        return '';
+    }
+
     function workflowcheckbefore(Vtiger_Request $request){
         $stagerecordid=$request->get('stagerecordid');
         $record=$request->get('record');
         $db=PearDatabase::getInstance();
 
         $query="SELECT
-                    vtiger_workflowstages.workflowstagesflag
+                    vtiger_workflowstages.workflowstagesflag,
+                    vtiger_salesorderworkflowstages.sequence
                 FROM
                     `vtiger_salesorderworkflowstages`
                 LEFT JOIN vtiger_workflowstages ON vtiger_workflowstages.workflowstagesid = vtiger_salesorderworkflowstages.workflowstagesid
@@ -421,6 +548,7 @@ class SupplierContracts extends CRMEntity {
                 AND vtiger_salesorderworkflowstages.modulename = 'SupplierContracts'";
         $result=$db->pquery($query,array($stagerecordid));
         $currentflag=$db->query_result($result, 0, 'workflowstagesflag');
+        $sequence=$db->query_result($result, 0, 'sequence');
 
         $recordModel = Vtiger_Record_Model::getInstanceById($record,'SupplierContracts');
         $recordModule=Vtiger_Record_Model::getCleanInstance('SupplierContracts');
@@ -483,6 +611,60 @@ class SupplierContracts extends CRMEntity {
                 }
             }
         }
+
+
+        $recordModel = Vtiger_Record_Model::getInstanceById($record,'SupplierContracts',true);
+        $entity=$recordModel->entity->column_fields;
+        $nextFlag = $this->getNextNodeFlag($record,$sequence);
+        if($nextFlag=='DO_PRINT'){
+            $attachmentsids=$this->getFileStyle6Ids($record);
+            if(empty($attachmentsids)){
+                $resultaa['success'] = 'false';
+                $resultaa['error']['message'] = "缺少待打印附件";
+                //若果是移动端请求则走这个返回
+                if( $request->get('isMobileCheck')==1){
+                    return $resultaa;
+                }else{
+                    echo json_encode($resultaa);
+                    exit;
+                }
+            }
+            //向章管家盖章并将文件信息保存下来
+            $sealParams=array(
+                'uid'=>$entity['assigned_user_id'],
+                'name'=>$entity['contract_no'],
+                'sealapply_id'=>$record,
+                'sealseq'=>$entity['sealseq'],
+                'sealplace'=>$entity['sealplace'],
+                'invoicecompany'=>$entity['invoicecompany'],
+            );
+            $sContractnoGenerationRecordModel = SContractNoGeneration_Record_Model::getCleanInstance("SContractNoGeneration");
+            $result=$sContractnoGenerationRecordModel->syncToSealHandler($sealParams,'SupplierContracts');
+            if(!$result['success']){
+                $resultaa['success'] = 'false';
+                $resultaa['error']['message'] = $result['msg'];
+                //若果是移动端请求则走这个返回
+                if( $request->get('isMobileCheck')==1){
+                    return $resultaa;
+                }else{
+                    echo json_encode($resultaa);
+                    exit;
+                }
+            }
+        }
+    }
+
+    public function getFileStyle6Ids($record){
+        $db=PearDatabase::getInstance();
+        $result = $this->db->pquery("select * from vtiger_files where description='SupplierContracts' and style='files_style6' and delflag=0 and relationid=?",array($record));
+        if(!$db->num_rows($result)){
+            return array();
+        }
+        $attachmentsids=array();
+        while ($row=$this->db->fetchByAssoc($result)){
+            $attachmentsids[]=$row['attachmentsid'];
+        }
+        return $attachmentsids;
     }
     /**
      * 合同作废打回后置处理
@@ -513,7 +695,7 @@ class SupplierContracts extends CRMEntity {
             case 'DO_RETURN_CANCEL':
                 //作废工作流打回
                 $this->db->pquery("DELETE FROM `vtiger_salesorderworkflowstages` WHERE vtiger_salesorderworkflowstages.salesorderid=? AND vtiger_salesorderworkflowstages.modulename='SupplierContracts' AND vtiger_salesorderworkflowstages.workflowsid=?",array($record,$workflowsid));
-                $this->db->pquery("UPDATE vtiger_suppliercontracts SET modulestatus=backstatus WHERE suppliercontractsid=?",array($record));
+                $this->db->pquery("UPDATE vtiger_suppliercontracts SET modulestatus=backstatus,pagenumber=NULL WHERE suppliercontractsid=?",array($record));
                 break;
             default :
                 $this->db->pquery("DELETE FROM `vtiger_salesorderworkflowstages` WHERE vtiger_salesorderworkflowstages.salesorderid=? AND vtiger_salesorderworkflowstages.modulename='SupplierContracts' AND vtiger_salesorderworkflowstages.workflowsid=?",array($record,$workflowsid));

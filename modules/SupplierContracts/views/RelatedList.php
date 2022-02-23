@@ -45,6 +45,12 @@ class SupplierContracts_RelatedList_View extends Vtiger_RelatedList_View {
 		}*/
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
+		global $adb;
+		$sql = "select modulestatus from vtiger_suppliercontracts where modulestatus='c_complete' and  suppliercontractsid = " . intval($parentId);
+        $row = $adb->getOne($sql);
+        $is_complete = 0;
+        if(!empty($row)) $is_complete = 1;
+
 		$header = $relationListView->getHeaders();
 
 
@@ -56,6 +62,7 @@ class SupplierContracts_RelatedList_View extends Vtiger_RelatedList_View {
 		$relationField = $relationModel->getRelationField();
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('is_complete' , $is_complete);
 		$viewer->assign('RELATED_RECORDS' , $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);

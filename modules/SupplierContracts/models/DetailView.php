@@ -40,7 +40,7 @@ class SupplierContracts_DetailView_Model extends Vtiger_DetailView_Model {
 					'linklabel' => 'LBL_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
 					'linkicon' => ''
-			);	
+			);
 		}
 
         //审查
@@ -152,7 +152,7 @@ class SupplierContracts_DetailView_Model extends Vtiger_DetailView_Model {
                 $recordModel->personalAuthority('SupplierContracts','Received')){
                 $detailViewLinks[] = array(
                     'linktype' => 'DETAILVIEWBASIC',
-                    'linklabel' => 'LBL_RECEIPTOR',
+                    'linklabel' => 'LBL_RECEIPTOR_MODIFY',
                     'linkurl' =>'',
                     'linkicon' => ''
                 );
@@ -207,9 +207,9 @@ class SupplierContracts_DetailView_Model extends Vtiger_DetailView_Model {
 			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
 			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
-		
+
 		$linkModelList['DETAILVIEWRELATED']=$moduleModel->makeRelatedurl($recordId);
-		
+
 		$widgets = $this->getWidgets();
 		foreach($widgets as $widgetLinkModel) {
 			$linkModelList['DETAILVIEWWIDGET'][] = $widgetLinkModel;

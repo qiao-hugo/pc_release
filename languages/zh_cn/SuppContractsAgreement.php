@@ -29,7 +29,8 @@ $languageStrings = array(
     'newservicecontractsno'=>'补充协议采购/费用合同编号',
     'contract_name'=>'合同名称',
     'paymentclause'=>'支付条款',
-    'Total'=>'合同金额'
+    'Total'=>'合同金额',
+    'sealplace'=>'用章地点',
 
 
 );

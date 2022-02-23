@@ -32,6 +32,25 @@ Vtiger_Edit_Js("SuppContractsAgreement_Edit_Js", {}, {
                 if (datas.success == true && datas.result.flag) {
                     $('input[name="vendorid"]').val(datas.result.accountid);
                     $('input[name="vendorid_display"]').val(datas.result.accountname)
+
+                    // 合同主体隐藏值进行赋值
+                    // console.log(datas.result);
+                    $('input[name="invoicecompany"]').val(datas.result.invoicecompany)
+
+                    if ('无锡珍岛数字生态服务平台技术有限公司' == datas.result.invoicecompany) {
+                    // if ('凯丽隆（上海）软件信息科技有限公司' == datas.result.invoicecompany) {
+                        // alert('show');
+                        // $('select[name="sealplace"]').parent().show();
+                        $('select[name="sealplace"]').parents('.fieldValue').prev().css('visibility', 'visible');
+                        $('select[name="sealplace"]').parents('.fieldValue').css('visibility', 'visible');
+                    } else {
+                        // alert('hide');
+                        // $('select[name="sealplace"]').parent().hide();
+                        $('select[name="sealplace"]').val('');
+                        $('select[name="sealplace"]').parents('.fieldValue').prev().css('visibility', 'hidden');
+                        $('select[name="sealplace"]').parents('.fieldValue').css('visibility', 'hidden');
+                    }
+
                     if(datas.result.type=='purchase'){
                         thisInstance.SuppContractsType='purchase';
                         $("#receiptoridMust").show();
@@ -59,6 +78,27 @@ Vtiger_Edit_Js("SuppContractsAgreement_Edit_Js", {}, {
             form = this.getForm();
         }
         form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+
+            console.log($('input[name="invoicecompany"]').val());
+            console.log($('select[name="sealplace"]').val());
+
+
+            // if (!$('select[name="sealplace"]').val()) {
+            //     Vtiger_Helper_Js.showMessage({type:'error', text:'合同主体为无锡珍岛数字生态服务平台技术有限公司必须选择用章地点'});
+            //     e.preventDefault();
+            //     return false;
+            // }
+
+
+
+            if ('无锡珍岛数字生态服务平台技术有限公司' == $('input[name="invoicecompany"]').val() && !$('select[name="sealplace"]').val()) {
+                Vtiger_Helper_Js.showMessage({type:'error', text:'合同主体为无锡珍岛数字生态服务平台技术有限公司必须选择用章地点'});
+                e.preventDefault();
+                return false;
+            }
+
+            return;
+
             if(thisInstance.SuppContractsType=='purchase'&&$("#select_SuppContractsAgreement_receiptorid").val()==''){
                 //采购合同代领人必填
                 Vtiger_Helper_Js.showMessage({type:'error',text:'采购合同【采购/费用合同代领人】必填'});
@@ -83,13 +123,22 @@ Vtiger_Edit_Js("SuppContractsAgreement_Edit_Js", {}, {
             return true;
         });
     },
+    sealplaceChange: function () {
+        // $('select[name="sealplace"]').parent().hide();
+        $('select[name="sealplace"]').val('');
+        $('select[name="sealplace"]').parents('.fieldValue').prev().css('visibility', 'hidden');
+        $('select[name="sealplace"]').parents('.fieldValue').css('visibility', 'hidden');
+    },
     registerEvents: function (container) {
         this._super(container);
+
+        this.sealplaceChange();
         if($("input[name='record']").val()>0){
             this.relatedchange();
         }
         this.registerReferenceSelectionEvent();
         this.registerResultEvent(container);
+
 
     }
 });

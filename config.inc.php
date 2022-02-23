@@ -15,10 +15,11 @@
 
 // 关闭所有运行错误
 //error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED); // PRODUCTION
-//ini_set('display_errors','on'); error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);   // DEBUGGING
+
 #header("Location: http://222.73.140.168");
 
 ini_set('display_errors','off');
+// ini_set('display_errors','on'); error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);   // DEBUGGING
 
 if($_SESSION['uid']==1){
 	//ini_set('display_errors','on');
